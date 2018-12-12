@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/12 22:12:39 by tgouedar         ###   ########.fr       */
+/*   Updated: 2018/12/12 22:35:12 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			ft_pattern_translate(char **str, t_pattern *pattern)
 	int		i;
 	int		flag;
 
-	flag = 0;
+	flag = 1;
 	if (ft_isdigit(**str))
 	{
 		i = ft_atoi(*str);
@@ -54,15 +54,35 @@ int			ft_pattern_translate(char **str, t_pattern *pattern)
 		}
 		else
 			pattern->field_width = i;
-		if (ft_isin(**str, ".*"))
+		if ((**str == '.' && flag == 1) || (**str == '*' && flag == 2))  //a repaufiner !!! Ce soir c'est la fatigue.
 		{
-			if (ft_isdigit(**str))
-				i = ft_atoi(*str);
+			str++;
+			i = ft_atoi(*str); //Que pasa quand pas de int ??? ou int = 0 ?? Aled
 			while (**str || ft_isdigit(**str))
 				(*str)++;
-			if (ft_isin(**str, KNOWN_LMOD))
+			pattern->precision = i;
+		}
+		if (ft_isin(**str, KNOWN_LMOD))
+		{
+			if ((**str == 'l' || **str == 'h') && (*(*str + 1) == **str))
+			{
+				pattern->length_modif = ft_strndup(str, 2);
+				*str++;
+			}
+			else
+				pattern->length_modif = ft_strndup(str, 1);
+			*str++;
 		}
 	}
+		if (ft_isin(**str, KNOWN_CONV))
+		{
+			pattern->type = **str;
+			(*str)++;
+			return (flag);
+		}
+		else
+			return (0);
+
 }
 
 /*	Cette foction decoupe les chaienes entre deux patterns et les stocke dans

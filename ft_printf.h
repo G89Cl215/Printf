@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/12 22:11:30 by tgouedar         ###   ########.fr       */
+/*   Updated: 2018/12/12 22:35:19 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ typedef struct		s_type_and_flag
 	int				field_width;
 	char			*flag;
 	int				precision;
-	int				precision_nbr;
 	char			*length_modif;
 	int				nbr;
 }					t_pattern;
