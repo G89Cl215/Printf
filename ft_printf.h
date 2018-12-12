@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/11 15:16:11 by tgouedar         ###   ########.fr       */
+/*   Updated: 2018/12/12 22:11:30 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
  *
  * II_ Recognized Patterns
  *
- *	%[flag][field_width][.precision][length_modif]type
+ *	%[int$][flag][field_width][precision=(.int || *int$)][length_modif]type
  *
  *	-> field_width : fixed int value (either written in the pattern or written
  *	in the next param and referred to thanks to the  '*'  char). The diff with 
@@ -59,22 +59,24 @@
  *
  *		Each of the following letter represents a type and allows printf to
  *	know how to cast accordingly the parameters it takes.
- *	-> c	: the param is a char
- *	-> s	: the param is a char* / string
- *	-> d	: the param is an int ouputed in decimal base
- *	-> i	: the param is an int ouputed in decimal base
- *	-> o	: the param is an unsigned int converted in octal base
- *	-> u	: the param is an unsigned int in decimal base
- *	-> x/X	: the param is an unsigned int converted to hexadecimal base 
+ *	-> c	: the param is a char.
+ *	-> s	: the param is a char* / string.
+ *	-> d	: the param is an int ouputed in decimal base.
+ *	-> i	: the param is an int ouputed in decimal base.
+ *	-> o	: the param is an unsigned int converted in octal base.
+ *	-> u	: the param is an unsigned int in decimal base.
+ *	-> x/X	: the param is an unsigned int converted to hexadecimal base.
  *				(the abcdef chars of the base are capitalized or not if x is)
- *	-> n 	: the param is curent value of printf fonction
- *	-> a/A	: the param is a (C++ specific)
- *	-> b 	: the param is an unsigned int converted in binary base 
- *	-> e/E 	: the param is a 
- *	-> f/F	: the param is a float
- *	-> g/G	: the param is a 
- *	-> p	: the param is the address of a pointer (void* type)
- *	-> %	: allows to output the  '%'  char
+ *	-> n 	: the param is curent value of printf fonction.
+ *	-> a/A	: the param is a (C++ specific).
+ *	-> b 	: the param is an unsigned int converted in binary base.
+ *	-> e/E 	: the param is an int value in scientific notation.
+ *				(e = 10^ is capitalized if e is)
+ *	-> f/F	: the param is a float.
+ *	-> g/G	: the param is an int value that is the shortest between e and f.
+ *				(or E and F if g is capitalized)
+ *	-> p	: the param is the address of a pointer (void* type).
+ *	-> %	: allows to output the  '%'  char.
  *
  *
  * IV_ Available flags
@@ -82,8 +84,8 @@
  *		Specifies how padding is made. More than one can be specified but there
  *	can be 'unknown behaviours'
  *	-> #	:	adds a prefixe 
- *	-> 0	: 	for int and float types the padding is filled zeros 
- *				(ignored for int type)
+ *	-> 0	: 	for int and float types the padding is filled with zeros 
+ *				(ignored for none value type)
  *	-> +	:	outputs a positive sign to positive values.
  *	-> -	:	the param is aligned with the left of the padding.
  *	-> '	:	the decimal values are separated by blocs of 3 (thousand, million >>>)
@@ -103,10 +105,10 @@
  *	h               short			unsigned short		short *
  *	l (ell)         long			unsigned long		long *
  *	ll (ell ell)    long long		unsigned long long	long long *
- *	j               intmax_t		uintmax_t			intmax_t *
+ * [j               intmax_t		uintmax_t			intmax_t *
  *	t               ptrdiff_t		(see note)			ptrdiff_t *
  *	z               (see note)		size_t				(see note)
- *	q (deprecated)  quad_t			u_quad_t			quad_t *
+ *	q (deprecated)  quad_t			u_quad_t			quad_t *]
  *	L				
  *
  * VI_ The $ Flag
@@ -124,6 +126,21 @@
  *			Will output 4 padded in 42 spaces.
  *			[                                          4]
  */	
+
+# define KNOWN_CONV	"abcdfiopsuxFX"
+# define KNOWN_FLAG	"#0+- '"
+# define KNOW_LMOD	"lhL"
+
+typedef struct		s_type_and_flag
+{
+	char			type;
+	int				field_width;
+	char			*flag;
+	int				precision;
+	int				precision_nbr;
+	char			*length_modif;
+	int				nbr;
+}					t_pattern;
 
 typedef struct		s_conversion
 {
