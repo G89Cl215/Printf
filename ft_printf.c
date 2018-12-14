@@ -6,69 +6,107 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/13 19:36:23 by tgouedar         ###   ########.fr       */
+/*   Updated: 2018/12/14 16:17:28 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "ft_printf.h"
 #include <stdarg.h>
-#include <stdio.h>
 
-/*	Recolle les bouts en lisant un buffer puis une conversion puis une
- *	conversion, jusau'a epuisement de la liste chainee buffer
- *	NB : La fonction ne doit pas avoir a faire de conversion passee la fin du
+/*	Recolle les bouts en lisant un buffer puis une chaine convertie,
+ * 	jusau'a epuisement de la liste chainee buffer.
+ *	NB : La fonction doit avoir epuise les conversions avant le dernier
  *	buffer.
  *
  *	write la chaine de caractere creee et retourne la longueur totale de la
  *	chaine de caractere.
  */
 
-char		*ft_concat_buffer(t_buff *buff, t_pattern *pattern, va_list *ap)
+int		ft_concat_buffer(t_buff **buff, t_list **conv)
 {
-	
+	int 	res;
+	char	*str;
+	t_list	*conv_cur;
+	t_list	*buff_cur;
+
+	conv_cur = *conv;
+	buff_cur = *buff;
+	while (buff_cur)
+	{
+		ft_strappend(str, (char*)(buff_cur->data));
+		res = ft_strlen(str):
+		if (conv_cur)
+		{
+			ft_strappend(str, (char*)(conv_cur->data));
+			conv_cur = conv_cur->next;
+		}
+		buff_cur = buff_cur->next;
+	}
+	ft_putstr(str);
+	ft_memdel(&str);
+	res = ft_strlen(str);
+	ft_lstfree(conv);
+	ft_lstfree(buff);
+	return (res);	
 }
 
-/*	Cette fonction decoupe les chaines entre deux patterns et les stocke dans
- *	une liste chainee, elle envoie ensuite les patterns en traduction.
- *	NB : un maillon vide sera stocke en cas 2 patterns se suivant immediatement,
- *	ou de pattern directement en debut ou fin de chaine.
- */
+/* Cree la liste chainee des conversions en strings de la bonne longueur
+*/
 
-int		*ft_pattern_detect(char *str, t_list **buff, t_list *pattern_list)
+t_list		**ft_conv(t_list **pattern, va_list *ap)
 {
-	size_t		i;
+	t_pattern	*voyager;
+	t_list		**conv;
+	char		*str;
+	int			i;
+	int			type;
 	int			flag;
-	t_pattern	*pattern;
 
-	flag = 3;
-	
-	while ((i = ft_strcspn(str, "%")) != ft_strlen(str))
+	voyager = *pattern;
+	if (!(conv = (t_list**)malloc(sizeof(t_list*))))
+		return (NULL);
+	if (voyager->conv % 2)
+	while (*voyager)
 	{
-		str[i] = 0;
-		ft_lstadd_back(buff, ft_lstnew(str, ft_strlen(str)));
-		str += i + 1;
-		if ((i = ft_pattern_translate(&str, &pattern)) && (flag &= i))
-		{
-			free(buff);
-			return (ft_error(flag));
-		}
+		i = 0;
+		while (g_convtab[i].type != TYPE_FLAG(voyager))
+			i++;
+		str = (*g_convtab[i])(ap, voyager);
 
+
+
+		ft_lstadd_back(conv, ft_lstnew(str, strlen(str)));
+		voyager = voyager->next;
 	}
-	
+	ft_lstfree(pattern);
+	return (conv);
 }
 
 int		ft_printf(const char * restrict format, ...)
 {
 	va_list		ap;
 	char		*str;
-	va_list		param;
-	size_t		i;
+	t_pattern	**pattern;
 	t_list		*buff;
-	t_list		*pattern;
+	t_list		**conv;
 
 	str = ft_strdup(format);
-	if (ft_pattern_detect(str, &buff, &pattern))
-		return (ft_concat_buffer(buff, pattern, &ap));
-	return (0);
+	if (!(pattern = (t_pattern**)malloc(sizeof(t_pattern*))) ||
+			!(buff = (t_list**)malloc(sizeof(t_list*))))
+	{
+//du free ici
+		return (-1);
+	}
+	if (ft_pattern_detect(str, buff, pattern))
+	{
+		va_start(format, ap);
+		conv = ft_conv(pattern, &ap);
+		va_end(ap);
+		free(str);
+		return (ft_concat_buffer(buff, conv));
+	}
+//ici aussi
+	free(str);
+	return (-1);
 }
