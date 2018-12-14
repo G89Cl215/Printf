@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 11:00:03 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/11/29 17:17:06 by tgouedar         ###   ########.fr       */
+/*   Updated: 2018/12/14 01:56:31 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_list_fd	*ft_lstfind_fd(t_list_fd **list, int fd)
 	return (voyager);
 }
 
-static void			ft_lstfree(t_list_fd **cur, t_list_fd **stock)
+static void			ft_lstwipe(t_list_fd **cur, t_list_fd **stock)
 {
 	t_list_fd *voyager;
 
@@ -67,7 +67,7 @@ static int			ft_read_fd(int fd, t_list_fd **cur, t_list_fd **stock)
 		(*cur)->rd = ft_strdup(buf);
 		return (1);
 	}
-	ft_lstfree(cur, stock);
+	ft_lstwipe(cur, stock);
 	return (buf_read);
 }
 

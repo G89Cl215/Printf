@@ -6,7 +6,7 @@
 #    By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/05 22:11:12 by tgouedar          #+#    #+#              #
-#    Updated: 2018/12/09 14:55:10 by tgouedar         ###   ########.fr        #
+#    Updated: 2018/12/14 03:16:30 by tgouedar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCFILE	= ft_swap.c\
 		  ft_isascii.c\
 		  ft_isprint.c\
 		  ft_isin.c\
+		  ft_indice.c\
 		  ft_toupper.c\
 		  ft_tolower.c\
 		  ft_memalloc.c\
@@ -78,6 +79,8 @@ SRCFILE	= ft_swap.c\
 		  ft_lstadd.c\
 		  ft_lstdel.c\
 		  ft_lstdelone.c\
+		  ft_lstfree.c\
+		  ft_lstfreeone.c\
 		  ft_lstnew.c\
 		  ft_lstmap.c\
 		  ft_lstiter.c\
