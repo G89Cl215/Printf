@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/14 15:58:27 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/10 17:52:34 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@
  *	the second one stands for double the letter) :
  *	
  *	[$#0+-' ...**hhllL.....bcdefginopsuxEFGX.........................]
- * 	 ^      ^       ^       ^       ^       ^       ^       ^       ^     
- *	 0		7		15		23		31		39		47		55		63	: bit_nb
+ *   ^      ^       ^       ^       ^       ^       ^       ^       ^     
+ * 	 0		7		15		23		31		39		47		55		63	: bit_nb
  *
  */
 
@@ -156,7 +156,7 @@
 # define KNOW_LMOD "hhllL" /*care not to separate 'l's and 'h's*/
 # define LMOD_START	12
 # define LMOD_FLAG(a) ((((1 << TYPE_START) - 1) & a->conv) >> LMOD_START)
-# define TYPE_FLAG(a) ((~0 & a->conv) >> TYPE_START)
+# define TYPE_FLAG(a) ((~((t_ul)0) & a->conv) >> TYPE_START)
 # define STAR_FW 10
 # define STAR_PR 11
 
@@ -216,9 +216,9 @@ t_conv			g_convtab[] =
 };
 
 int					ft_pattern_translate(char **str, t_pattern *pattern);
-int					ft_parse_error(t_list **buff, t_list **pattern);
+int					ft_parse_error(t_list **buff, t_pattern **pattern);
 int					ft_pattern_detect(char *str, t_list **buff,
-										t_list **pattern_list);
+										t_pattern **pattern_list);
 int					ft_translate_int(char **str);
 void				ft_translate_flag(char **str, t_pattern *pattern);
 int					ft_translate_lmod(char **str, t_pattern *pattern);

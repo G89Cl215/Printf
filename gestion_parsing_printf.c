@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:02:05 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/14 15:58:42 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/10 17:53:26 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			ft_pattern_translate(char **str, t_pattern *pattern)
 	else
 	{
 		ft_translate_flag(str, pattern);
-		if (!(ft_translate_f_w(str, pattern))
+		if (!(ft_translate_f_w(str, pattern)))
 				return (0);
 	}
 	if ((!(ft_translate_precision(str, pattern)))
@@ -82,7 +82,7 @@ int			ft_pattern_translate(char **str, t_pattern *pattern)
  *	ou de pattern directement en debut ou fin de chaine.
  */
 
-int		ft_pattern_detect(char *str, t_list **buff, t_list **pattern_list)
+int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 {
 	size_t		i;
 	size_t		j;
@@ -100,7 +100,7 @@ int		ft_pattern_detect(char *str, t_list **buff, t_list **pattern_list)
 			ft_memmove(str,  str + i + j + 1, ft_strlen(str + i + j + 1));
 			if (!(i = ft_pattern_translate(&str, &pattern)) || !(flag &= i))
 				return (ft_parse_error(flag, buff, pattern_list));
-			i = 0;	
+			i = 0;
 		}
 		else
 		{

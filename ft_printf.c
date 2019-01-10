@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/14 16:17:28 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/10 19:00:03 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  *	chaine de caractere.
  */
 
-int		ft_concat_buffer(t_buff **buff, t_list **conv)
+int		ft_concat_buffer(t_list **buff, t_list **conv)
 {
 	int 	res;
 	char	*str;
@@ -36,7 +36,7 @@ int		ft_concat_buffer(t_buff **buff, t_list **conv)
 	{
 		ft_strappend(str, (char*)(buff_cur->data));
 		res = ft_strlen(str):
-		if (conv_cur)
+			if (conv_cur)
 		{
 			ft_strappend(str, (char*)(conv_cur->data));
 			conv_cur = conv_cur->next;
@@ -51,10 +51,32 @@ int		ft_concat_buffer(t_buff **buff, t_list **conv)
 	return (res);	
 }
 
-/* Cree la liste chainee des conversions en strings de la bonne longueur
+
+/*
+ * ** detecte si positionnal mod est actif - si oui go parse - si non go liste de conversion
+ * */
+
+t_list	**ft_positional_mod(t_pattern **pattern, va_list *ap)
+{
+	t_pattern	*voyager;
+
+	voyager = *pattern;
+	if (max = ft_verif_nbr_arg(pattern))
+	{
+		while (i <= max)
+		{
+			if (!(ft_verif_type(i, pattern, ap)))
+				return (NULL);
+		}
+		return (ft_positional_conv(pattern));
+	}
+	return (NULL);
+}
+
+/* C conversions en strings de la bonne longueur
 */
 
-t_list		**ft_conv(t_list **pattern, va_list *ap)
+t_list		**ft_conv(t_pattern **pattern, va_list *ap)
 {
 	t_pattern	*voyager;
 	t_list		**conv;
@@ -67,6 +89,7 @@ t_list		**ft_conv(t_list **pattern, va_list *ap)
 	if (!(conv = (t_list**)malloc(sizeof(t_list*))))
 		return (NULL);
 	if (voyager->conv % 2)
+		return (ft_positional_mod(pattern, ap));
 	while (*voyager)
 	{
 		i = 0;
@@ -95,7 +118,7 @@ int		ft_printf(const char * restrict format, ...)
 	if (!(pattern = (t_pattern**)malloc(sizeof(t_pattern*))) ||
 			!(buff = (t_list**)malloc(sizeof(t_list*))))
 	{
-//du free ici
+		//du free ici
 		return (-1);
 	}
 	if (ft_pattern_detect(str, buff, pattern))
@@ -106,7 +129,7 @@ int		ft_printf(const char * restrict format, ...)
 		free(str);
 		return (ft_concat_buffer(buff, conv));
 	}
-//ici aussi
+	//ici aussi
 	free(str);
 	return (-1);
 }

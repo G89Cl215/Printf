@@ -1,39 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gestion_conv3_printf.c                             :+:      :+:    :+:   */
+/*   option.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/14 07:25:48 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/18 17:30:06 by tgouedar         ###   ########.fr       */
+/*   Created: 2018/12/17 16:50:56 by tgouedar          #+#    #+#             */
+/*   Updated: 2018/12/17 17:16:27 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef OPTION_H
+# define OPTION_H
 
-char	*ft_conv_char(va_list *ap, t_pattern *conv)
-{
-	char	*c;
+# include "libft.h"
 
-	c = ft_strnew(1);
-	c[0] = va_arg(*ap, char);
-	return (c);
-}
+# define OPT "ABCD>h>>"
+# define USAGE 'h'
 
-char			*ft_conv_addr(va_list *ap, t_pattern *conv)
-{
-	void	*ptr;
-	char	*str;
-
-	ptr = va_arg(*ap, void*);
-	str = 
-	return (str);
-}
-
-char			*ft_conv_string(va_list *ap, t_pattern *conv)
-{
-	char	*str;
-
-	
-}
+#endif
