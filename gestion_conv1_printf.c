@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 06:37:44 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/18 17:09:48 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/11 14:53:21 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ull		ft_unsigned_conv(va_list *ap, int flag)
 		return (i);
 }
 
-char		*ft_conv_binary(va_list *ap, t_pattern *conv)
+char		*ft_conv_binary(va_list *ap, t_pattern *conv, int flag_p)
 {
 	t_ull	i;
 	char	*res;
@@ -42,7 +42,7 @@ char		*ft_conv_binary(va_list *ap, t_pattern *conv)
 	//PADDING, PRECISION, >>>>
 }
 
-char			*ft_conv_Uint(va_list *ap, t_pattern *conv)
+char			*ft_conv_Uint(va_list *ap, t_pattern *conv, int flag_p)
 {
 	t_ull	i;
 	char	*res;
@@ -51,7 +51,7 @@ char			*ft_conv_Uint(va_list *ap, t_pattern *conv)
 	res = ft_Uitoa_base(i, "0123456789");
 }
 
-char			*ft_conv_hex(va_list *ap, t_pattern *conv)
+char			*ft_conv_hex(va_list *ap, t_pattern *conv, int flag_p)
 {
 	t_ull	i;
 	char	*res;
@@ -65,7 +65,7 @@ char			*ft_conv_hex(va_list *ap, t_pattern *conv)
 
 }
 
-char			*ft_conv_octal(va_list *ap, t_pattern *conv)
+char			*ft_conv_octal(va_list *ap, t_pattern *conv, int flag_p)
 {
 	t_ull	i;
 	char	*res;

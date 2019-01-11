@@ -6,13 +6,13 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 07:25:48 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/18 17:30:06 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/11 14:56:04 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_conv_char(va_list *ap, t_pattern *conv)
+char	*ft_conv_char(va_list *ap, t_pattern *conv, int flag_p)
 {
 	char	*c;
 
@@ -21,7 +21,7 @@ char	*ft_conv_char(va_list *ap, t_pattern *conv)
 	return (c);
 }
 
-char			*ft_conv_addr(va_list *ap, t_pattern *conv)
+char			*ft_conv_addr(va_list *ap, t_pattern *conv, int flag_p)
 {
 	void	*ptr;
 	char	*str;
@@ -31,7 +31,7 @@ char			*ft_conv_addr(va_list *ap, t_pattern *conv)
 	return (str);
 }
 
-char			*ft_conv_string(va_list *ap, t_pattern *conv)
+char			*ft_conv_string(va_list *ap, t_pattern *conv, int flag_p)
 {
 	char	*str;
 
