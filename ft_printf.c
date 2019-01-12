@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#[+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 16:40:28 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 18:20:05 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 	{
 		ft_strappend(&str, (char*)(buff_cur->content));
 		res = ft_strlen(str);
-			if (conv_cur)
+		if (conv_cur)
 		{
 			ft_strappend(&str, (char*)(conv_cur->content));
 			conv_cur = conv_cur->next;
@@ -51,6 +51,47 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 	ft_lstfree(buff);
 	return (res);	
 }
+
+
+/*
+ ** 	fonction qui permet d'organiser les va_args en fonction des ints adequate
+ */
+
+
+t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
+{
+	t_pattern *voyager;
+	t_list	**conv;
+	t_list	*bus;
+	t_list	*sub;
+	int		i;
+
+	i = 0;
+	if (!(conv = (t_list**)malloc(sizeof(t_list*))) 
+			&& (!(*conv = (t_list*)malloc(sizeof(t_list)))))
+		return(NULL);
+	voyager = *pattern;
+	sub = *conv;
+	while (voyager)
+	{
+		bus = *tmp;
+		while (voyager->nbr && i < voyager->nbr)
+		{
+			i++;
+			bus = bus->next;
+		}
+		sub->next = ft_lstnew((*tmp)->content, (*tmp)->content_size);
+		voyager = voyager->next;
+		sub = sub->next;
+	}
+	sub = *conv;
+	*conv = (*conv)->next;
+	ft_lstfree(tmp);
+	ft_lstdelone(sub);
+	return (conv);
+}
+
+
 
 /*
  **	On verifie ensuite que les casts de chaque parametre ne soient pas conflictuels
@@ -71,10 +112,10 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 		if (voyager->nbr == i)
 		{
 			if (!type)
-				type = TYPE_FLAG_POS(voyager);
-			else if ((TYPE_FLAG_POS(voyager) ^ type)
-					|| !((((ft_int_flag() ^ type) < ft_int_flag()) && ((ft_int_flag() ^ TYPE_FLAG_POS(voyager)) < ft_int_flag()))
-					&& !(LMOD_FLAG(voyager->conv) ^ (type & (((t_ul)1 << ft_strlen(KNOW_LMOD)) - 1)))))
+				type = ft_type_flag_pos(voyager);
+			else if ((ft_type_flag_pos(voyager) ^ type)
+					|| !((((ft_int_flag() ^ type) < ft_int_flag()) && ((ft_int_flag() ^ ft_type_flag_pos(voyager)) < ft_int_flag()))
+						&& !(ft_lmod_flag(voyager->conv) ^ (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))))
 				return (0);
 		}
 		if ((voyager->precision == i && (voyager->conv & (1 << STAR_PR)))
@@ -84,12 +125,12 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 			if (!type)
 				type = ((t_ul)1 << ft_indice('d', KNOWN_CONV));
 			else if (!((((ft_int_flag() ^ type) < ft_int_flag()))
-					&& !(type & (((t_ul)1 << ft_strlen(KNOW_LMOD)) - 1))))
+						&& !(type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1))))
 				return (0);
 		}
 		voyager = voyager->next;
 	}
-	if ((ft_int_flag() ^ type) < ft_int_flag() && !(type & (((t_ul)1 << ft_strlen(KNOW_LMOD)) - 1)))
+	if ((ft_int_flag() ^ type) < ft_int_flag() && !(type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))
 	{
 		j = (t_ull)va_arg(*ap, int);
 		str = ft_itoa(j);
@@ -162,7 +203,7 @@ t_list	**ft_positional_mod(t_pattern **pattern, va_list *ap)
 
 	i = 0;
 	voyager = *pattern;
-//	tmp = malloc;
+	//	tmp = malloc;
 	if ((max = ft_verif_nbr_arg(pattern, 0, 0)))
 	{
 		while (i++ <= max)
@@ -185,8 +226,6 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap)
 	t_list		**conv;
 	char		*str;
 	int			i;
-	int			type;
-	int			flag;
 
 	voyager = *pattern;
 	if (!(conv = (t_list**)malloc(sizeof(t_list*))))
@@ -198,18 +237,15 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap)
 		while (voyager)
 		{
 			i = 0;
-			while (g_convtab[i].type != TYPE_FLAG(voyager))
+			while (g_convtab[i].type != ft_type_flag(voyager))
 				i++;
 			str = (*g_convtab[i].ft_conv)(ap, voyager->conv, voyager);
-
-
-
 			ft_lstadd_back(conv, ft_lstnew(str, strlen(str)));
 			voyager = voyager->next;
 		}
 	}
 	ft_padding(pattern, conv);  // a ecrire
-//	ft_lstfree(pattern); incompatible avec le type t_pattern
+	//	ft_lstfree(pattern); incompatible avec le type t_pattern
 	return (conv);
 }
 

@@ -6,28 +6,11 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 07:24:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/11 18:03:27 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 18:13:57 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-long long	ft_signed_conv(va_list *ap, int flag)
-{
-	long long	i;
-
-	if (!flag)
-		i = (long long)va_arg(*ap, int);
-	else if (flag == 2)
-		i = (long long)va_arg(*ap, char);
-	else if (flag == 1)
-		i = (long long)va_arg(*ap, short);
-	else if (flag == 4)
-		i = (long long)va_arg(*ap, long);
-	else if (flag == 8)
-		i = va_arg(*ap, long long);
-	return (i);
-}
 
 char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 {
@@ -40,21 +23,21 @@ char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	i = ft_unsigned_conv(ap, LMOD_FLAG(type));
+	i = ft_num_conv(ap, ft_lmod_flag(type));
 	return (ft_itoa(i));
 }
 
 char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
 {
-
+	return (0);
 }
 
 char			*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv)
 {
-	
+	return (0);
 }
 
-char			*ft_conv_opti_ef(va_list *ap, tu_ul type, t_pattern *conv)
+char			*ft_conv_opti_ef(va_list *ap, t_ul type, t_pattern *conv)
 {
-
+	return (0);
 }

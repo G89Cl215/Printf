@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:02:05 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/10 17:53:26 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 17:54:13 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 	{
 		if (str[i + j + 1] != '%')
 		{
-			pattern = ft_newpattern(pattern_list);
+			pattern = ft_new_pattern(pattern_list);
 			ft_lstadd_back(buff, ft_lstnew(str, i + j + 1));
 			ft_memmove(str,  str + i + j + 1, ft_strlen(str + i + j + 1));
-			if (!(i = ft_pattern_translate(&str, &pattern)) || !(flag &= i))
+			if (!(i = ft_pattern_translate(&str, pattern)) || !(flag &= i))
 				return (ft_parse_error(flag, buff, pattern_list));
 			i = 0;
 		}

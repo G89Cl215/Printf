@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 11:17:31 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/12/14 15:58:35 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 17:56:47 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int			ft_translate_lmod(char **str, t_pattern *pattern)
 			if (**str == 'h' || **str == 'l')
 				pattern->conv |= ((t_ul)1 << (ft_indice(**str, KNOWN_LMOD) + 2));
 			else
-				return (0)
-					(*str)++;
+				return (0);
+			(*str)++;
 		}
 		else
 			pattern->conv |= ((t_ul)1 << (ft_indice(**str, KNOWN_LMOD) + 1));

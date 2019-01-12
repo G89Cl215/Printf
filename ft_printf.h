@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 16:40:52 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 18:13:54 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,15 +154,13 @@
 
 # include <stdarg.h>
 # include <stdlib.h>
+# include "libft/libft.h"
 
 # define KNOWN_CONV	"bcdfeginopsuxEFGX"
 # define TYPE_START	22
 # define KNOWN_FLAG	"#0+- '"
-# define KNOW_LMOD "hhllL" /*care not to separate 'l's and 'h's*/
+# define KNOWN_LMOD "hhllL" /*care not to separate 'l's and 'h's*/
 # define LMOD_START	12
-# define LMOD_FLAG(a) (((((t_ul)1 << TYPE_START) - 1) & a) >> LMOD_START)
-# define TYPE_FLAG(a) ((~((t_ul)0) & a->conv) >> TYPE_START)
-# define TYPE_FLAG_POS(a) ((~((t_ul)0) & a->conv) >> (TYPE_START - LMOD_START))
 # define STAR_FW 10
 # define STAR_PR 11
 
@@ -184,7 +182,7 @@ typedef struct				s_conversion
 	char			*(*ft_conv)(va_list *ap, t_ul type, t_pattern *conv);
 }							t_conv;
 
-t_ull           ft_unsigned_conv(va_list *ap, int flag);
+t_ull           ft_num_conv(va_list *ap, int flag);
 char			*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
@@ -224,14 +222,23 @@ t_conv			g_convtab[] =
 };
 
 int					ft_pattern_translate(char **str, t_pattern *pattern);
-int					ft_parse_error(t_list **buff, t_pattern **pattern);
 int					ft_pattern_detect(char *str, t_list **buff,
 										t_pattern **pattern_list);
 int					ft_translate_int(char **str);
 void				ft_translate_flag(char **str, t_pattern *pattern);
 int					ft_translate_lmod(char **str, t_pattern *pattern);
-int					ft_translate_type(char **str, t_pattern *pattern);
+int					ft_translate_f_w(char **str, t_pattern *pattern);
+int					ft_translate_precision(char **str, t_pattern *pattern);
+int					ft_translate_type(char c, t_pattern *pattern);
+int					ft_translate_int(char **str);
+
+int					ft_parse_error(int flag, t_list **buff, t_pattern **pattern);
+
 int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
 t_ul				ft_int_flag(void);
 void				ft_padding(t_pattern **pattern, t_list **conv);
+t_ul				ft_type_flag(t_pattern *pattern);
+t_ul				ft_lmod_flag(t_ul conv);
+t_ul				ft_type_flag_pos(t_pattern *pattern);
+
 #endif
