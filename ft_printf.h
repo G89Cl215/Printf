@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/11 15:02:45 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/11 18:03:27 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@
 # define KNOWN_FLAG	"#0+- '"
 # define KNOW_LMOD "hhllL" /*care not to separate 'l's and 'h's*/
 # define LMOD_START	12
-# define LMOD_FLAG(a) (((((t_ul)1 << TYPE_START) - 1) & a->conv) >> LMOD_START)
+# define LMOD_FLAG(a) (((((t_ul)1 << TYPE_START) - 1) & a) >> LMOD_START)
 # define TYPE_FLAG(a) ((~((t_ul)0) & a->conv) >> TYPE_START)
 # define TYPE_FLAG_POS(a) ((~((t_ul)0) & a->conv) >> TYPE_START - LMOD_START)
 # define INT (((t_ul)1 <<(TYPE_START - LMOD_START + ft_indice('i', KNOWN_CONV)) + ((t_ul)1 << TYPE_START - LMOD_START + ft_indice('d', KNOWN_CONV)))
@@ -179,7 +179,7 @@ typedef struct				s_type_and_flag
 typedef struct				s_conversion
 {
 	t_ul			type;
-	char			*(*ft_conv)(va_list *ap, t_pattern *conv);
+	char			*(*ft_conv)(va_list *ap, t_ul type, t_pattern *conv);
 }							t_conv;
 
 t_ull           ft_unsigned_conv(va_list *ap, int flag);

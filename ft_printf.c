@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#[+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/11 15:02:45 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/11 16:08:35 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 	return (res);	
 }
 
+/*
+ **	On verifie ensuite que les casts de chaque parametre ne soient pas conflictuels
+ **	Si ca n'est pas le cas, on cree la liste chainee des params castes dans le type
+ **	adequat et on remplace les precisions / field_width positionnels par leurs valeurs
+ */
 int		ft_verif_type(int i, t_pattern **pattern, t_list *tmp, va_list **ap)
 {
 	t_pattern	*voyager;
@@ -69,7 +74,7 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list *tmp, va_list **ap)
 				type = TYPE_FLAG_POS(voyager);
 			else if ((TYPE_FLAG_POS(voyager) ^ type)
 					|| !((((INT ^ type) < INT) && ((INT ^ TYPE_FLAG_POS(voyager)) < INT))
-					&& !(LMOD_FLAG(voyager) ^ (type & (((t_ul)1 << ft_strlen(KNOW_LMOD)) - 1)))))
+					&& !(LMOD_FLAG(voyager->conv) ^ (type & (((t_ul)1 << ft_strlen(KNOW_LMOD)) - 1)))))
 				return (0);
 		}
 		if ((voyager->precision == i && (voyager->conv & (1 << STAR_PR)))
@@ -88,7 +93,6 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list *tmp, va_list **ap)
 	{
 		j = (t_ull)va_arg(*ap, int);
 		str = ft_itoa(j);
-	
 		voyager = *pattern;
 		while (voyager)
 		{
@@ -110,7 +114,7 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list *tmp, va_list **ap)
 		j = 0;
 		while (g_convtab[j].type != (type >> (TYPE_START - LMOD_START)))
 			j++;
-		str = (*g_convtab[j])(ap, (type << LMOD_START));
+		str = (*g_convtab[j])(ap, (type << LMOD_START), 0);
 	}
 	ft_lstadd_back(conv, ft_lstnew(str, strlen(str)));
 	return (1);
@@ -149,7 +153,7 @@ int		ft_verif_nbr_arg(t_pattern **pattern, int min, int max)
  ** si non go liste de conversion
  */
 
-t_list	*ft_positional_mod(t_pattern **pattern, va_list *ap)
+t_list	**ft_positional_mod(t_pattern **pattern, va_list *ap)
 {
 	t_pattern	*voyager;
 	t_list		**tmp;
@@ -163,7 +167,7 @@ t_list	*ft_positional_mod(t_pattern **pattern, va_list *ap)
 	{
 		while (i++ <= max)
 		{
-			if (!(ft_verif_type(i, pattern, *tmp, ap)))
+			if (!(ft_verif_type(i, pattern, tmp, ap)))
 				return (NULL);
 		}
 		return (ft_positional_conv(pattern, tmp)); // devra free tmp
@@ -188,7 +192,7 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap)
 	if (!(conv = (t_list**)malloc(sizeof(t_list*))))
 		return (NULL);
 	if (voyager->conv % 2)
-		*conv = ft_positional_mod(pattern, ap);
+		conv = ft_positional_mod(pattern, ap);
 	else
 	{	
 		while (*voyager)
@@ -196,7 +200,7 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap)
 			i = 0;
 			while (g_convtab[i].type != TYPE_FLAG(voyager))
 				i++;
-			str = (*g_convtab[i])(ap, voyager);
+			str = (*g_convtab[i])(ap, voyager->conv, voyager);
 
 
 

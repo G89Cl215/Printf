@@ -6,13 +6,13 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 06:37:44 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/11 14:53:21 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/11 18:03:27 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_ull		ft_unsigned_conv(va_list *ap, int flag)
+t_ull		ft_unsigned_conv(va_list *ap, int l_mod)
 {
 	t_ull	i;
 
@@ -26,52 +26,69 @@ t_ull		ft_unsigned_conv(va_list *ap, int flag)
 		i = (t_ull)va_arg(*ap, t_ul);
 	else if (flag == 8)
 		i = va_arg(*ap, t_ull);
-	else
-		//PARSING_ERROR... IGNORED ?
-		return (i);
+	return (i);
 }
 
-char		*ft_conv_binary(va_list *ap, t_pattern *conv, int flag_p)
+char		*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv)
+{
+	t_ull	i;
+
+	if (conv)
+	{
+		if (type & ((t_ul)1 << STAR_FW))
+			conv->field_width = va_arg(*ap, int);
+		if (type & ((t_ul)1 << STAR_PR))
+			conv->precision = va_arg(*ap, int);
+	}
+	i = ft_unsigned_conv(ap, LMOD_FLAG(type));
+	return (ft_Uitoa_base(i, "01"));
+}
+
+char			*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv)
+{
+	t_ull	i;
+
+	if (conv)
+	{
+		if (type & ((t_ul)1 << STAR_FW))
+			conv->field_width = va_arg(*ap, int);
+		if (type & ((t_ul)1 << STAR_PR))
+			conv->precision = va_arg(*ap, int);
+	}
+	i = ft_unsigned_conv(ap, LMOD_FLAG(type));
+	return (ft_Uitoa_base(i, "0123456789"));
+}
+
+char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 	char	*res;
 
-	i = ft_unsigned_conv(ap, LMOD_FLAG(conv));
-	res = ft_Uitoa_base(i, "01");
-
-	//PADDING, PRECISION, >>>>
-}
-
-char			*ft_conv_Uint(va_list *ap, t_pattern *conv, int flag_p)
-{
-	t_ull	i;
-	char	*res;
-
-	i = ft_unsigned_conv(ap, LMOD_FLAG(conv));
-	res = ft_Uitoa_base(i, "0123456789");
-}
-
-char			*ft_conv_hex(va_list *ap, t_pattern *conv, int flag_p)
-{
-	t_ull	i;
-	char	*res;
-
-	i = ft_unsigned_conv(ap, LMOD_FLAG(conv));
+	if (conv)
+	{
+		if (type & ((t_ul)1 << STAR_FW))
+			conv->field_width = va_arg(*ap, int);
+		if (type & ((t_ul)1 << STAR_PR))
+			conv->precision = va_arg(*ap, int);
+	}
+	i = ft_unsigned_conv(ap, LMOD_FLAG(type));
 	res = ft_Uitoa_base(i, "0123456789abcdef");
-	if (TYPE_FLAG(conv) & (1 << ft_indice('X', KNOWN_CONV)))
+	if (type & (1 << ft_indice('X', KNOWN_CONV)))
 		ft_toupper(&res);
-
-	//PADDING, PRECISION, >>>>
-
+	return (res);
 }
 
-char			*ft_conv_octal(va_list *ap, t_pattern *conv, int flag_p)
+char			*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
-	char	*res;
 
-	i = ft_unsigned_conv(ap, LMOD_FLAG(conv));
-	res = ft_Uitoa_base(i, "01234567");
-
-	//PADDING, PRECISION, >>>>
+	if (conv)
+	{
+		if (type & ((t_ul)1 << STAR_FW))
+			conv->field_width = va_arg(*ap, int);
+		if (type & ((t_ul)1 << STAR_PR))
+			conv->precision = va_arg(*ap, int);
+	}
+	i = ft_unsigned_conv(ap, LMOD_FLAG(type));
+	return (ft_Uitoa_base(i, "01234567"));
 }
