@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/11 18:03:27 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 16:40:52 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,9 @@
 ** ANY CHANGE TO VII SECTION WILL INDUCE CHANGES BELOW
 */
 
+# include <stdarg.h>
+# include <stdlib.h>
+
 # define KNOWN_CONV	"bcdfeginopsuxEFGX"
 # define TYPE_START	22
 # define KNOWN_FLAG	"#0+- '"
@@ -159,8 +162,7 @@
 # define LMOD_START	12
 # define LMOD_FLAG(a) (((((t_ul)1 << TYPE_START) - 1) & a) >> LMOD_START)
 # define TYPE_FLAG(a) ((~((t_ul)0) & a->conv) >> TYPE_START)
-# define TYPE_FLAG_POS(a) ((~((t_ul)0) & a->conv) >> TYPE_START - LMOD_START)
-# define INT (((t_ul)1 <<(TYPE_START - LMOD_START + ft_indice('i', KNOWN_CONV)) + ((t_ul)1 << TYPE_START - LMOD_START + ft_indice('d', KNOWN_CONV)))
+# define TYPE_FLAG_POS(a) ((~((t_ul)0) & a->conv) >> (TYPE_START - LMOD_START))
 # define STAR_FW 10
 # define STAR_PR 11
 
@@ -169,11 +171,11 @@ typedef	unsigned long long	t_ull;
 
 typedef struct				s_type_and_flag
 {
-	t_ul			conv;
-	int				field_width;
-	int				precision;
-	int				nbr;
-	t_pattern		*next;
+	t_ul						conv;
+	int							field_width;
+	int							precision;
+	int							nbr;
+	struct s_type_and_flag		*next;
 }							t_pattern;
 
 typedef struct				s_conversion
@@ -183,18 +185,18 @@ typedef struct				s_conversion
 }							t_conv;
 
 t_ull           ft_unsigned_conv(va_list *ap, int flag);
-char			*ft_conv_binary(va_list *ap, t_pattern *conv);
-char			*ft_conv_Uint(va_list *ap, t_pattern *conv);
-char			*ft_conv_hex(va_list *ap, t_pattern *conv);
-char			*ft_conv_octal(va_list *ap, t_pattern *conv);
-long long       ft_signed_conv(va_list *ap, int flag);
-char			*ft_conv_int(va_list *ap, t_pattern *conv);
-char			*ft_conv_scient(va_list *ap, t_pattern *conv);
-char			*ft_conv_float(va_list *ap, t_pattern *conv);
-char			*ft_conv_opti_ef(va_list *ap, t_pattern *conv);
-char			*ft_conv_addr(va_list *ap, t_pattern *conv);
-char			*ft_conv_char(va_list *ap, t_pattern *conv);
-char			*ft_conv_string(va_list *ap, t_pattern *conv);
+char			*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv);
+long long       ft_signed_conv(va_list *ap, t_ul type, int flag);
+char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_opti_ef(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_addr(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_char(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_str(va_list *ap, t_ul type, t_pattern *conv);
 
 /*
  ** ANY CHANGE TO VII SECTION WILL INDUCE >>>MASSIVE<<< CHANGES BELOW
@@ -209,7 +211,7 @@ t_conv			g_convtab[] =
 	{(1 << 4), &ft_conv_float},
 	{(1 << 5), &ft_conv_opti_ef},
 	{(1 << 6), &ft_conv_int},
-	{(1 << 7), &ft_conv_res},
+//	{(1 << 7), &ft_conv_res},
 	{(1 << 8), &ft_conv_octal},
 	{(1 << 9), &ft_conv_addr},
 	{(1 << 10), &ft_conv_str},
@@ -230,5 +232,6 @@ void				ft_translate_flag(char **str, t_pattern *pattern);
 int					ft_translate_lmod(char **str, t_pattern *pattern);
 int					ft_translate_type(char **str, t_pattern *pattern);
 int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
-
+t_ul				ft_int_flag(void);
+void				ft_padding(t_pattern **pattern, t_list **conv);
 #endif
