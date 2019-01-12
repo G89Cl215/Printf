@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 15:25:27 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 17:25:33 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 18:29:06 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,16 @@ t_ul	ft_type_flag(t_pattern *pattern)
 t_ul	ft_type_flag_pos(t_pattern *pattern)
 {
 	return ((~((t_ul)0) & pattern->conv) >> (TYPE_START - LMOD_START));
+}
+
+void	ft_free_pattern(t_pattern **pattern)
+{
+	t_pattern	*voyager;
+	
+	while (voyager)
+	{
+		voyager = voyager->next;
+		free((void**)pattern);
+		*pattern = voyager;
+	}
 }

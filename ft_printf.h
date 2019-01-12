@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 18:13:54 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 19:07:41 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,31 +196,6 @@ char			*ft_conv_addr(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_char(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_str(va_list *ap, t_ul type, t_pattern *conv);
 
-/*
- ** ANY CHANGE TO VII SECTION WILL INDUCE >>>MASSIVE<<< CHANGES BELOW
- */
-
-t_conv			g_convtab[] =
-{
-	{(1), &ft_conv_binary},
-	{(1 << 1), &ft_conv_char},
-	{(1 << 2), &ft_conv_int},
-	{(1 << 3), &ft_conv_scient},
-	{(1 << 4), &ft_conv_float},
-	{(1 << 5), &ft_conv_opti_ef},
-	{(1 << 6), &ft_conv_int},
-//	{(1 << 7), &ft_conv_res},
-	{(1 << 8), &ft_conv_octal},
-	{(1 << 9), &ft_conv_addr},
-	{(1 << 10), &ft_conv_str},
-	{(1 << 11), &ft_conv_Uint},
-	{(1 << 12), &ft_conv_hex},
-	{(1 << 13), &ft_conv_scient},
-	{(1 << 14), &ft_conv_float},
-	{(1 << 15), &ft_conv_opti_ef},
-	{(1 << 16), &ft_conv_hex}
-};
-
 int					ft_pattern_translate(char **str, t_pattern *pattern);
 int					ft_pattern_detect(char *str, t_list **buff,
 										t_pattern **pattern_list);
@@ -240,5 +215,6 @@ void				ft_padding(t_pattern **pattern, t_list **conv);
 t_ul				ft_type_flag(t_pattern *pattern);
 t_ul				ft_lmod_flag(t_ul conv);
 t_ul				ft_type_flag_pos(t_pattern *pattern);
+int					ft_printf(const char * restrict format, ...);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 06:37:44 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 18:17:04 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 18:37:44 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_ull		num_conv(va_list *ap, int flag)
+t_ull		ft_num_conv(va_list *ap, int flag)
 {
 	t_ull	i;
 	

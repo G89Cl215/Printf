@@ -4,14 +4,14 @@
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#[+#+#+#+#+   +#+           */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 18:20:05 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/12 19:29:58 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "ft_printf.h"
+#include "g_convtab.h"
 #include <stdarg.h>
 
 /*
@@ -87,7 +87,8 @@ t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
 	sub = *conv;
 	*conv = (*conv)->next;
 	ft_lstfree(tmp);
-	ft_lstdelone(sub);
+	free((void**)&(sub->content));
+	free((void**)&sub);
 	return (conv);
 }
 
@@ -244,7 +245,7 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap)
 			voyager = voyager->next;
 		}
 	}
-	ft_padding(pattern, conv);  // a ecrire
+	//ft_padding(pattern, conv);  // a ecrire
 	//	ft_lstfree(pattern); incompatible avec le type t_pattern
 	return (conv);
 }
@@ -265,6 +266,9 @@ int		ft_printf(const char * restrict format, ...)
 		//du free ici
 		return (-1);
 	}
+	*pattern = NULL;
+	*buff = NULL;
+	ft_putendl("A");
 	if (ft_pattern_detect(str, buff, pattern))
 	{
 		va_start(ap, format);
