@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gestion_de_crise_printf.c                          :+:      :+:    :+:   */
+/*   ft_strappend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/13 18:20:08 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/15 18:30:13 by baavril          ###   ########.fr       */
+/*   Created: 2018/11/29 17:15:19 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/01/16 18:26:58 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
+#include <stdlib.h>
 
-int		ft_parse_error(int flag, t_list **buff, t_pattern **pattern)
+void			ft_strappend_back(char **src, char **dest)
 {
-//	ft_lstfree(pattern);
-	(void)pattern;
-	ft_lstfree(buff);
-	if (flag == 0)
-		ft_putendl("error : mix of postionnal & non-positionnal flags.");
-	if (flag == 1)
-		ft_putendl("error : wrong call of arguments.");
-	if (flag == 2)
-		ft_putendl("error : conflicting conversion types.");
-	return (0);
+	char	*tmp;
+	size_t	i;
+
+	ft_putendl("seg1");
+	i = ft_strlen(*dest) + ft_strlen(*src) + 1;
+	if (!(tmp = (char*)malloc(i)))
+	{
+		return ;
+	}
+	ft_memcpy(tmp, *src, ft_strlen(*src) + 1);
+	tmp = ft_strcat(tmp, *dest);
+	ft_memdel((void**)dest);
+	ft_memdel((void**)src);
+	*dest = tmp;
+	ft_putendl(*dest);
 }

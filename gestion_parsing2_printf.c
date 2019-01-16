@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 11:17:31 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 17:56:47 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/13 16:16:38 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int			ft_translate_f_w(char **str, t_pattern *pattern)
 {
+	ft_putendl("mar");
+	ft_putendl(*str);
 	if (**str == '*' && (*str)++)
 		pattern->conv |= (1 << STAR_FW);
 	pattern->field_width = ft_translate_int(str);
@@ -48,7 +50,7 @@ int			ft_translate_int(char **str)
 	i = -1;
 	if (ft_isdigit(**str))
 		i = ft_atoi(*str);
-	while (**str || ft_isdigit(**str))
+	while (**str && ft_isdigit(**str))
 		(*str)++;
 	return (i);
 }
@@ -62,11 +64,12 @@ void		ft_translate_flag(char **str, t_pattern *pattern)
 	}
 }
 
-int			ft_translate_type(char c, t_pattern *pattern)
+int			ft_translate_type(char **str, t_pattern *pattern)
 {
-	if (ft_isin(c, KNOWN_CONV))
+	if (ft_isin(**str, KNOWN_CONV))
 	{
-		pattern->conv |= ((t_ul)1 << (TYPE_START + ft_indice(c, KNOWN_CONV)));
+		pattern->conv |= ((t_ul)1 << (TYPE_START + ft_indice(**str, KNOWN_CONV)));
+		(*str)++;
 		return(1);
 	}
 	return (0);

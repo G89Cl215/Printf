@@ -6,11 +6,12 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 06:37:44 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 18:37:44 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/15 19:06:39 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 t_ull		ft_num_conv(va_list *ap, int flag)
 {
@@ -57,6 +58,7 @@ char			*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv)
 			conv->precision = va_arg(*ap, int);
 	}
 	i = ft_num_conv(ap, ft_lmod_flag(type));
+	ft_putendl("C");
 	return (ft_unsigned_itoa_base(i, "0123456789"));
 }
 
@@ -74,7 +76,7 @@ char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
 	}
 	i = ft_num_conv(ap, ft_lmod_flag(type));
 	res = ft_unsigned_itoa_base(i, "0123456789abcdef");
-	if (type & (1 << ft_indice('X', KNOWN_CONV)))
+	if (type & ((t_ul)1 << (TYPE_START + ft_indice('X', KNOWN_CONV))))
 		ft_strupper(res);
 	return (res);
 }

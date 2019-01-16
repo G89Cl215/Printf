@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:40:46 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 18:40:01 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/16 17:28:09 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ size_t				ft_strcspn(const char *s, const char *charset);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_atoi(const char *str);
-char				*ft_unsigned_itoa_base(unsigned long long nb,
+char				*ft_unsigned_itoa_base(unsigned int nbr,
 												char *base_to);
 char				*ft_itoa(int nb);
 int					ft_pow(int n, unsigned int i);
@@ -76,6 +76,7 @@ int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 void				ft_strappend(char **dest, char **src);
+void				ft_strappend_back(char **dest, char **src);
 char				*ft_strtrim(char const *s);
 char				*ft_strrev(char *str);
 void				ft_strupper(char *str);
@@ -85,6 +86,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr(char const *str);
 void				ft_putstr_fd(char const *str, int fd);
 void				ft_putendl(char const *str);
+void				ft_print_nods(t_list *elem);
 void				ft_putendl_fd(char const *str, int fd);
 void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);

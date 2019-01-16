@@ -3,43 +3,43 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: baavril <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/11/05 22:11:12 by tgouedar          #+#    #+#              #
-#    Updated: 2019/01/12 18:18:55 by tgouedar         ###   ########.fr        #
+#    Created: 2019/01/16 10:37:50 by baavril           #+#    #+#              #
+#    Updated: 2019/01/16 10:49:04 by baavril          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
+NAME = libftprintf.a
 
-SRCFILE	= 
+FLAGS = -Wall -Wextra -Werror
 
-SRCDIR	= ./
-SRC		= $(addprefix $(SRCDIR),$(SRCFILE))
-HDR 	= .
-OBJFILE	= $(SRCFILE:.c=.o)
-OBJDIR	= obj
-OBJ		= $(addprefix $(OBJDIR)/,$(OBJFILE))
+SRCS = ft_printf.c\
+	   gestion_conv1_printf.c\
+	   gestion_conv2_printf.c\
+	   gestion_conv3_printf.c\
+	   gestion_parsing_printf.c\
+	   gestion_parsing2_printf.c\
+	   gestion_de_crise.c\
+	   gestion_t_pattern.c\
 
-NAME 	= libft.a
 
-all : $(NAME)
+SRCS_PATH = $(addprefix &(SRCDIR),$(SRCS))
 
-$(NAME) : $(OBJ)
+OBJ = $(SRCS_PATH:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
 
-$(OBJDIR)/%.o : %.c | $(OBJDIR)
-	$(CC) $(CFLAGS) -o $@ -c $^ -I $(HDR)
+%.o: %.c
+	gcc $(FLAGS) -Ofast -c $< -I ./includes/ -o $@
 
-$(OBJDIR) :
-	/bin/mkdir $(OBJDIR)
+clean:
+	rm -f $(OBJ)
 
-clean :
-	@/bin/rm $(OBJ) 2>/dev/null || true
-	@/bin/rm -R $(OBJDIR) 2>/dev/null || true
+fclean: clean
+	rm -f $(NAME)
 
-fclean : clean
-	/bin/rm -f $(NAME)
-
-re : fclean all
+re: fclean all

@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 07:24:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 18:13:57 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/16 13:18:14 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 	}
 	i = ft_num_conv(ap, ft_lmod_flag(type));
 	return (ft_itoa(i));
+}
+
+char			*ft_conv_res(va_list *ap, t_ul type, t_pattern *pattern)
+{
+	return(0);
 }
 
 char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)

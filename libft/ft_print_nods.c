@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_print_nods.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/15 13:21:10 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/13 15:04:37 by baavril          ###   ########.fr       */
+/*   Created: 2018/11/30 15:29:40 by baavril           #+#    #+#             */
+/*   Updated: 2018/12/06 18:09:08 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **alst, t_list *new_back)
+void	ft_print_nods(t_list *elem)
 {
-	t_list	*voyager;
-
-	if (!alst)
-		return ;
-	if (!(*alst))
-		*alst = new_back;
-	else
-	{
-		voyager = *alst;
-		while (voyager->next)
-			voyager = voyager->next;
-		voyager->next = new_back;
-	}
+	ft_putendl((char *)elem->content);
 }

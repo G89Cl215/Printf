@@ -6,7 +6,7 @@
 #    By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/05 22:11:12 by tgouedar          #+#    #+#              #
-#    Updated: 2018/12/18 17:40:05 by tgouedar         ###   ########.fr        #
+#    Updated: 2019/01/16 17:27:48 by baavril          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRCFILE	= ft_swap.c\
 		  ft_strsub.c\
 		  ft_strjoin.c\
 		  ft_strappend.c\
+		  ft_strappend_back.c\
 		  ft_strtrim.c\
 		  ft_strrev.c\
 		  ft_strupper.c\
@@ -75,6 +76,7 @@ SRCFILE	= ft_swap.c\
 		  ft_putstr.c\
 		  ft_putstr_fd.c\
 		  ft_putendl.c\
+		  ft_print_nods.c\
 		  ft_putendl_fd.c\
 		  ft_putnbr.c\
 		  ft_putnbr_fd.c\

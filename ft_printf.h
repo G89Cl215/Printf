@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 19:07:41 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/16 16:23:03 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@
  *
  *		Specifies how padding is made. More than one can be specified but there
  *	can be 'unknown behaviours'
- *	-> #	:	adds a prefixe 
+ *	-> #	:	adds a prefixe according to chosen base 
  *	-> 0	: 	for int and float types the padding is filled with zeros 
  *				(ignored for none value type)
  *	-> +	:	outputs a positive sign to positive values.
@@ -156,6 +156,30 @@
 # include <stdlib.h>
 # include "libft/libft.h"
 
+/* done : bcdinousxX
+ * p : prefixe
+ * to do : fegEFG
+ * idees supplementaires du sujet : r pour les caracteres non imprimables,
+ * 									k pour les dates
+ * 									fd ?!?
+ * doc on floats :
+ * input given by va_arg
+ * floating point type represented as 3 sections of unsigned word (size 1, 2, 4, 8 bytes) :
+ * float = 4 bytes
+ * double = 8 bytes
+ * first section single bit for sign.
+ * second is exponent of base 2
+ * third = mantissa : significatn digits, in binary.
+ * main problem in printing float = base conversion.
+ * to solve : optimization division and modulo in 64 bits.
+ * trick to convert base properly : where the unit (where the radix to the power 0, where the floating point is positioned) = point in a floating point number is the fundamental limit.
+ * left side of the point handed by itoa_base protocol.
+ * right side, fractional part, weirder : example -> powers = 5 in base 10 for negative powers of 2 (1/2 = 0.5, 1/4 = 0.25, 1/8 = 0.125 etc.).
+ * float strings : must be able to implement your own "bigint" type and all basic operations using both uint arrays and/or strings of digits in a given base for as speedy and accurate arbitrary precision arithmetic.
+ * 3 format : %a (hexadecimal floating point), %e (exponential/scientific notation) and %f (decimal point notation). %g is a weird mix of %e and %f.
+ * For %a, itoa, uitoa_base and an understanding of floats suffices.
+ *
+*/
 # define KNOWN_CONV	"bcdfeginopsuxEFGX"
 # define TYPE_START	22
 # define KNOWN_FLAG	"#0+- '"
@@ -189,6 +213,7 @@ char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv);
 long long       ft_signed_conv(va_list *ap, t_ul type, int flag);
 char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv);
+char			*ft_conv_res(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv);
 char			*ft_conv_opti_ef(va_list *ap, t_ul type, t_pattern *conv);
@@ -204,12 +229,13 @@ void				ft_translate_flag(char **str, t_pattern *pattern);
 int					ft_translate_lmod(char **str, t_pattern *pattern);
 int					ft_translate_f_w(char **str, t_pattern *pattern);
 int					ft_translate_precision(char **str, t_pattern *pattern);
-int					ft_translate_type(char c, t_pattern *pattern);
+int					ft_translate_type(char **str, t_pattern *pattern);
 int					ft_translate_int(char **str);
 
 int					ft_parse_error(int flag, t_list **buff, t_pattern **pattern);
 
 int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
+int					ft_stock_n_char(t_list **conv, va_list *ap, t_list **buff, int c);
 t_ul				ft_int_flag(void);
 void				ft_padding(t_pattern **pattern, t_list **conv);
 t_ul				ft_type_flag(t_pattern *pattern);

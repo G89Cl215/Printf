@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:02:05 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/12 19:28:01 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/16 18:43:46 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,28 @@ int			ft_pattern_translate(char **str, t_pattern *pattern)
 	
 	if (ft_isdigit(**str))
 	{
+		if (**str == '0')
+			pattern->conv = (t_ul)2 << ft_indice('0', KNOWN_FLAG);
 		i = ft_atoi(*str);
-		ft_putendl("d");
-		while (**str || ft_isdigit(**str))
-			(*str)++;
-		if (**str == '$' && (*str)++ && pattern->conv++)
+		ft_putendl("o");
+		ft_putendl(*str);
+		while (**str && ft_isdigit(**str))
 		{
+			(*str)++;
+			ft_putendl(*str);
+			ft_putnbr(i);
+		}
+		if (**str == '$' && (*str)++)
+		{	
+			pattern->conv++;
 			ft_putendl("e");
+			ft_putnbr(i);
 			pattern->nbr = i;
 			ft_translate_flag(str, pattern);
 			if (!(ft_translate_f_w(str, pattern)))
 				return (0);
 			ft_putendl("f");
+			ft_putendl(*str);
 		}
 		else
 			pattern->field_width = i;
@@ -77,15 +87,22 @@ int			ft_pattern_translate(char **str, t_pattern *pattern)
 	{
 		ft_putendl("g");
 		ft_translate_flag(str, pattern);
+		ft_putendl(*str);
 		if (!(ft_translate_f_w(str, pattern)))
 				return (0);
 	}
-		ft_putendl("f");
+		ft_putendl("l");
+		ft_putendl(*str);
 	if ((!(ft_translate_precision(str, pattern)))
 					|| !(ft_translate_lmod(str, pattern)))
 		return (0);
-	if (ft_translate_type(**str, pattern))
+		ft_putendl("u");
+		ft_putendl(*str);
+	if (ft_translate_type(str, pattern))
+	{
+		ft_putendl("us");
 		return (1 + (pattern->conv % 2));
+	}
 	return (0);
 }
 
@@ -104,20 +121,28 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 
 	flag = 3;
 	i = 0;
+	ft_putendl(str);
 	while ((j = ft_strcspn(str + i, "%")) != ft_strlen(str + i))
 	{
 		ft_putendl("B");
+		ft_putendl(str);
 		if (str[i + j + 1] != '%')
 		{
 			ft_putendl("C");
+			ft_putendl(str);
 			pattern = ft_new_pattern(pattern_list);
 			ft_putendl("r");
-			ft_lstadd_back(buff, ft_lstnew(str, i + j + 1));
+			ft_putendl(str);
+			ft_lstadd_back(buff, ft_lstnew(str, i + j));
 			ft_putendl("i");
-			ft_memmove(str,  str + i + j + 1, ft_strlen(str + i + j + 1));
+			ft_memmove(str,  str + i + j + 1, ft_strlen(str + i + j));
+			ft_putendl(str);
 			ft_putendl("n");
 			if (!(i = ft_pattern_translate(&str, pattern)) || !(flag &= i))
+			{
+				ft_putnbr(i);
 				return (ft_parse_error(flag, buff, pattern_list));
+			}
 			i = 0;
 		}
 		else
@@ -126,7 +151,7 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 			i += j + 1;
 		}
 	}
-
+	ft_lstadd_back(buff, ft_lstnew(str, i + j));
 	//etape de fin
 	return (1);	
 }
