@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/16 16:23:03 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/18 21:29:33 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,12 @@
 typedef	unsigned long		t_ul;
 typedef	unsigned long long	t_ull;
 
+typedef union
+{
+	double	d;
+	t_ul	l;
+} 							u_float;
+
 typedef struct				s_type_and_flag
 {
 	t_ul						conv;
@@ -206,41 +212,50 @@ typedef struct				s_conversion
 	char			*(*ft_conv)(va_list *ap, t_ul type, t_pattern *conv);
 }							t_conv;
 
-t_ull           ft_num_conv(va_list *ap, int flag);
-char			*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv);
-long long       ft_signed_conv(va_list *ap, t_ul type, int flag);
-char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_res(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_opti_ef(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_addr(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_char(va_list *ap, t_ul type, t_pattern *conv);
-char			*ft_conv_str(va_list *ap, t_ul type, t_pattern *conv);
+t_ull				ft_num_conv(va_list *ap, int flag);
+long long       	ft_signed_conv(va_list *ap, t_ul type, int flag);
+char				*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_res(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_opti_ef(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_addr(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_char(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_str(va_list *ap, t_ul type, t_pattern *conv);
+int					ft_stock_n_char(t_list **conv, va_list *ap, t_list **buff, int c);
 
 int					ft_pattern_translate(char **str, t_pattern *pattern);
 int					ft_pattern_detect(char *str, t_list **buff,
 										t_pattern **pattern_list);
+
 int					ft_translate_int(char **str);
 void				ft_translate_flag(char **str, t_pattern *pattern);
 int					ft_translate_lmod(char **str, t_pattern *pattern);
 int					ft_translate_f_w(char **str, t_pattern *pattern);
 int					ft_translate_precision(char **str, t_pattern *pattern);
 int					ft_translate_type(char **str, t_pattern *pattern);
-int					ft_translate_int(char **str);
 
 int					ft_parse_error(int flag, t_list **buff, t_pattern **pattern);
 
 int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
-int					ft_stock_n_char(t_list **conv, va_list *ap, t_list **buff, int c);
-t_ul				ft_int_flag(void);
+int					ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap);
+t_list				**ft_positional_conv(t_pattern **pattern, t_list **tmp);
+void				ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp, va_list *ap);
+
 void				ft_padding(t_pattern **pattern, t_list **conv);
+
+t_ul				ft_int_flag(void);
 t_ul				ft_type_flag(t_pattern *pattern);
-t_ul				ft_lmod_flag(t_ul conv);
+t_ul				ft_lmod_flag(t_pattern pattern);
 t_ul				ft_type_flag_pos(t_pattern *pattern);
+
+t_pattern			*ft_new_pattern(t_pattern **pattern_list);
+void				ft_free_pattern(t_pattern **pattern);
+
 int					ft_printf(const char * restrict format, ...);
 
 #endif

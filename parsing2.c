@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 11:17:31 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/13 16:16:38 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/18 14:54:35 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int			ft_translate_f_w(char **str, t_pattern *pattern)
 {
-	ft_putendl("mar");
-	ft_putendl(*str);
 	if (**str == '*' && (*str)++)
 		pattern->conv |= (1 << STAR_FW);
 	pattern->field_width = ft_translate_int(str);
@@ -43,36 +41,13 @@ int			ft_translate_precision(char **str, t_pattern *pattern)
 	return (1);
 }
 
-int			ft_translate_int(char **str)
-{
-	int	i;
-
-	i = -1;
-	if (ft_isdigit(**str))
-		i = ft_atoi(*str);
-	while (**str && ft_isdigit(**str))
-		(*str)++;
-	return (i);
-}
-
 void		ft_translate_flag(char **str, t_pattern *pattern)
 {
 	while (ft_isin(**str, KNOWN_FLAG))
 	{
-		pattern->conv |= ((t_ul)1 << (ft_indice(**str, KNOWN_FLAG) + 1));
+		pattern->conv |= ((t_ul)2 << (ft_indice(**str, KNOWN_FLAG)));
 		(*str)++;
 	}
-}
-
-int			ft_translate_type(char **str, t_pattern *pattern)
-{
-	if (ft_isin(**str, KNOWN_CONV))
-	{
-		pattern->conv |= ((t_ul)1 << (TYPE_START + ft_indice(**str, KNOWN_CONV)));
-		(*str)++;
-		return(1);
-	}
-	return (0);
 }
 
 int			ft_translate_lmod(char **str, t_pattern *pattern)
@@ -92,4 +67,15 @@ int			ft_translate_lmod(char **str, t_pattern *pattern)
 		(*str)++;
 	}
 	return (1);
+}
+
+int			ft_translate_type(char **str, t_pattern *pattern)
+{
+	if (ft_isin(**str, KNOWN_CONV))
+	{
+		pattern->conv |= ((t_ul)1 << (TYPE_START + ft_indice(**str, KNOWN_CONV)));
+		(*str)++;
+		return(1);
+	}
+	return (0);
 }

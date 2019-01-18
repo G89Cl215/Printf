@@ -6,37 +6,13 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 15:25:27 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/15 18:29:08 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/18 16:19:18 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_ul	ft_int_flag(void)
-{
-	t_ul	j;
-
-	j = TYPE_START - LMOD_START;
-	return ((t_ul)1 << (j + ft_indice('i', KNOWN_CONV))
-			| ((t_ul)1 << (j + ft_indice('d', KNOWN_CONV))));
-}
-
-t_ul	ft_lmod_flag(t_ul conv)
-{
-	return (((((t_ul)1 << TYPE_START) - 1) & conv) >> LMOD_START);
-}
-
-t_ul	ft_type_flag(t_pattern *pattern)
-{
-	return ((~((t_ul)0) & pattern->conv) >> TYPE_START);
-}
-
-t_ul	ft_type_flag_pos(t_pattern *pattern)
-{
-	return ((~((t_ul)0) & pattern->conv) >> (TYPE_START - LMOD_START));
-}
-
-void	ft_free_pattern(t_pattern **pattern)
+void		ft_free_pattern(t_pattern **pattern)
 {
 	t_pattern	*voyager;
 	
@@ -47,4 +23,28 @@ void	ft_free_pattern(t_pattern **pattern)
 		free((void**)pattern);
 		*pattern = voyager;
 	}
+}
+
+t_pattern	*ft_new_pattern(t_pattern **pattern_list)
+{
+	t_pattern	*new;
+	t_pattern	*voyager;
+
+	if (!(new = (t_pattern*)malloc(sizeof(t_pattern))))
+		return (NULL);
+	new->conv = 0;
+	new->field_width = -1;
+	new->precision = -1;
+	new->nbr = 0;
+	new->next = NULL;
+	if (!(*pattern_list))
+		*pattern_list = new;
+	else
+	{
+		voyager = *pattern_list;
+		while (voyager->next)
+			voyager = voyager->next;
+		voyager->next = new;
+	}
+	return (new);
 }

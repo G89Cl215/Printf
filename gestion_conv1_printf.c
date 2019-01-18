@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 06:37:44 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/15 19:06:39 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/18 16:08:08 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_ull		ft_num_conv(va_list *ap, int flag)
 {
 	t_ull	i;
-	
+
 	i = 0;
 	if (!flag)
 		i = (t_ull)va_arg(*ap, int);
@@ -42,11 +42,11 @@ char		*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	i = ft_num_conv(ap, ft_lmod_flag(type));
+	i = ft_num_conv(ap, ft_lmod_flag(conv));
 	return (ft_unsigned_itoa_base(i, "01"));
 }
 
-char			*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv)
+char		*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 
@@ -57,12 +57,11 @@ char			*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	i = ft_num_conv(ap, ft_lmod_flag(type));
-	ft_putendl("C");
+	i = ft_num_conv(ap, ft_lmod_flag(conv));
 	return (ft_unsigned_itoa_base(i, "0123456789"));
 }
 
-char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
+char		*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 	char	*res;
@@ -74,14 +73,14 @@ char			*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	i = ft_num_conv(ap, ft_lmod_flag(type));
+	i = ft_num_conv(ap, ft_lmod_flag(conv));
 	res = ft_unsigned_itoa_base(i, "0123456789abcdef");
 	if (type & ((t_ul)1 << (TYPE_START + ft_indice('X', KNOWN_CONV))))
 		ft_strupper(res);
 	return (res);
 }
 
-char			*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv)
+char		*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 
@@ -92,6 +91,6 @@ char			*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	i = ft_num_conv(ap, ft_lmod_flag(type));
+	i = ft_num_conv(ap, ft_lmod_flag(conv));
 	return (ft_unsigned_itoa_base(i, "01234567"));
 }
