@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 07:24:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/18 21:05:46 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/19 21:32:37 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,42 @@ char			*ft_conv_res(va_list *ap, t_ul type, t_pattern *pattern)
 
 char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
 {
-	return (0);
+	char	*str;
+	char	pow_10[5];
+
+	pow_10[0] = 'e';
+	pow_10[1] = '\0';
+	str = ft_conv_float(ap, type, conv);
+	i = ft_reajust_zero(str);
+	 pow_10 = ft_strcat(pow_10, ft_itoa(i));
+	str = ft_strcat(str, pow_10);
+	if (type & ((t_ul)1 << (TYPE_START + ft_indice('E', KNOWN_CONV))))
+		ft_strupper(str);
+	return (str);
 }
 
 char			*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv)
 {
-	u_double		u;
+	u_float		u;
 	t_ul			s;
 	t_ul			exp;
 	t_ul			mant;
 	char			*str;
 
-
-	u.d = va_arg(*ap, double);
+	if (conv)
+	{
+		if (type & ((t_ul)1 << STAR_FW))
+			conv->field_width = va_arg(*ap, int);
+		if (type & ((t_ul)1 << STAR_PR))
+			conv->precision = va_arg(*ap, int);
+	}
+	u.d = va_arg(*ap, double); // gestion du long double ??
 	s = (((t_ul)1 << 63) & u.l) ? 1 : 0;
 	mant = ((((t_ul)1 << 53) - 1) & u.l);
 	exp = ((((t_ul)2047 << 53) & u.l) >> 53) - 1023;
 	if (exp ^ 2047)
 	{
-		mant &= ((t_ul)1 << 54); // conditions de denormalisation d'un double ????
+		mant |= ((t_ul)1 << 5333); // conditions de denormalisation d'un double ????
 		str = ft_create_float(mant, 54);
 		while (exp)
 		{
