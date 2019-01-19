@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:25:34 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/18 14:26:24 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/19 13:32:42 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 char	*ft_unsigned_itoa_base(unsigned int nbr, char *base)
 {
-	unsigned int conv;
-	int i;
-	char *res;
-	int length;
+	unsigned int	conv;
+	int				i;
+	char			*res;
+	int				length;
 
 	length = ft_strlen(base);
 	conv = (nbr > 0) ? nbr : -nbr;

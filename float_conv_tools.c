@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 18:23:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/18 21:28:53 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/19 15:24:25 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ char	*ft_trim_0(char *str, int s)
 	if (s)
 		i--;
 	if (i > 0)
-		ft_memmove(str, str + i, ft_strlen(str + i));
+		ft_memmove(str, str + i, ft_strlen(str + i) + 1);
 	if (s)
 		str[0] = '-';
 	return (str);
@@ -159,4 +159,47 @@ char	*ft_create_float(t_ul mant, int mant_length)
 		i++;
 	}
 	return (str);
+}
+
+/* Cette fonction renvoie l'exposant en notation scientifique 
+ * et travaille sur le float contenu dans le char* pour le ramener 
+ * en notation scientifique */
+
+int		ft_reajust_zero(char *str)
+{
+	int		i;
+	int		j;
+	int		s;
+
+	i = ft_strspn(str, "0");
+	s = (str[i] == '.' ? -1 : 1);
+	if (s > 0)
+	{
+		j = ft_indice('.', str);
+		ft_memmove(str + j, str + j + 1, ft_strlen(str) - j);
+		ft_memmove(str + i + 1, str + i, j - i + 2);
+		str[i + 1] = '.';
+		j -= i + 1;
+	}
+	else
+	{
+		j = i + ft_strspn(str + i + 1, "0") + 1;
+		str[0] = str[j];
+		str[1] = '.';
+		ft_memcpy(str + 2, str + j + 1, ft_strlen(str + j));
+	}
+	return (s * j);
+}
+
+int main()
+{
+	char	str[13] = "000000115.01\0";
+	ft_putendl(str);
+	ft_putnbr(ft_reajust_zero(str));
+	ft_putchar('\n');
+	ft_putendl(str);
+	ft_trim_0(str, 1);
+	ft_putendl(str);
+	ft_putnbr(ft_strlen(str));
+	return (0);
 }
