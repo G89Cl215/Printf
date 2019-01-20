@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 18:23:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/19 22:21:23 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 12:38:35 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ void	ft_strdiv_2(char *str)
 	{
 		if (str[i] != '.')
 		{
-			div = str[i] - '0' + ret;
+			div = str[i] - '0';
+			str[i] = div / 2 + ret + '0';
 			ret = div % 2 ? 5 : 0;
-			str[i] = div / 2 + '0';
 		}
 		i++;
 	}
@@ -138,25 +138,6 @@ void	ft_trim_0(char *str, int s)
 		str[0] = '-';
 }
 
-void	ft_prec_float(char *str, int prec)
-{
-	int point_str;
-	int ret;
-
-	if (prec < 0) // peut il y avoir une prec de zero ?
-		prec = 6;
-	point_str = ft_indice('.', str);
-	ret = (str[point_str + prec + 1] - '0' > 4);
-	str[point_str + prec + 1] = '\0';
-	while (ret)
-	{
-		ret += str[point_str + prec] - '0'; 
-		str[point_str + prec] = (ret % 10) + '0';
-		ret = (ret > 9 ? 1 : 0);
-		prec--;
-	}
-}
-
 char	*ft_create_float(t_ul mant, int mant_length)
 {
 	char	*str;
@@ -170,11 +151,7 @@ char	*ft_create_float(t_ul mant, int mant_length)
 	while (i <= mant_length)
 	{
 		if (((t_ul)1 << i) & mant)
-		{
-			ft_putnbr(mant_length - i - 1);
-			ft_putchar('\n');
 			ft_strsum_dec(str, g_2_pow[mant_length - i - 1]);
-		}
 		i++;
 	}
 	return (str);
@@ -195,9 +172,14 @@ int		ft_reajust_zero(char *str)
 	if (s > 0)
 	{
 		j = ft_indice('.', str);
-		ft_memmove(str + j, str + j + 1, ft_strlen(str) - j);
-		ft_memmove(str + i + 1, str + i, j - i + 2);
-		str[i + 1] = '.';
+		if (j != 1)
+		{
+			ft_memmove(str + j, str + j + 1, ft_strlen(str) - j);
+			ft_putendl(str);
+			ft_memmove(str + i + 1, str + i, ft_strlen(str + i));
+			ft_putendl(str);
+			str[i + 1] = '.';
+		}
 		j -= i + 1;
 	}
 	else
@@ -205,13 +187,51 @@ int		ft_reajust_zero(char *str)
 		j = i + ft_strspn(str + i + 1, "0") + 1;
 		str[0] = str[j];
 		str[1] = '.';
-		ft_memcpy(str + 2, str + j + 1, ft_strlen(str + j));
+		ft_memmove(str + 2, str + j + 1, ft_strlen(str + j));
+		j--;
 	}
 	return (s * j);
 }
 
+/* Gestion du decoupage "a droite" des floats */
 
+void	ft_prec_float(char *str, int prec)
+{
+	int point_str;
+	int ret;
 
+	if (prec < 0) // peut il y avoir une prec de zero ?
+		prec = 6;
+	point_str = ft_indice('.', str);
+	ret = (str[point_str + prec + 1] - '0' > 4);
+	str[point_str + prec + 1] = '\0';
+	while (ret)
+	{
+		ret += str[point_str + prec] - '0'; 
+		str[point_str + prec] = (ret % 10) + '0';
+		ret = (ret > 9 ? 1 : 0);
+		prec--;
+	}
+}
+/*
+void	ft_prec_float(char *str, int prec)
+{
+	int point_str;
+	int ret;
+
+	if (prec < 0) // peut il y avoir une prec de zero ?
+		prec = 6;
+	point_str = ft_indice('.', str);
+	ret = (str[point_str + prec + 1] - '0' > 4);
+	str[point_str + prec + 1] = '\0';
+	while (ret)
+	{
+		ret += str[point_str + prec] - '0'; 
+		str[point_str + prec] = (ret % 10) + '0';
+		ret = (ret > 9 ? 1 : 0);
+		prec--;
+	}
+}*/
 
 
 
@@ -220,37 +240,62 @@ int		ft_reajust_zero(char *str)
 
 void	ft_putllnbr(long n)
 {
-/*	if (n < 0)
-		n *= -1;*/
-	if (n >= 2)
-		ft_putllnbr(n / 2);
-	ft_putchar(n % 2 + '0');
+	if (n < 0)
+		n *= -1;
+	if (n >= 10)
+		ft_putllnbr(n / 10);
+	ft_putchar(n % 10 + '0');
 }
 
 int main()
 {
 	char			*str;
-	double			f = 1.000015168489;
+	double			f = 156.000055;
 	u_float			u;
 	t_ul			s;
 	long			exp;
+	int				i;
 	t_ul			mant;
+	char			*pow_10;
 
+	pow_10 = ft_strnew(5);
+	pow_10[0] = 'e';
+	pow_10[1] = '\0';
 	u.d = f;
 	s = (((t_ul)1 << 63) & u.l) ? 1 : 0;
 	mant = ((((t_ul)1 << 53) - 1) & u.l);
-	ft_putllnbr(mant);
-	ft_putchar('\n');
+/*	ft_putllnbr(mant);
+	ft_putchar('\n');*/
 	exp = ((long)2047 & (u.l >> 52)) - 1023;
 	mant |= ((t_ul)1 << 52); // conditions de denormalisation d'un double ????
 	
 	str = ft_create_float(mant, 53);
+//	ft_putendl(str);
+	while (exp)
+		{
+			if (exp > 0)
+			{
+				ft_strsum_dec(str, str);
+				exp--;
+			}
+			if (exp < 0)
+			{
+				ft_strdiv_2(str);
+				exp++;
+			}
+		}
+
+	ft_trim_0(str, 0);
 	ft_putendl(str);
-	ft_trim_0(str, 1);
-	ft_prec_float(str, 15);
-	ft_putllnbr(mant);
+//	ft_putnbr(ft_strlen(str));
+	i = ft_reajust_zero(str);
+	pow_10 = ft_strcat(pow_10, ft_itoa(i));
+	str = ft_strcat(str, pow_10);
+
+/*	ft_prec_float(str, 15);
+	ft_putllnbr(exp);
 	ft_putchar('\n');
-	/*
+	
 	ft_putendl(str);
 	ft_putnbr(ft_reajust_zero(str));
 	ft_putchar('\n');
