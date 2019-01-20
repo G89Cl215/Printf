@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 07:24:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 12:46:26 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:23:30 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 
 char			*ft_conv_res(va_list *ap, t_ul type, t_pattern *pattern)
 {
-	(void)
+	(void)pattern;
+	(void)type;
 	return(0);
 }
 
 char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
 {
 	char	*str;
+	int 	i;
 	char	*pow_10;
 
 	if (!(pow_10 = ft_strnew(5)))

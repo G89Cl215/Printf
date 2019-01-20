@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 15:51:47 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 14:12:49 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:24:00 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 			if (!type)
 				type = ((t_ul)1 << ft_indice('d', KNOWN_CONV));
 			else if (((ft_int_flag() ^ type) > ft_int_flag())
-						|| (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1))
+						|| (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))
 				return (ft_parse_error(2, tmp, pattern));
 		}
 		voyager = voyager->next;

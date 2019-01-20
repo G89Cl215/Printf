@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 21:26:30 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 13:35:21 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:17:01 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define FLOAT_TOOLS_H
 
 
-void	ft_strsum_dec(char *str, char *to_add)
-void	ft_strdiv_2(char *str)
-char	*ft_trim_0(char *str, int s)
-char	*ft_create_float(t_ul mant, int mant_length)
+void	ft_strsum_dec(char *str, char *to_add);
+void	ft_strdiv_2(char *str);
+char	*ft_trim_0(char *str, int s);
+char	*ft_create_float(t_ul mant, int mant_length);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 12:57:17 by baavril           #+#    #+#             */
-/*   Updated: 2019/01/18 14:26:58 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:25:32 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_conv			g_convtab[] =
 	{(1 << 8), &ft_conv_octal},
 	{(1 << 9), &ft_conv_addr},
 	{(1 << 10), &ft_conv_str},
-	{(1 << 11), &ft_conv_Uint},
+	{(1 << 11), &ft_conv_uint},
 	{(1 << 12), &ft_conv_hex},
 	{(1 << 13), &ft_conv_scient},
 	{(1 << 14), &ft_conv_float},

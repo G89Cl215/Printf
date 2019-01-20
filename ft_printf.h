@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/19 16:27:57 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:26:26 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ typedef struct				s_conversion
 t_ull				ft_num_conv(va_list *ap, int flag);
 long long       	ft_signed_conv(va_list *ap, t_ul type, int flag);
 char				*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
-char				*ft_conv_Uint(va_list *ap, t_ul type, t_pattern *conv);
+char				*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv);
@@ -246,11 +246,14 @@ int					ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap);
 t_list				**ft_positional_conv(t_pattern **pattern, t_list **tmp);
 void				ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp, va_list *ap);
 
+t_list				**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff);
+void				ft_ezequiel(t_pattern *ezequiel, t_list **tmp, va_list *ap);
+
 void				ft_padding(t_pattern **pattern, t_list **conv);
 
 t_ul				ft_int_flag(void);
 t_ul				ft_type_flag(t_pattern *pattern);
-t_ul				ft_lmod_flag(t_pattern pattern);
+t_ul				ft_lmod_flag(t_pattern *pattern);
 t_ul				ft_type_flag_pos(t_pattern *pattern);
 
 t_pattern			*ft_new_pattern(t_pattern **pattern_list);
