@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/* ***********************[*************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
@@ -6,12 +6,12 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/18 21:19:46 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:12:49 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "g_convtab.h"
+#include "ft_printf.h"
 #include <stdarg.h>
 
 /*
@@ -61,51 +61,6 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 	return (res);	
 }
 
-
-
-/*
- **  Conversions en strings de la bonne longueur
- */
-
-t_list		**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff)
-{
-	t_pattern	*voyager;
-	t_list		**conv;
-	char		*str;
-	int			i;
-	int			c;
-
-	voyager = *pattern;
-	if (!(conv = (t_list**)malloc(sizeof(t_list*))))
-		return (NULL);
-	*conv = NULL;
-	if (voyager->conv % 2)
-	{
-		if (!(conv = ft_positional_mod(pattern, ap)))
-			return (NULL);
-	}	
-	else
-	{	
-		c = 0;
-		while (voyager)
-		{
-			c++;
-			i = 0;
-			while (g_convtab[i].type != ft_type_flag(voyager))
-				i++;
-			str = (*g_convtab[i].ft_conv)(ap, voyager->conv, voyager);
-			if (str)
-				ft_lstadd_back(conv, ft_lstnew(str, (ft_strlen(str) + 1)));
-			else
-				ft_lstadd_back(conv, ft_lstnew(NULL, 0));
-//				ft_stock_n_char(conv, ap, buff, c);
-			voyager = voyager->next;
-		}
-	}
-	if (!(ft_central_padding(pattern, conv)))
-		return (ft_parse_error(3, buff, pattern));
-	return (conv);
-}
 
 int		ft_printf(const char * restrict format, ...)
 {

@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 15:51:47 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/19 13:31:50 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:12:49 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,9 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 {
 	t_pattern	*voyager;
 	t_ul		type;
-	t_pattern	*ezequiel;
-	char		*str;
-	int			j;
 
 	type = 0;
 	voyager = *pattern;
-	ezequiel = *pattern;
 	while (voyager)
 	{
 		if (voyager->nbr == i)
@@ -140,17 +136,7 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 	if ((ft_int_flag() ^ type) < ft_int_flag() && !(type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))
 		ft_pos_pr_fw(i, pattern, tmp, ap);
 	else
-	{
-		while (ezequiel->next != NULL)
-		{
-			j = 0;
-			while (g_convtab[j].type != ft_type_flag(ezequiel))
-				j++;
-			str = (*g_convtab[j].ft_conv)(ap, ezequiel->conv, ezequiel);
-			ft_lstadd_back(tmp, ft_lstnew(str, (strlen(str) + 1)));
-			ezequiel = ezequiel->next;
-		}
-	}
+		ft_ezequiel(*pattern, tmp, ap);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 18:23:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 12:38:35 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 13:59:49 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,7 @@ int		ft_reajust_zero(char *str)
 		if (j != 1)
 		{
 			ft_memmove(str + j, str + j + 1, ft_strlen(str) - j);
-			ft_putendl(str);
 			ft_memmove(str + i + 1, str + i, ft_strlen(str + i));
-			ft_putendl(str);
 			str[i + 1] = '.';
 		}
 		j -= i + 1;
@@ -217,11 +215,13 @@ void	ft_prec_float(char *str, int prec)
 void	ft_prec_float(char *str, int prec)
 {
 	int point_str;
+	int exp_str;
 	int ret;
 
 	if (prec < 0) // peut il y avoir une prec de zero ?
 		prec = 6;
-	point_str = ft_indice('.', str);
+	if ((exp_str = ft_indice('e', str)) == ft_strlen(str))
+		exp_str = ft_indice('E', str);
 	ret = (str[point_str + prec + 1] - '0' > 4);
 	str[point_str + prec + 1] = '\0';
 	while (ret)
@@ -250,7 +250,7 @@ void	ft_putllnbr(long n)
 int main()
 {
 	char			*str;
-	double			f = 156.000055;
+	double			f = 10000000000000000;
 	u_float			u;
 	t_ul			s;
 	long			exp;
