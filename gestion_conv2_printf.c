@@ -6,11 +6,12 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 07:24:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 14:23:30 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:38:02 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "float_conv_tools.h"
 
 char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 {
@@ -23,7 +24,7 @@ char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	i = ft_num_conv(ap, ft_lmod_flag(type));
+	i = ft_num_conv(ap, ft_t_ul_flag(type));
 	return (ft_itoa(i));
 }
 

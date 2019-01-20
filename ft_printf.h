@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 14:26:26 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:36:11 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,7 @@ t_ul				ft_int_flag(void);
 t_ul				ft_type_flag(t_pattern *pattern);
 t_ul				ft_lmod_flag(t_pattern *pattern);
 t_ul				ft_type_flag_pos(t_pattern *pattern);
+t_ul				ft_t_ul_flag(t_ul conv);
 
 t_pattern			*ft_new_pattern(t_pattern **pattern_list);
 void				ft_free_pattern(t_pattern **pattern);

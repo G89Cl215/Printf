@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:44:50 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/18 16:18:46 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:38:47 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,3 +36,7 @@ t_ul	ft_type_flag_pos(t_pattern *pattern)
 	return ((~((t_ul)0) & pattern->conv) >> LMOD_START);
 }
 
+t_ul	ft_t_ul_flag(t_ul conv)
+{
+	return (((((t_ul)1 << TYPE_START) - 1) & conv) >> LMOD_START);
+}
