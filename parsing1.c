@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:02:05 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/18 14:54:35 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 16:44:40 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int			ft_translate_int(char **str)
 	return (i);
 }
 
-/*	Cette fonction traduit le pattern et renvoie 0 s'il est invalide, 1 s'il est
- *	valide et non positionnel et 2 s'il est positionnel.
+/*	Cette fonction traduit le pattern et renvoie 0 s'il est invalide, 1 s'il
+ *	est valide et non positionnel et 2 s'il est positionnel.
  */
 
 int			ft_pattern_translate(char **str, t_pattern *pattern)
@@ -82,8 +82,8 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 			ft_memmove(str,  str + i + j + 1, ft_strlen(str + i + j));
 			if (!(i = ft_pattern_translate(&str, pattern)) || !(flag &= i))
 			{
-				ft_putnbr(i);
-				return (ft_parse_error(flag, buff, pattern_list));
+				free(str);
+				return (ft_parse_error(flag, buff, 0, pattern_list));
 			}
 			i = 0;
 		}
@@ -94,6 +94,6 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 		}
 	}
 	ft_lstadd_back(buff, ft_lstnew(str, i + j));
-	//etape de fin
+	free(str);
 	return (1);	
 }

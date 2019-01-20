@@ -1,4 +1,4 @@
-/* ***********************[*************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 14:35:49 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 16:54:19 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 #include <stdarg.h>
 
 /*
- ** Recolle les bouts en lisant un buffer puis une chaine convertie,
- **	jusau'a epuisement de la liste chainee buffer.
- **	NB : La fonction doit avoir epuise les conversions avant le dernier
- **	buffer.
- **
- **	write la chaine de caractere creee et retourne la longueur totale de la
- **	chaine de caractere.
+ * Recolle les bouts en lisant un buffer puis une chaine convertie,
+ *	jusau'a epuisement de la liste chainee buffer.
+ *	NB : La fonction doit avoir epuise les conversions avant le dernier
+ *	buffer.
+ *
+ *	write la chaine de caractere creee et retourne la longueur totale de la
+ *	chaine de caractere.
  */
 
 int		ft_concat_buffer(t_list **buff, t_list **conv)
@@ -41,8 +41,8 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 	*bus = NULL;
 	while (buff_cur)
 	{
-		*bus = ft_strdup(buff_cur->content); //pourquoi du strdup ici ?
-		res = ft_strlen(*str);
+		*bus = ft_strdup(buff_cur->content);
+		ft_strappend(str, bus);
 		if (conv_cur)
 		{
 			if (!conv_cur->content)
@@ -54,13 +54,11 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 		}
 		buff_cur = buff_cur->next;
 	}
-	res = ft_strlen(*str);
 	ft_memdel((void**)str);
 	ft_lstfree(conv);
 	ft_lstfree(buff);
-	return (res);	
+	return (ft_strlen(*str));	
 }
-
 
 int		ft_printf(const char * restrict format, ...)
 {
@@ -81,18 +79,13 @@ int		ft_printf(const char * restrict format, ...)
 	*buff = NULL;
 	if ((ft_pattern_detect(str, buff, pattern)))
 	{
-		ft_putendl(str);
 		va_start(ap, format);
 		if (!(conv = ft_conv(pattern, &ap, buff)))
 		{
 			va_end(ap);
 			return (-1);
 		}
-		va_end(ap);
-		free(str);
 		return (ft_concat_buffer(buff, conv));
 	}
-	ft_free_pattern(pattern);
-	free(str);
 	return (-1);
 }

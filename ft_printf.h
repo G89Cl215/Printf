@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 14:36:11 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 16:51:00 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,8 @@ int					ft_translate_f_w(char **str, t_pattern *pattern);
 int					ft_translate_precision(char **str, t_pattern *pattern);
 int					ft_translate_type(char **str, t_pattern *pattern);
 
-int					ft_parse_error(int flag, t_list **buff, t_pattern **pattern);
+int					ft_parse_error(int flag, t_list **buff, t_list **conv,
+																t_pattern **pattern);
 
 int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
 int					ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap);

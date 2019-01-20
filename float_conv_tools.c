@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 18:23:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 14:26:02 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 15:35:08 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ char	*ft_create_float(t_ul mant, int mant_length)
 	return (str);
 }
 
-/* Cette fonction renvoie l'exposant en notation scientifique 
- * et travaille sur le float contenu dans le char* pour le ramener 
+/* Cette fonction renvoie l'exposant en notation scientifique
+ * et travaille sur le float contenu dans le char* pour le ramener
  * en notation scientifique */
 
 int		ft_reajust_zero(char *str)
@@ -178,7 +178,7 @@ int		ft_reajust_zero(char *str)
 			ft_memmove(str + i + 1, str + i, ft_strlen(str + i));
 			str[i + 1] = '.';
 		}
-		j -= i + 1;
+		j -= i;
 	}
 	else
 	{
@@ -186,9 +186,8 @@ int		ft_reajust_zero(char *str)
 		str[0] = str[j];
 		str[1] = '.';
 		ft_memmove(str + 2, str + j + 1, ft_strlen(str + j));
-		j--;
 	}
-	return (s * j);
+	return (s * --j);
 }
 
 /* Gestion du decoupage "a droite" des floats */
@@ -198,7 +197,7 @@ void	ft_prec_float(char *str, int prec)
 	int point_str;
 	int ret;
 
-	if (prec < 0) // peut il y avoir une prec de zero ?
+	if (prec < 0)// peut il y avoir une prec de zero ?
 		prec = 6;
 	point_str = ft_indice('.', str);
 	ret = (str[point_str + prec + 1] - '0' > 4);
@@ -212,98 +211,23 @@ void	ft_prec_float(char *str, int prec)
 	}
 }
 /*
-void	ft_prec_float(char *str, int prec)
-{
-	int point_str;
-	int exp_str;
-	int ret;
+   void	ft_prec_float(char *str, int prec)
+   {
+   int point_str;
+   int exp_str;
+   int ret;
 
-	if (prec < 0) // peut il y avoir une prec de zero ?
-		prec = 6;
-	if ((exp_str = ft_indice('e', str)) == ft_strlen(str))
-		exp_str = ft_indice('E', str);
-	ret = (str[point_str + prec + 1] - '0' > 4);
-	str[point_str + prec + 1] = '\0';
-	while (ret)
-	{
-		ret += str[point_str + prec] - '0'; 
-		str[point_str + prec] = (ret % 10) + '0';
-		ret = (ret > 9 ? 1 : 0);
-		prec--;
-	}
-}*/
-
-
-
-
-// FOR TESTS
-
-void	ft_putllnbr(long n)
-{
-	if (n < 0)
-		n *= -1;
-	if (n >= 10)
-		ft_putllnbr(n / 10);
-	ft_putchar(n % 10 + '0');
-}
-
-int main()
-{
-	char			*str;
-	double			f = 10000000000000000;
-	u_float			u;
-	t_ul			s;
-	long			exp;
-	int				i;
-	t_ul			mant;
-	char			*pow_10;
-
-	pow_10 = ft_strnew(5);
-	pow_10[0] = 'e';
-	pow_10[1] = '\0';
-	u.d = f;
-	s = (((t_ul)1 << 63) & u.l) ? 1 : 0;
-	mant = ((((t_ul)1 << 53) - 1) & u.l);
-/*	ft_putllnbr(mant);
-	ft_putchar('\n');*/
-	exp = ((long)2047 & (u.l >> 52)) - 1023;
-	mant |= ((t_ul)1 << 52); // conditions de denormalisation d'un double ????
-	
-	str = ft_create_float(mant, 53);
-//	ft_putendl(str);
-	while (exp)
-		{
-			if (exp > 0)
-			{
-				ft_strsum_dec(str, str);
-				exp--;
-			}
-			if (exp < 0)
-			{
-				ft_strdiv_2(str);
-				exp++;
-			}
-		}
-
-	ft_trim_0(str, 0);
-	ft_putendl(str);
-//	ft_putnbr(ft_strlen(str));
-	i = ft_reajust_zero(str);
-	pow_10 = ft_strcat(pow_10, ft_itoa(i));
-	str = ft_strcat(str, pow_10);
-
-/*	ft_prec_float(str, 15);
-	ft_putllnbr(exp);
-	ft_putchar('\n');
-	
-	ft_putendl(str);
-	ft_putnbr(ft_reajust_zero(str));
-	ft_putchar('\n');
-	ft_putendl(str);
-	ft_trim_0(str, 1);
-	*/
-	ft_putendl(str);
-	ft_putnbr(ft_strlen(str));
-
-	return (0);
-}
+   if (prec < 0) // peut il y avoir une prec de zero ?
+   prec = 6;
+   if ((exp_str = ft_indice('e', str)) == ft_strlen(str))
+   exp_str = ft_indice('E', str);
+   ret = (str[point_str + prec + 1] - '0' > 4);
+   str[point_str + prec + 1] = '\0';
+   while (ret)
+   {
+   ret += str[point_str + prec] - '0'; 
+   str[point_str + prec] = (ret % 10) + '0';
+   ret = (ret > 9 ? 1 : 0);
+   prec--;
+   }
+   }*/
