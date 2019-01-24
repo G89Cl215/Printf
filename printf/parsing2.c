@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gestion_parsing2_printf.c                          :+:      :+:    :+:   */
+/*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/14 11:17:31 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 16:51:08 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/01/21 18:40:57 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/01/21 22:36:46 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			ft_translate_precision(char **str, t_pattern *pattern)
 	if (**str == '.' && (*str)++)
 	{
 		if (**str == '*' && (*str)++)
-			pattern->conv |= (4 + (1 << STAR_PR));
+			pattern->conv |=  ((t_ul)1 << STAR_PR);
 		pattern->precision = ft_translate_int(str);
 		if (**str == '$' && (*str)++ && !(pattern->conv % 2)) 
 			return (0);
@@ -57,13 +57,14 @@ int			ft_translate_lmod(char **str, t_pattern *pattern)
 		if (**str == *(*str + 1))
 		{
 			if (**str == 'h' || **str == 'l')
-				pattern->conv |= ((t_ul)1 << (ft_indice(**str, KNOWN_LMOD) + 2));
+				pattern->conv |= 
+					((t_ul)1 << (ft_indice(**str, KNOWN_LMOD) + LMOD_START + 1));
 			else
 				return (0);
 			(*str)++;
 		}
 		else
-			pattern->conv |= ((t_ul)1 << (ft_indice(**str, KNOWN_LMOD) + 1));
+			pattern->conv |= ((t_ul)1 << (ft_indice(**str, KNOWN_LMOD) + LMOD_START));
 		(*str)++;
 	}
 	return (1);

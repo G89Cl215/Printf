@@ -6,40 +6,75 @@
 #    By: baavril <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/16 10:37:50 by baavril           #+#    #+#              #
-#    Updated: 2019/01/16 10:49:04 by baavril          ###   ########.fr        #
+#    Updated: 2019/01/23 21:20:07 by baavril          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprintf.a
+NAME    =   libftprintf.a
 
-FLAGS = -Wall -Wextra -Werror
+PTF_PATH    =   printf
 
-SRCS = ft_printf.c\
-	   gestion_conv1_printf.c\
-	   gestion_conv2_printf.c\
-	   gestion_conv3_printf.c\
-	   gestion_parsing_printf.c\
-	   gestion_parsing2_printf.c\
-	   gestion_de_crise.c\
-	   gestion_t_pattern.c\
+HDR     =   $(PTF_PATH)/ft_printf.h \
+			$(PTF_PATH)/g_convtab.h \
+			$(PTF_PATH)/float_conv_tools.h \
 
+LIB_PATH    =   libft
 
-SRCS_PATH = $(addprefix &(SRCDIR),$(SRCS))
+LIB     =   $(LIB_PATH)/libft.a
 
-OBJ = $(SRCS_PATH:.c=.o)
+DIR_O   =   temporary
 
-all: $(NAME)
+SOURCES =   ft_printf.c \
+			extract_from_pattern.c \
+			float_conv_tools.c \
+			gestion_conv1_printf.c \
+			gestion_conv2_printf.c \
+			gestion_conv3_printf.c \
+			gestion_de_crise_printf.c \
+			gestion_padding1.c \
+			gestion_t_pattern.c \
+			parsing1.c \
+			parsing2.c \
+			parsing3_pos.c \
+			parsing4_conv.c \
 
-$(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
+SRCS    =   $(addprefix $(PTF_PATH)/,$(SOURCES))
 
-%.o: %.c
-	gcc $(FLAGS) -Ofast -c $< -I ./includes/ -o $@
+OBJS    =   $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
-clean:
-	rm -f $(OBJ)
+CC      =   gcc
 
-fclean: clean
-	rm -f $(NAME)
+CFLAGS  =   -Wall -Werror -Wextra
 
-re: fclean all
+RM      =   rm -f
+
+CLEAN   =   clean
+
+all     :   $(NAME)
+
+$(LIB)  :
+	@make -C $(LIB_PATH)
+
+$(NAME) :   $(OBJS) $(LIB) $(HDR) Makefile
+	@cp $(LIB) ./$(NAME)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+	@echo "libftprintf.a has been successfully created."
+
+$(DIR_O)/%.o: $(PTF_PATH)/%.c
+	@mkdir -p temporary
+	@$(CC) -I $(PTF_PATH) -o $@ -c $<
+
+clean   :
+	@$(RM) $(OBJS)
+	@rm -rf $(DIR_O)
+	@make clean -C $(LIB_PATH)
+	@echo "All .o files have been deleted."
+
+fclean  :   clean
+	@$(RM) $(NAME) $(LIB)
+	@echo "libftprintf.a and libft.a has been deleted."
+
+re      :   fclean all
+
+.PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 15:51:47 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 16:51:05 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/21 18:43:45 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,9 @@ int		ft_verif_nbr_arg(t_pattern **pattern, int min, int max)
 }
 
 /*
- **	On verifie ensuite que les casts de chaque parametre ne soient pas
- **	conflictuels.
- **	Si ca n'est pas le cas, on cree la liste chainee des params castes dans le
- **	type adequat et on remplace les precisions / field_width positionnels par
- **	leurs valeurs.
+ **	On verifie ensuite que les casts de chaque parametre ne soient pas conflictuels
+ **	Si ca n'est pas le cas, on cree la liste chainee des params castes dans le type
+ **	adequat et on remplace les precisions / field_width positionnels par leurs valeurs
  */
 
 int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
@@ -120,9 +118,9 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 			if (!type)
 				type = ft_type_flag_pos(voyager);
 			else if (!(ft_type_flag_pos(voyager) & type)
-				|| !((((ft_int_flag() & type) < ft_int_flag())
-				&& ((ft_int_flag() & ft_type_flag_pos(voyager)) < ft_int_flag()))
-				&& !(ft_lmod_flag(voyager) ^ (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))))
+					|| !((((ft_int_flag() & type) < ft_int_flag())
+					&& ((ft_int_flag() & ft_type_flag_pos(voyager)) < ft_int_flag()))
+					&& !(ft_lmod_flag(voyager) ^ (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))))
 				return (ft_parse_error(2, tmp, 0, pattern));
 		}
 		if ((voyager->precision == i && (voyager->conv ^ (1 << STAR_PR)))

@@ -6,7 +6,7 @@
 #    By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/05 22:11:12 by tgouedar          #+#    #+#              #
-#    Updated: 2019/01/16 17:27:48 by baavril          ###   ########.fr        #
+#    Updated: 2019/01/20 16:14:22 by baavril          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCFILE	= ft_swap.c\
 		  ft_memcmp.c\
 		  ft_strlen.c\
 		  ft_strdup.c\
+		  ft_strdupneg.c\
 		  ft_strndup.c\
 		  ft_strcpy.c\
 		  ft_strncpy.c\

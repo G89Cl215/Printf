@@ -6,7 +6,8 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 16:51:00 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/24 03:49:46 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/24 00:59:19 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +46,6 @@
  *	-> precision :	a  '.'  followed by a fixed int value.
  *					Or a  '.*'  which fetches the precision value in the next
  *	param converted into an int.
- *					If  '.'  and  '*'  are both together and in this order, the
- *	  '.'  symbol stands for the 0 flag (see below. Identified through test).
  *	With  '*'  , a negative value will be ignored. A precision of 0 will ignore
  *	a 0 output.
  *	. An int type will dipslay at least this amount of digits.
@@ -110,7 +109,7 @@
  *	h               short			unsigned short		short *
  *	l (ell)         long			unsigned long		long *
  *	ll (ell ell)    long long		unsigned long long	long long *
- * [j               intmax_t		uintmax_t			intmax_t *
+ *  j               intmax_t		uintmax_t			intmax_t *
  *	t               ptrdiff_t		(see note)			ptrdiff_t *
  *	z               (see note)		size_t				(see note)
  *	q (deprecated)  quad_t			u_quad_t			quad_t *]
@@ -142,7 +141,7 @@
  *	Currently the l_int is mapped thusly (care not to separate 'l's and 'h's,
  *	the second one stands for double the letter) :
  *	
- *	[$#0+-' ...**hhllL.....bcdefginopsuxEFGX.........................]
+ *	[$#0+-' ...**hhllL.....bcdefginopsuxEGX..........................]
  *   ^      ^       ^       ^       ^       ^       ^       ^       ^     
  * 	 0		7		15		23		31		39		47		55		63	: bit_nb
  *
@@ -154,11 +153,11 @@
 
 # include <stdarg.h>
 # include <stdlib.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 /* done : bcdinousxX
  * p : prefixe
- * to do : fegEFG
+ * to do : efgEFG
  * idees supplementaires du sujet : r pour les caracteres non imprimables,
  * 									k pour les dates
  * 									fd ?!?
@@ -180,7 +179,7 @@
  * For %a, itoa, uitoa_base and an understanding of floats suffices.
  *
 */
-# define KNOWN_CONV	"bcdfeginopsuxEFGX"
+# define KNOWN_CONV	"bcdefginopsuxEGX"
 # define TYPE_START	22
 # define KNOWN_FLAG	"#0+- '"
 # define KNOWN_LMOD "hhllL" /*care not to separate 'l's and 'h's*/
@@ -196,6 +195,12 @@ typedef union
 	double	d;
 	t_ul	l;
 } 							u_float;
+
+typedef union
+{
+	long double		d;
+	t_ull			l;
+}							u_l_float;
 
 typedef struct				s_type_and_flag
 {
@@ -240,17 +245,27 @@ int					ft_translate_precision(char **str, t_pattern *pattern);
 int					ft_translate_type(char **str, t_pattern *pattern);
 
 int					ft_parse_error(int flag, t_list **buff, t_list **conv,
-																t_pattern **pattern);
+														t_pattern **pattern);
 
 int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
 int					ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap);
 t_list				**ft_positional_conv(t_pattern **pattern, t_list **tmp);
+t_list				**ft_positional_mod(t_pattern **pattern, va_list *ap);
 void				ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp, va_list *ap);
 
 t_list				**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff);
 void				ft_ezequiel(t_pattern *ezequiel, t_list **tmp, va_list *ap);
 
-void				ft_padding(t_pattern **pattern, t_list **conv);
+void				ft_padding_spaces(t_pattern *pattern, t_list *conv);
+void				ft_padding_flag_prefix(t_pattern *pattern, t_list *conv);
+void				ft_padding_integers(t_pattern *pattern, t_list *conv);
+void				ft_padding_zero(t_pattern *pattern, t_list *conv);
+void				ft_padding_negativ(t_pattern *pattern, t_list *conv);
+void				ft_padding_positiv(t_pattern *pattern, t_list *conv);
+void				ft_padding_prec_neg(t_pattern *pattern, t_list *conv);
+void				ft_padding_flag_space(t_pattern *pattern, t_list *conv);
+void				ft_padding_prec(t_pattern *pattern, t_list *conv);
+int					ft_central_padding(t_pattern **pattern, t_list **conv);
 
 t_ul				ft_int_flag(void);
 t_ul				ft_type_flag(t_pattern *pattern);
@@ -260,6 +275,7 @@ t_ul				ft_t_ul_flag(t_ul conv);
 
 t_pattern			*ft_new_pattern(t_pattern **pattern_list);
 void				ft_free_pattern(t_pattern **pattern);
+
 
 int					ft_printf(const char * restrict format, ...);
 

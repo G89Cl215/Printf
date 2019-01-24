@@ -5,34 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 14:25:34 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/19 13:32:42 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/01/21 22:07:45 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/01/23 18:51:49 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-char	*ft_unsigned_itoa_base(unsigned int nbr, char *base)
+char	*ft_unsigned_itoa_base(unsigned long long nbr, char *base)
 {
-	unsigned int	conv;
-	int				i;
-	char			*res;
-	int				length;
+	unsigned long long	conv;
+	int					i;
+	char				*res;
+	int					length;
 
 	length = ft_strlen(base);
-	conv = (nbr > 0) ? nbr : -nbr;
-	i = (nbr > 0) ? 1 : 2;
+	conv = nbr;
+	i = 1;
 	while (conv /= length)
 		i++;
-	conv = (nbr > 0) ? nbr : -nbr;
-	if (!(res = malloc(i + 1)))
+	if (!(res = ft_strnew(i)))
 		return (NULL);
-	res[0] = (nbr > 0) ? base[0] : '-';
-	while (conv)
+	res[0] = base[0];
+	while (nbr)
 	{
-		res[--i] = base[conv % length];
-		conv /= length;
+		res[--i] = base[nbr % length];
+		nbr /= length;
 	}
 	return (res);
 }

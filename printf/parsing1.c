@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gestion_parsing_printf.c                           :+:      :+:    :+:   */
+/*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/13 17:02:05 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 16:44:40 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/01/21 18:00:40 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/01/23 18:46:18 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			ft_pattern_translate(char **str, t_pattern *pattern)
 		pattern->conv = (t_ul)2 << ft_indice('0', KNOWN_FLAG);
 	if (ft_isdigit(**str) && (i = ft_translate_int(str)))
 	{
-		if ((**str == '$' && (*str)++) || (pattern->field_width = i && 0))
+		if ((**str == '$' && (*str)++) || ((pattern->field_width = i) && 0))
 		{	
 			pattern->conv++;
 			pattern->nbr = i;
@@ -81,10 +81,7 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 			ft_lstadd_back(buff, ft_lstnew(str, i + j));
 			ft_memmove(str,  str + i + j + 1, ft_strlen(str + i + j));
 			if (!(i = ft_pattern_translate(&str, pattern)) || !(flag &= i))
-			{
-				free(str);
 				return (ft_parse_error(flag, buff, 0, pattern_list));
-			}
 			i = 0;
 		}
 		else
@@ -94,6 +91,5 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 		}
 	}
 	ft_lstadd_back(buff, ft_lstnew(str, i + j));
-	free(str);
 	return (1);	
 }

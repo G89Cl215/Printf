@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 07:25:48 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/19 17:36:20 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/20 16:30:13 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char			*ft_conv_str(va_list *ap, t_ul type, t_pattern *conv)
 	return (str);
 }
 
-/* fonction qui compte nombre de caractere avant flag 'n' et "tente" de l'inscrire dans l.adresse de l'int* concerne*/
+/* fonction qui compte nombre de caractere avant flag 'n' et "tente" de l'inscrire dans l.adresse de l'int* concerne
 
 int		ft_stock_n_char(t_list **conv, va_list *ap, t_list **buff, int c)
 {
@@ -85,7 +85,7 @@ int		ft_stock_n_char(t_list **conv, va_list *ap, t_list **buff, int c)
 	return (1);
 }
 
-void	ft_padding(t_pattern **pattern, t_list **conv)
+int	ft_padding(t_pattern **pattern, t_list **conv)
 {
 	t_pattern	*voyager;
 	t_list		*vonc;
@@ -97,7 +97,7 @@ void	ft_padding(t_pattern **pattern, t_list **conv)
 	vonc = *conv;
 	voyager = *pattern;
 	if (!(bus = (char**)malloc(sizeof(char*))))
-			return ;
+			return (0);
 	while (voyager)
 	{
 		if (voyager->precision != -1 
@@ -107,22 +107,22 @@ void	ft_padding(t_pattern **pattern, t_list **conv)
 			if (voyager->precision - ft_strlen(*bus) > 0)
 			{
 				if (!(str = malloc(voyager->precision - (ft_strlen(*bus) + 1))))
-					return ;
+					return (0);
 			}
 			else	
-					return ;
+					return (0);
 			while (i <= (voyager->precision - (ft_strlen(*bus) + 1)))
 				str[i++] = '0';
 			ft_strappend_back(&str, bus);
 		} 
-		/* attention : fonction pour prec et str non terminee centre de controle a realiser */
+		 attention : fonction pour prec et str non terminee centre de controle a realiser 
 		if ((ft_strlen(*bus) - voyager->precision > 0))
 		{
 			if (!(str = malloc((ft_strlen(*bus) - voyager->precision) + 1)))
-					return ;
+					return (0);
 		}
 		else
-			return ;
+			return (0);
 		while (i <= voyager->precision - (voyager->precision - (ft_strlen(*bus) + 1)))
 			i++;
 		str = ft_strndup(*bus, i);
@@ -130,4 +130,5 @@ void	ft_padding(t_pattern **pattern, t_list **conv)
 	}
 	voyager = voyager->next;
 	vonc = vonc->next;
-}
+	return (1);
+}*/

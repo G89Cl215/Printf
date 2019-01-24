@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 15:25:27 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 15:49:58 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/21 21:22:04 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void		ft_free_pattern(t_pattern **pattern)
 {
 	t_pattern	*voyager;
 
+	if (!(pattern))
+		return ;
 	voyager = *pattern;
 	while (voyager)
 	{

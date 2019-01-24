@@ -6,14 +6,14 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 18:20:08 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 16:51:10 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/21 21:53:25 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 int		ft_parse_error(int flag, t_list **buff, t_list **conv,
-														t_pattern **pattern)
+												t_pattern **pattern)
 {
 	ft_free_pattern(pattern);
 	ft_lstfree(buff);

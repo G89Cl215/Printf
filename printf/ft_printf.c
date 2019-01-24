@@ -6,22 +6,22 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 16:54:19 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/23 18:09:08 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "../libft/libft.h"
 #include "ft_printf.h"
 #include <stdarg.h>
 
 /*
- * Recolle les bouts en lisant un buffer puis une chaine convertie,
- *	jusau'a epuisement de la liste chainee buffer.
- *	NB : La fonction doit avoir epuise les conversions avant le dernier
- *	buffer.
- *
- *	write la chaine de caractere creee et retourne la longueur totale de la
- *	chaine de caractere.
+ ** Recolle les bouts en lisant un buffer puis une chaine convertie,
+ **	jusau'a epuisement de la liste chainee buffer.
+ **	NB : La fonction doit avoir epuise les conversions avant le dernier
+ **	buffer.
+ **
+ **	write la chaine de caractere creee et retourne la longueur totale de la
+ **	chaine de caractere.
  */
 
 int		ft_concat_buffer(t_list **buff, t_list **conv)
@@ -35,7 +35,7 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 	conv_cur = *conv;
 	buff_cur = *buff;
 	if (!(str = (char**)malloc(sizeof(char*))) 
-			|| (*str = ft_strnew(0))
+			|| !(*str = ft_strnew(0))
 			|| !(bus = (char**)malloc(sizeof(char*))))
 		return (-1);
 	*bus = NULL;
@@ -43,6 +43,7 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 	{
 		*bus = ft_strdup(buff_cur->content);
 		ft_strappend(str, bus);
+		res = ft_strlen(*str);
 		if (conv_cur)
 		{
 			if (!conv_cur->content)
@@ -54,11 +55,14 @@ int		ft_concat_buffer(t_list **buff, t_list **conv)
 		}
 		buff_cur = buff_cur->next;
 	}
+	ft_putstr(*str);
+	res = ft_strlen(*str);
 	ft_memdel((void**)str);
 	ft_lstfree(conv);
 	ft_lstfree(buff);
-	return (ft_strlen(*str));	
+	return (res);	
 }
+
 
 int		ft_printf(const char * restrict format, ...)
 {
@@ -68,10 +72,11 @@ int		ft_printf(const char * restrict format, ...)
 	t_list		**buff;
 	t_list		**conv;
 
-	str = ft_strdup(format);
-	if (!(pattern = (t_pattern**)malloc(sizeof(t_pattern*)))
+	if (!(str = ft_strdup(format))
+			|| !(pattern = (t_pattern**)malloc(sizeof(t_pattern*)))
 			|| !(buff = (t_list**)malloc(sizeof(t_list*))))
 	{
+		free(str);
 		ft_free_pattern(pattern);
 		return (-1);
 	}
@@ -85,7 +90,11 @@ int		ft_printf(const char * restrict format, ...)
 			va_end(ap);
 			return (-1);
 		}
+		va_end(ap);
+		free(str);
 		return (ft_concat_buffer(buff, conv));
 	}
+//	ft_free_pattern(pattern);
+	free(str);
 	return (-1);
 }

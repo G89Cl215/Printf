@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:40:46 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/16 17:28:09 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/21 22:15:47 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t				ft_strlen(const char *str);
 char				*ft_strdup(const char *str);
+char				*ft_strdupneg(const char *str);
 char				*ft_strndup(const char *str, size_t n);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
@@ -48,7 +49,7 @@ size_t				ft_strcspn(const char *s, const char *charset);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_atoi(const char *str);
-char				*ft_unsigned_itoa_base(unsigned int nbr,
+char				*ft_unsigned_itoa_base(unsigned long long nbr,
 												char *base_to);
 char				*ft_itoa(int nb);
 int					ft_pow(int n, unsigned int i);

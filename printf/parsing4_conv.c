@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 14:00:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 16:53:38 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/23 18:27:38 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff)
 	else
 		ft_ezequiel(voyager, conv, ap);
 	if (!(ft_central_padding(pattern, conv)))
-		return (ft_parse_error(3, buff, conv, pattern));
+	{
+		ft_parse_error(3, buff, conv, pattern);
+		return (0);
+	}
 	va_end(*ap);
 	return (conv);
 }
@@ -63,7 +66,6 @@ void		ft_ezequiel(t_pattern *ezequiel, t_list **conv, va_list *ap)
 			ft_lstadd_back(conv, ft_lstnew(str, (ft_strlen(str) + 1)));
 		else
 			ft_lstadd_back(conv, ft_lstnew(NULL, 0));
-		ft_lstadd_back(conv, ft_lstnew(str, (strlen(str) + 1)));
 		ezequiel = ezequiel->next;
 	}
 }
