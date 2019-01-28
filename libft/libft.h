@@ -6,13 +6,15 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:40:46 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/21 22:15:47 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/27 04:52:14 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
+# include <stdio.h>
+# include <inttypes.h>
 
 typedef struct		s_list
 {
@@ -51,7 +53,8 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_atoi(const char *str);
 char				*ft_unsigned_itoa_base(unsigned long long nbr,
 												char *base_to);
-char				*ft_itoa(int nb);
+char				*ft_itoa(intmax_t nb);
+char				*ft_lltoa(intmax_t nb);
 int					ft_pow(int n, unsigned int i);
 int					ft_isalpha(int c);
 int					ft_islower(int c);
@@ -66,6 +69,7 @@ int					ft_tolower(int c);
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);
 char				*ft_strnew(size_t size);
+char				*ft_strpbrk(const char *s1, const char *s2);
 void				ft_strdel(char **as);
 void				ft_strclr(char *s);
 void				ft_striter(char *s, void (*f)(char *));

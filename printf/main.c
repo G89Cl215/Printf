@@ -6,16 +6,18 @@
 /*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 13:22:18 by baavril           #+#    #+#             */
-/*   Updated: 2019/01/23 21:56:56 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/27 18:55:33 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "inttypes.h"
+#include "limits.h"
 #include <stdio.h>
 
 int	main()
 {
-//	int *c; 
+	int p; 
 //	c = malloc(sizeof(int));
 //	printf("%p\n", c);
 //	unsigned int i = -1;
@@ -26,7 +28,13 @@ int	main()
 //	ft_printf("%.12d, %012d, %.12d, %.10d, %50d, %50.80d\n", 42, -42, -24, -90, 75, -200); 
 //	printf("%.12d, %012d, %.12d, %.10d, %50d, %50.80d\n", 42, -42, -24, -90, 75, -200); 
 //	ft_printf("%1$d %2$d\n", 90, 90); 
+//	ft_printf("%p", &p);
+//	printf("%p", &p);
 
+	ft_printf("{%-15Z}", 123);
+	printf("{%-15Z}", 123);
+//	printf("%d\n", printf("before %d after", 42));
+//	printf("%%");
 //	printf("% +d", 5);
 //	printf("%.5f\n", 5.36);
 
@@ -41,10 +49,10 @@ int	main()
 
 /* string tests (valides + indetermines) ok !
 
-	ft_printf("%.2s", 0);
-	printf("%.2s", 0);
-	ft_printf("%15s", 0);
-	printf("%15s", 0);
+	ft_printf("%.2s", (char*)0);
+	printf("%.2s", (char*)0);
+	ft_printf("%15s", (char*)0);
+	printf("%15s", (char*)0);
 	ft_printf("%15s", "bonjour");
 	printf("%15s", "bonjour");
 	ft_printf("%5s", "bonjour");
@@ -56,15 +64,30 @@ int	main()
 	ft_printf("%050.5s", "bonjour");
 	printf("%050.5s", "bonjour");
 	ft_printf("%05.15s", "bonjour");
-	printf("%05.15s", "bonjour");
-*/
+	printf("%05.15s", "bonjour");*/
+
+
+//	ft_printf("%i", 42);
+//	ft_printf("%i", -42);
+//	ft_printf("beforec%i after", 42);
+//	ft_printf("%i%i%i%i%i",
+//		1, -2, 3, -4, 5);
+//	ft_printf("a%ib%ic%id",
+//		1, -2, 3);
+//	ft_printf("%p", &str);
+//	printf("%p", &str);
+//	ft_printf("%p", &strlen);
+//	printf("%p", &strlen);
+//	ft_printf("%p", 0);
+//	printf("%p", 0);
+
 
 // chars tests (valides + indetermines) ok !
 	//ft_printf("%c\n", 48);
 	//printf("%c\n", 48);
-	ft_printf("%#08x", 42);
-	ft_printf("%#-08x", 42);
-	ft_printf("moulitest: %#.x %#.0x", 0, 0);
+//	ft_printf("%#08x\n", 42);
+//	ft_printf("%#-08x\n", 42);
+//	ft_printf("moulitest: %#.x %#.0x", 0, 0);
 /*	ft_printf("%c\n", 480);
 	printf("%c\n", 480);
 	ft_printf("%c\n", 'a');
@@ -83,7 +106,58 @@ int	main()
 	printf("%025c\n", 0);
 	ft_printf("%.25c\n", 'a');
 	printf("%.25c\n", 'a');*/
+// 	ft_printf("%.2s is a string\n", "");
+ //	printf("%.2s is a string\n", "");
+//	ft_printf("%#x", 0);
+//	ft_printf("%#x", 0);
+//	printf("%#x", 0);
+//	ft_printf("@moulitest %.x %.0x", 0, 0);
+//	printf("@moulitest %.x %.0x", 0, 0);
 
+//	ft_printf("%c", 'c');
+//	ft_printf("%c%c", '4', '2');
+/*	ft_printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c \
+%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\
+%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",
+' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-',
+'.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';',
+'<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e',
+'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+'t', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}');*/
+	uintmax_t i;
+	int j;
+
+	j = 50;
+	i = 4294967296;
+
+//	ft_printf("%llD, %llD", (unsigned long long)0, (unsigned long long)USHRT_MAX);
+
+//	printf("%5+d", 42);
+
+
+//	ft_printf("%-+10.5d\n", 4242);
+//	printf("%-+10.5d\n", 4242);
+	//ft_printf("%5%");
+/*	ft_printf("%%\n");
+	printf("%%\n");
+	ft_printf("aa%%bb\n");
+	printf("aa%%bb\n");
+	ft_printf("%%%%%%%%%%\n");
+	printf("%%%%%%%%%%\n");
+	ft_printf(".%%.%%.%%.%%.%%.%%.%%.%%.\n");
+	printf(".%%.%%.%%.%%.%%.%%.%%.%%.\n");*/
+//	ft_printf("%");
+//	printf("%");
+//	ft_printf("% Zoooo");
+//	printf("% Zoooo");
+	//ft_printf("{%}");
+	//printf("{%}");
+	//ft_printf("{% %}");
+//	printf("{% %}");
+
+	//printf("%ld\n", -2147483648);
 
 /* // tests pour 'd' integers - alllllllllright
 	ft_printf("%+.50d\n", 50);
@@ -257,7 +331,16 @@ int	main()
 	printf("%010i\n", 10);
 	ft_printf("%.10i\n", 10);
 	printf("%.10i\n", 10);
-	ft_printf("%50.10i\n", 10);
+	ft_printf("%50.10i\n", 10);*/
+
+/*	Tests pour les floats */
+	
+//	ft_printf("%f %f\n", 3.14, 0.16);
+//	printf("%f %f\n", 3.14, 0.16);
+
+//	ft_printf("%.7e %.7e\n", 3.14, 0.16);
+//printf("%.7e %.7e\n", 3.14, 0.16);
+/*
 	printf("%50.10i\n", 10);
 	ft_printf("%10.50i\n", 10);
 	printf("%10.50i\n", 10);
@@ -342,7 +425,7 @@ int	main()
 	ft_printf("|%-10.5d|\n", -12);
 	printf("|%-010.5d|\n", -12);
 	ft_printf("|%-010.5d|\n", -12);*/
-
+//	ft_printf("before %d after", 42);
 //	ft_printf("%f", 90.5); 
 //	printf("%u, %u\n", 90, 90); 
 //	printf("%012d, %012d, %12d, %*d\n", 42, -42, -24, 90, 90); 

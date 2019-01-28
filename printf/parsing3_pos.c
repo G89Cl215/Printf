@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 15:51:47 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/21 18:43:45 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/28 21:35:27 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 			voyager->conv ^= (1 << STAR_FW);
 		}
 		if (voyager->nbr == i && !(flag++))
-			ft_lstadd_back(tmp, ft_lstnew(str, (strlen(str) + 1)));
+			ft_lstadd_back(tmp, ft_lstnew(str, (ft_strlen(str) + 1)));
 		voyager = voyager->next;
 	}
 }
 
 /*
- ** 	fonction qui permet d'organiser les va_args en fonction des ints adequats
- */
+** Fonction qui permet d'organiser les va_args en fonction des ints adequats
+*/
 
 t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
 {
@@ -53,9 +53,9 @@ t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
 	t_list		*bus;
 	int			i;
 
-	if (!(conv = (t_list**)malloc(sizeof(t_list*))) 
+	if (!(conv = (t_list**)malloc(sizeof(t_list*)))
 			&& (!(*conv = ft_lstnew(0, 0))))
-		return(NULL);
+		return (NULL);
 	voyager = *pattern;
 	while (voyager)
 	{
@@ -71,27 +71,29 @@ t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
 }
 
 /*
- **	Lorsque le flag positionnel est active, apres le parsing,
- **	on verifie que tous les arguments invoques sont atteignables
- **	dans notre va_list
- */
+**	Lorsque le flag positionnel est active, apres le parsing,
+**	on verifie que tous les arguments invoques sont atteignables
+**	dans notre va_list
+*/
 
 int		ft_verif_nbr_arg(t_pattern **pattern, int min, int max)
 {
 	t_pattern	*voyager;
+	t_ul		type;
 
 	voyager = *pattern;
 	while (voyager)
 	{
+		type = voyager->conv;
 		if (voyager->nbr > max)
 			max = voyager->nbr;
-		if ((voyager->conv ^ (1 << STAR_PR)) && voyager->precision > max)
+		if ((type & (1 << STAR_PR)) && voyager->precision > max)
 			max = voyager->precision;
-		if ((voyager->conv ^ (1 << STAR_FW)) && voyager->field_width > max)
+		if ((type & (1 << STAR_FW)) && voyager->field_width > max)
 			max = voyager->field_width;
 		if (voyager->nbr == min + 1
-				|| (voyager->precision == min + 1 && (voyager->conv ^ (1 << STAR_PR)))
-				|| (voyager->field_width == min + 1 && (voyager->conv ^ (1 << STAR_FW))))
+		|| (voyager->precision == min + 1 && (type & (1 << STAR_PR)))
+		|| (voyager->field_width == min + 1 && (type & (1 << STAR_FW))))
 			return (ft_verif_nbr_arg(pattern, min + 1, max));
 		voyager = voyager->next;
 	}
@@ -99,10 +101,10 @@ int		ft_verif_nbr_arg(t_pattern **pattern, int min, int max)
 }
 
 /*
- **	On verifie ensuite que les casts de chaque parametre ne soient pas conflictuels
- **	Si ca n'est pas le cas, on cree la liste chainee des params castes dans le type
- **	adequat et on remplace les precisions / field_width positionnels par leurs valeurs
- */
+** On verifie ensuite que le cast de chaque parametre ne soit pas conflictuel
+** Si ca n'est pas le cas, on cree la liste chainee des params castes dans
+** le type adequat et on remplace les precisions/field_width par leurs valeurs
+*/
 
 int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 {
@@ -118,24 +120,24 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 			if (!type)
 				type = ft_type_flag_pos(voyager);
 			else if (!(ft_type_flag_pos(voyager) & type)
-					|| !((((ft_int_flag() & type) < ft_int_flag())
-					&& ((ft_int_flag() & ft_type_flag_pos(voyager)) < ft_int_flag()))
-					&& !(ft_lmod_flag(voyager) ^ (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))))
+			|| !((((ft_int_flag() & type) < ft_int_flag())
+			&& ((ft_int_flag() & ft_type_flag_pos(voyager)) < ft_int_flag()))
+			&& !(ft_lmod_flag(voyager) ^ (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))))
 				return (ft_parse_error(2, tmp, 0, pattern));
 		}
-		if ((voyager->precision == i && (voyager->conv ^ (1 << STAR_PR)))
-				|| (voyager->field_width == i && (voyager->conv ^ (1 << STAR_FW))))
+		if ((voyager->precision == i && (voyager->conv & (1 << STAR_PR)))
+		|| (voyager->field_width == i && (voyager->conv & (1 << STAR_FW))))
 		{
 			if (!type)
 				type = ((t_ul)1 << ft_indice('d', KNOWN_CONV));
 			else if (((ft_int_flag() ^ type) > ft_int_flag())
-						|| (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))
+			|| (type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))
 				return (ft_parse_error(2, tmp, 0, pattern));
 		}
 		voyager = voyager->next;
 	}
 	if ((ft_int_flag() ^ type) < ft_int_flag()
-			&& !(type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))
+	&& !(type & (((t_ul)1 << ft_strlen(KNOWN_LMOD)) - 1)))
 		ft_pos_pr_fw(i, pattern, tmp, ap);
 	else
 		ft_ezequiel(*pattern, tmp, ap);
@@ -143,9 +145,9 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 }
 
 /*
- **	Detecte si positionnal mod est actif - si oui go parse -
- **	si non go liste de conversion
- */
+**	Detecte si positionnal mod est actif - si oui go parse -
+**	si non go liste de conversion
+*/
 
 t_list	**ft_positional_mod(t_pattern **pattern, va_list *ap)
 {

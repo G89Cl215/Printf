@@ -6,7 +6,7 @@
 #    By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/05 22:11:12 by tgouedar          #+#    #+#              #
-#    Updated: 2019/01/20 16:14:22 by baavril          ###   ########.fr        #
+#    Updated: 2019/01/25 19:00:54 by baavril          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCFILE	= ft_swap.c\
 		  ft_atoi.c\
 		  ft_unsigned_itoa_base.c\
 		  ft_itoa.c\
+		  ft_lltoa.c\
 		  ft_pow.c\
 		  ft_isalpha.c\
 		  ft_islower.c\
@@ -66,6 +67,7 @@ SRCFILE	= ft_swap.c\
 		  ft_strnequ.c\
 		  ft_strsub.c\
 		  ft_strjoin.c\
+		  ft_strpbrk.c\
 		  ft_strappend.c\
 		  ft_strappend_back.c\
 		  ft_strtrim.c\

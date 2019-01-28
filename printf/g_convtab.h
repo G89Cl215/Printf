@@ -6,7 +6,7 @@
 /*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/13 12:57:17 by baavril           #+#    #+#             */
-/*   Updated: 2019/01/24 00:59:22 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/28 22:16:08 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,21 @@ t_conv			g_convtab[] =
 	{(1 << 4), &ft_conv_float},
 	{(1 << 5), &ft_conv_opti_ef},
 	{(1 << 6), &ft_conv_int},
-	{(1 << 7), &ft_conv_res},
+	{(1 << 7), &ft_crise_char},
 	{(1 << 8), &ft_conv_octal},
 	{(1 << 9), &ft_conv_addr},
 	{(1 << 10), &ft_conv_str},
 	{(1 << 11), &ft_conv_uint},
 	{(1 << 12), &ft_conv_hex},
-	{(1 << 13), &ft_conv_scient},
-	{(1 << 14), &ft_conv_opti_ef},
-	{(1 << 15), &ft_conv_hex}
+	{(1 << 13), &ft_conv_unichar},
+	{(1 << 14), &ft_conv_int},
+	{(1 << 15), &ft_conv_scient},
+	{(1 << 16), &ft_conv_opti_ef},
+	{(1 << 17), &ft_conv_octal},
+	{(1 << 18), &ft_conv_unistring},
+	{(1 << 19), &ft_conv_ulint},
+	{(1 << 20), &ft_conv_hex},
+	{(1 << 21), &ft_conv_percent}
 };
 
 #endif

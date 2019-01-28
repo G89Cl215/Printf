@@ -6,16 +6,16 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 16:09:08 by tgouedar          #+#    #+#             */
-/*   Updated: 2018/11/17 13:19:40 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/27 09:01:08 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa(int nb)
+char	*ft_itoa(intmax_t nb)
 {
 	char			*res;
-	unsigned int	j;
+	intmax_t		j;
 	size_t			i;
 	int				s;
 

@@ -6,7 +6,7 @@
 #    By: baavril <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/16 10:37:50 by baavril           #+#    #+#              #
-#    Updated: 2019/01/23 21:20:07 by baavril          ###   ########.fr        #
+#    Updated: 2019/01/27 11:11:41 by baavril          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,17 @@ DIR_O   =   temporary
 SOURCES =   ft_printf.c \
 			extract_from_pattern.c \
 			float_conv_tools.c \
-			gestion_conv1_printf.c \
-			gestion_conv2_printf.c \
-			gestion_conv3_printf.c \
+			conv1_printf.c \
+			conv2_printf.c \
+			conv3_printf.c \
+			conv4_printf.c \
 			gestion_de_crise_printf.c \
 			gestion_padding1.c \
+			gestion_padding2_prec.c \
+			gestion_padding3_flags.c \
+			gestion_padding4_float.c \
+			gestion_padding5_flags.c \
+			gestion_padding6_flags.c \
 			gestion_t_pattern.c \
 			parsing1.c \
 			parsing2.c \

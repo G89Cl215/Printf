@@ -6,63 +6,13 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/23 18:09:08 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/28 18:24:27 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "ft_printf.h"
 #include <stdarg.h>
-
-/*
- ** Recolle les bouts en lisant un buffer puis une chaine convertie,
- **	jusau'a epuisement de la liste chainee buffer.
- **	NB : La fonction doit avoir epuise les conversions avant le dernier
- **	buffer.
- **
- **	write la chaine de caractere creee et retourne la longueur totale de la
- **	chaine de caractere.
- */
-
-int		ft_concat_buffer(t_list **buff, t_list **conv)
-{
-	int 	res;
-	char	**str;
-	char	**bus;
-	t_list	*conv_cur;
-	t_list	*buff_cur;
-
-	conv_cur = *conv;
-	buff_cur = *buff;
-	if (!(str = (char**)malloc(sizeof(char*))) 
-			|| !(*str = ft_strnew(0))
-			|| !(bus = (char**)malloc(sizeof(char*))))
-		return (-1);
-	*bus = NULL;
-	while (buff_cur)
-	{
-		*bus = ft_strdup(buff_cur->content);
-		ft_strappend(str, bus);
-		res = ft_strlen(*str);
-		if (conv_cur)
-		{
-			if (!conv_cur->content)
-				*bus = ft_itoa(res);
-			else
-				*bus = ft_strdup(conv_cur->content);
-			ft_strappend(str, bus);
-			conv_cur = conv_cur->next;
-		}
-		buff_cur = buff_cur->next;
-	}
-	ft_putstr(*str);
-	res = ft_strlen(*str);
-	ft_memdel((void**)str);
-	ft_lstfree(conv);
-	ft_lstfree(buff);
-	return (res);	
-}
-
 
 int		ft_printf(const char * restrict format, ...)
 {
@@ -85,16 +35,18 @@ int		ft_printf(const char * restrict format, ...)
 	if ((ft_pattern_detect(str, buff, pattern)))
 	{
 		va_start(ap, format);
-		if (!(conv = ft_conv(pattern, &ap, buff)))
+		if (!(conv = ft_conv(pattern, &ap, buff)) && (*pattern))
 		{
 			va_end(ap);
 			return (-1);
 		}
 		va_end(ap);
 		free(str);
+		ft_free_pattern(pattern);
 		return (ft_concat_buffer(buff, conv));
 	}
-//	ft_free_pattern(pattern);
-	free(str);
+	ft_strdel(&str);
+	ft_lstfree(buff);
+	ft_free_pattern(pattern);
 	return (-1);
 }

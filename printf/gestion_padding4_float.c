@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 02:54:37 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/24 02:56:22 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/24 19:25:08 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,13 @@ void	ft_prec_scient(char *str, int prec)
 	if ((t_ul)(e = ft_indice('e', str)) == ft_strlen(str))
 		e = ft_indice('E', str);
 	point = (prec) ? prec + 2 : 1;
-	ret = (prec) ? (str[point] - '0' > 4) : (str[point + 1] - '0' > 4);
+	ret = (prec) ? ((str[point] - '0') > 4) : ((str[point + 1] - '0') > 4);
 	ft_memmove(str + point, str + e, ft_strlen(str) - e + 1);
 	while ((ret) && point-- >= 0)
 	{
 		(str[point] == '.') ? point-- : 1;
 		str[point] = (ret + str[point] - '0') % 10 + '0';
-		ret = (str[point] == '0' ? 1 : 0);
+		ret = ((str[point] == '0') && (ret)) ? 1 : 0;
 	}
 	if ((ret) && (point) < 0)
 	{

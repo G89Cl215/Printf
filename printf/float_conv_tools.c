@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 18:23:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/24 02:56:23 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/24 18:55:16 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		ft_reajust_zero(char *str)
 	int		j;
 	int		s;
 
-	i = ft_strspn(str, "0");
+	i = ft_strspn(str, "-0");  //cas scient neg a regler ?
 	s = (str[i] == '.' ? -1 : 1);
 	if (s > 0 && (j = ft_indice('.', str)))
 	{

@@ -6,18 +6,29 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 18:20:08 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/21 21:53:25 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/28 22:28:31 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+void	ft_free_mem(t_list **buff, t_list **conv, t_pattern **pattern)
+{
+	if (pattern)
+		ft_free_pattern(pattern);
+	if (buff)
+		ft_lstfree(buff);
+	if (conv)
+		ft_lstfree(conv);
+	free(conv);
+	free(buff);
+	free(pattern);
+}
+
 int		ft_parse_error(int flag, t_list **buff, t_list **conv,
 												t_pattern **pattern)
 {
-	ft_free_pattern(pattern);
-	ft_lstfree(buff);
-	ft_lstfree(conv);
+	ft_free_mem(buff, conv, pattern);
 	if (flag == 0)
 		ft_putendl("error : mix of postionnal & non-positionnal flags.");
 	if (flag == 1)
@@ -25,4 +36,21 @@ int		ft_parse_error(int flag, t_list **buff, t_list **conv,
 	if (flag == 2)
 		ft_putendl("error : conflicting conversion types.");
 	return (0);
+}
+
+char	*ft_crise_char(va_list *ap, t_ul type, t_pattern *conv)
+{
+	char	*str;
+
+	if (conv)
+	{
+		if (type & ((t_ul)1 << STAR_FW))
+			conv->field_width = va_arg(*ap, int);
+		if (type & ((t_ul)1 << STAR_PR))
+			conv->precision = va_arg(*ap, int);
+	}
+	if (!(str = ft_strnew(1)))
+		return (NULL);
+	str[0] = (char)conv->nbr;
+	return (str);
 }
