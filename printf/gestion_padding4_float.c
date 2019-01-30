@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 02:54:37 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/24 19:25:08 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/29 19:33:08 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,26 @@ void	ft_exp_increment(char *str)
 			ret = ((ret + 10) == 9 ? -1 : 0);
 		if (flag == 1)
 			ret = (ret > 9 ? 1 : 0);
+		if (str[len - 1] == '-' && str[len] == '0' && str[len + 1] == '0')
+			str[len - 1] = '+';
+	}
+	if (str[len - 2] == '-' && str[len - 1] == '1' && str[len] == '0' && str[len + 1] == '9')
+	{
+		str[len - 1] = '9';
+		str[len] = '9';
+		str[len + 1] = '\0';
 	}
 	if ((ret) && len == exp_str)
 	{
 		ft_memmove(str + exp_str + 1, str + exp_str, len - exp_str + 1);
-		str[exp_str + 1] = ret + '0';
+		if (str[len] == '9' && str[len + 1] == '9' && str[len - 1] == '+')
+		{
+			str[len] = '1';
+			str[len + 1] = '0';
+			ft_strcat(str, "0");
+		}
+		else
+			str[exp_str + 1] = ret + '0';
 	}
 }
 
@@ -80,17 +95,17 @@ void	ft_prec_scient(char *str, int prec)
 	point = (prec) ? prec + 2 : 1;
 	ret = (prec) ? ((str[point] - '0') > 4) : ((str[point + 1] - '0') > 4);
 	ft_memmove(str + point, str + e, ft_strlen(str) - e + 1);
-	while ((ret) && point-- >= 0)
-	{
+	while ((ret) && point-- > 0)
+	{	
 		(str[point] == '.') ? point-- : 1;
 		str[point] = (ret + str[point] - '0') % 10 + '0';
 		ret = ((str[point] == '0') && (ret)) ? 1 : 0;
 	}
-	if ((ret) && (point) < 0)
+	if ((ret) && point < 0)
 	{
-		ft_memmove(str + 1, str, ft_strlen(str) + 1);
+		ft_memmove(str + 2, str, ft_strlen(str) + 1);
+		str[2] = str[0];
 		str[0] = ret + '0';
-		str[2] = str[1];
 		str[1] = '.';
 		ft_exp_increment(str);
 		ft_prec_scient(str, prec);

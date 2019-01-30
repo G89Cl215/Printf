@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:44:50 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/20 14:38:47 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/30 13:34:13 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_ul	ft_int_flag(void)
 
 	j = TYPE_START - LMOD_START;
 	return ((t_ul)1 << (j + ft_indice('i', KNOWN_CONV))
-			| ((t_ul)1 << (j + ft_indice('d', KNOWN_CONV))));
+			| ((t_ul)1 << (j + ft_indice('d', KNOWN_CONV)))
+			| ((t_ul)1 << (j + ft_indice('D', KNOWN_CONV))));
 }
 
 t_ul	ft_lmod_flag(t_pattern *pattern)

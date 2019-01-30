@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 14:00:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/29 00:05:32 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/30 13:47:52 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff)
 {
 	t_pattern	*voyager;
 	t_list		**conv;
-	char		*str;
-	int			i;
 
 	if (!(*pattern))
 		return (NULL);
@@ -37,12 +35,12 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff)
 		if (!(conv = ft_positional_mod(pattern, ap)))
 			return (NULL);
 	}
-	else
-		ft_ezequiel(voyager, conv, ap);
+	else if (!(ft_ezequiel(voyager, conv, ap)))
+		return (0);
 	if (!(ft_central_padding(pattern, conv)))
 	{
 		ft_parse_error(3, buff, conv, pattern);
-		return (0);
+		return (NULL);
 	}
 	va_end(*ap);
 	return (conv);
@@ -58,14 +56,50 @@ void		ft_set_spevalue(t_list **conv, int i)
 	vonc->content_size = i;
 }
 
+int			ft_unilen(char *str)
+{
+	int		len;
+
+	len = 0;
+	while ((str[0]) || (str[1]) || (str[2]) || (str[3]))
+	{
+		str += 4;
+		len += 4;
+	}
+	return (len);
+}
+
+int			ft_stock_conv(t_list **conv, size_t ez_type, char *str)
+{
+	size_t		index;
+
+	index = 1;
+	if (!(ez_type & (index << (TYPE_START + ft_indice('S', KNOWN_CONV)))))
+	{
+		if (!(ft_stock_string(conv, str, ft_strlen(str) + 1)))
+			return (0);
+	}
+	if (!(*str)
+	&& ez_type & (index << (TYPE_START + ft_indice('c', KNOWN_CONV))))
+		ft_set_spevalue(conv, -1);
+	if (ez_type & (index << (TYPE_START + ft_indice('C', KNOWN_CONV))))
+		ft_set_spevalue(conv, -2);
+	if (ez_type & (index << (TYPE_START + ft_indice('S', KNOWN_CONV))))
+	{
+		if (!(ft_stock_string(conv, str, ft_unilen(str) + 4)))
+			return (0);
+		ft_set_spevalue(conv, -3);
+	}
+	return (1);
+}
+
 /*
 **	Utilise la globale g_convtab pour chercher la conversion et la stocker
 **	dans la liste des conv en string
 */
 
-void		ft_ezequiel(t_pattern *ezequiel, t_list **conv, va_list *ap)
+int			ft_ezequiel(t_pattern *ezequiel, t_list **conv, va_list *ap)
 {
-	t_list		*lb;
 	char		*str;
 	int			j;
 
@@ -74,20 +108,18 @@ void		ft_ezequiel(t_pattern *ezequiel, t_list **conv, va_list *ap)
 		j = 0;
 		while (g_convtab[j].type != ft_type_flag(ezequiel))
 			j++;
-		str = (*g_convtab[j].ft_conv)(ap, ezequiel->conv, ezequiel);
-		if (str)
+		if ((str = (*g_convtab[j].ft_conv)(ap, ezequiel->conv, ezequiel)))
 		{
-			ft_lstadd_back(conv, ft_lstnew(str, (ft_strlen(str) + 1)));
-			if (!(*str)
-			&& ezequiel->conv & ((t_ul)1 << (TYPE_START + ft_indice('c', KNOWN_CONV))))
-				ft_set_spevalue(conv, -1);
-			if (ezequiel->conv & ((t_ul)1 << (TYPE_START + ft_indice('C', KNOWN_CONV))))
-				ft_set_spevalue(conv, -2);
-			if (ezequiel->conv & ((t_ul)1 << (TYPE_START + ft_indice('S', KNOWN_CONV))))
-				ft_set_spevalue(conv, -3);
+			if (!(ft_stock_conv(conv, ezequiel->conv, str)))
+				return (0);
 		}
 		else
-			ft_lstadd_back(conv, ft_lstnew(NULL, 0));
+		{
+			if (!(ft_stock_string(conv, NULL, 0)))
+				return (0);
+		}
 		ezequiel = ezequiel->next;
+		ft_strdel(&str);
 	}
+	return (1);
 }

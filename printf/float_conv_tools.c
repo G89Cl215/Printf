@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 18:23:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/24 18:55:16 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/30 13:35:18 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,11 @@ char	*ft_create_float(t_ull mant, int mant_length)
 	return (str);
 }
 
-/* Cette fonction renvoie l'exposant en notation scientifique
- * et travaille sur le float contenu dans le char* pour le ramener
- * en notation scientifique
- */
+/*
+** Cette fonction renvoie l'exposant en notation scientifique
+** et travaille sur le float contenu dans le char* pour le ramener
+** en notation scientifique
+*/
 
 int		ft_reajust_zero(char *str)
 {
@@ -117,7 +118,7 @@ int		ft_reajust_zero(char *str)
 	int		j;
 	int		s;
 
-	i = ft_strspn(str, "-0");  //cas scient neg a regler ?
+	i = ft_strspn(str, "-0");
 	s = (str[i] == '.' ? -1 : 1);
 	if (s > 0 && (j = ft_indice('.', str)))
 	{

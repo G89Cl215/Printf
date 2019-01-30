@@ -6,7 +6,7 @@
 /*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 16:07:38 by baavril           #+#    #+#             */
-/*   Updated: 2019/01/28 19:15:30 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/29 19:48:43 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void		ft_padding_flags(t_pattern *voyager, t_list *vonc)
 		ft_padding_flag_prefix(voyager, vonc);
 	if (!(voyager->conv & (2 << (ft_indice('+', KNOWN_FLAG)))))
 	{
-		if (voyager->precision > -1)
+		if (voyager->precision > -1
+		&& !(voyager->conv & (1 << (TYPE_START + ft_indice('f', KNOWN_CONV)))))
 			ft_padding_prec(voyager, vonc);
 		if (voyager->field_width > -1)
 			ft_padding_spaces(voyager, vonc);
@@ -65,7 +66,8 @@ void		ft_central_padding2(t_pattern *voyager, t_list *vonc)
 				|| type & (1 << (ft_indice('U', KNOWN_CONV)))
 				|| type & (1 << (ft_indice('f', KNOWN_CONV)))
 				|| type & (1 << (ft_indice('e', KNOWN_CONV)))
-				|| type & (1 << (ft_indice('E', KNOWN_CONV))))
+				|| type & (1 << (ft_indice('E', KNOWN_CONV)))
+				|| type & (1 << (ft_indice('k', KNOWN_CONV))))
 		ft_padding_flags(voyager, vonc);
 }
 

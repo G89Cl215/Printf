@@ -6,29 +6,35 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 18:20:08 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/28 22:28:31 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/30 13:48:47 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_free_mem(t_list **buff, t_list **conv, t_pattern **pattern)
+int		ft_free_mem(t_list **buff, t_list **conv, t_pattern **pattern,
+																char *str)
 {
 	if (pattern)
 		ft_free_pattern(pattern);
 	if (buff)
+	{
 		ft_lstfree(buff);
+		free(buff);
+	}
 	if (conv)
+	{
 		ft_lstfree(conv);
-	free(conv);
-	free(buff);
-	free(pattern);
+		free(conv);
+	}
+	ft_strdel(&str);
+	return (-1);
 }
 
 int		ft_parse_error(int flag, t_list **buff, t_list **conv,
-												t_pattern **pattern)
+															t_pattern **pattern)
 {
-	ft_free_mem(buff, conv, pattern);
+	ft_free_mem(buff, conv, pattern, NULL);
 	if (flag == 0)
 		ft_putendl("error : mix of postionnal & non-positionnal flags.");
 	if (flag == 1)

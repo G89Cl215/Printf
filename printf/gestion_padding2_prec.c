@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 02:56:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/27 11:19:01 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/30 07:54:25 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void		ft_padding_prec(t_pattern *voyager, t_list *vonc)
 
 	if (voyager->precision > -1)
 	{
-		if (!(bus = (char**)malloc(sizeof(char*))))
-			return ;
 		bus = (char**)&(vonc->content);
 		if (**bus == '-')
 			ft_padding_prec_neg(voyager, vonc);
@@ -31,6 +29,7 @@ void		ft_padding_prec(t_pattern *voyager, t_list *vonc)
 				return ;
 			ft_memset(str, '0', voyager->precision - (int)ft_strlen(*bus));
 			ft_strappend_back(&str, bus);
+			ft_strdel(&str);
 		}
 		if (voyager->precision == 0 && ft_strlen(*bus) == 1
 				&& **bus == '0'
@@ -44,8 +43,6 @@ void		ft_padding_prec_neg(t_pattern *voyager, t_list *vonc)
 	char		*str;
 	char		**bus;
 
-	if (!(bus = (char**)malloc(sizeof(char*))))
-		return ;
 	bus = (char**)&(vonc->content);
 	if (voyager->precision > -1)
 	{
@@ -57,6 +54,7 @@ void		ft_padding_prec_neg(t_pattern *voyager, t_list *vonc)
 			ft_memset(str, '0', voyager->precision - ft_strlen(*bus) + 1);
 			str[0] = '-';
 			ft_strappend_back(&str, bus);
+			ft_strdel(&str);
 		}
 	}
 }
@@ -69,8 +67,6 @@ void		ft_padding_spaces(t_pattern *voyager, t_list *vonc)
 
 	if (voyager->field_width > -1)
 	{
-		if (!(bus = (char**)malloc(sizeof(char*))))
-			return ;
 		bus = (char**)&(vonc->content);
 		length = (ft_strcmp(*bus, "^@") == 0)
 			? (ft_strlen(*bus) - 1) : (ft_strlen(*bus));
@@ -80,6 +76,7 @@ void		ft_padding_spaces(t_pattern *voyager, t_list *vonc)
 				return ;
 			ft_memset(str, ' ', voyager->field_width - length);
 			ft_strappend_back(&str, bus);
+			ft_strdel(&str);
 		}
 	}
 }
