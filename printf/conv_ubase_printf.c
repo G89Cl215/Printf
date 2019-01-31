@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 18:04:44 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 13:24:59 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/31 12:02:58 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ char		*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv)
 	return (ft_unsigned_itoa_base(i, "01"));
 }
 
-char		*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_conv_addr(va_list *ap, t_ul type, t_pattern *conv)
 {
-	t_ull	i;
+	void	*ptr;
+	char	*ptr_val;
 
+	(void)type;
 	if (conv)
 	{
 		if (type & ((t_ul)1 << STAR_FW))
@@ -60,8 +62,9 @@ char		*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	i = ft_unsigned_num_conv(ap, ft_lmod_flag(conv));
-	return (ft_unsigned_itoa_base(i, "0123456789"));
+	ptr = va_arg(*ap, void*);
+	ptr_val = ft_unsigned_itoa_base((t_ul)ptr, "0123456789abcdef");
+	return (ptr_val);
 }
 
 char		*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)

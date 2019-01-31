@@ -6,77 +6,85 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 02:56:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 07:54:25 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/31 11:40:10 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void		ft_padding_prec(t_pattern *voyager, t_list *vonc)
-{
-	char		*str;
-	char		**bus;
-
-	if (voyager->precision > -1)
-	{
-		bus = (char**)&(vonc->content);
-		if (**bus == '-')
-			ft_padding_prec_neg(voyager, vonc);
-		if (voyager->precision - (int)ft_strlen(*bus) > 0
-				&& (int)ft_strlen(*bus) > 0)
-		{
-			if (!(str = ft_strnew(voyager->precision - (int)ft_strlen(*bus))))
-				return ;
-			ft_memset(str, '0', voyager->precision - (int)ft_strlen(*bus));
-			ft_strappend_back(&str, bus);
-			ft_strdel(&str);
-		}
-		if (voyager->precision == 0 && ft_strlen(*bus) == 1
-				&& **bus == '0'
-				&& !(voyager->conv & (2 << (ft_indice('#', KNOWN_FLAG)))))
-			ft_bzero(*bus, ft_strlen(*bus));
-	}
-}
-
-void		ft_padding_prec_neg(t_pattern *voyager, t_list *vonc)
-{
-	char		*str;
-	char		**bus;
-
-	bus = (char**)&(vonc->content);
-	if (voyager->precision > -1)
-	{
-		ft_memmove(*bus, (*bus) + 1, ft_strlen(*bus));
-		if (voyager->precision - ft_strlen(*bus) > 0)
-		{
-			if (!(str = ft_strnew(voyager->precision - ft_strlen(*bus) + 1)))
-				return ;
-			ft_memset(str, '0', voyager->precision - ft_strlen(*bus) + 1);
-			str[0] = '-';
-			ft_strappend_back(&str, bus);
-			ft_strdel(&str);
-		}
-	}
-}
-
-void		ft_padding_spaces(t_pattern *voyager, t_list *vonc)
+int		ft_padding_prec2(t_pattern *voyager, t_list *vonc)
 {
 	char	*str;
-	char	**bus;
-	int		length;
+	int		len;
 
-	if (voyager->field_width > -1)
+	len = ft_strlen((char*)(vonc->content));
+	if (voyager->precision > len && len > 0)
 	{
-		bus = (char**)&(vonc->content);
-		length = (ft_strcmp(*bus, "^@") == 0)
-			? (ft_strlen(*bus) - 1) : (ft_strlen(*bus));
-		if (voyager->field_width - length > 0)
+		if (!(str = ft_strnew(voyager->precision - len)))
+			return (0);
+		ft_memset(str, '0', voyager->precision - len);
+		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+			return (0);
+	}
+	return (1);
+}
+
+int		ft_padding_prec(t_pattern *voyager, t_list *vonc)
+{
+	int		len;
+
+	if (voyager->precision > -1)
+	{
+		if (*((char*)vonc->content) == '-')
 		{
-			if (!(str = ft_strnew(voyager->field_width - length)))
-				return ;
-			ft_memset(str, ' ', voyager->field_width - length);
-			ft_strappend_back(&str, bus);
-			ft_strdel(&str);
+			if (!(ft_padding_prec_neg(voyager, vonc)))
+				return (0);
+		}
+		len = ft_strlen((char*)(vonc->content));
+		ft_padding_prec2(voyager, vonc);
+		if (voyager->precision == 0 && len == 1
+		&& *((char*)(vonc->content)) == '0'
+		&& !(voyager->conv & (2 << (ft_indice('#', KNOWN_FLAG)))))
+			*((char*)vonc->content) = '\0';
+	}
+	return (1);
+}
+
+int		ft_padding_prec_neg(t_pattern *voyager, t_list *vonc)
+{
+	char	*str;
+	int		len;
+
+	len = ft_strlen((char*)(vonc->content));
+	if (voyager->precision > -1)
+	{
+		ft_memmove(vonc->content, vonc->content + 1, len);
+		if (voyager->precision > len)
+		{
+			if (!(str = ft_strnew(voyager->precision - len + 1)))
+				return (0);
+			ft_memset(str, '0', voyager->precision - len + 1);
+			str[0] = '-';
+			if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+				return (0);
 		}
 	}
+	return (1);
+}
+
+int		ft_padding_spaces(t_pattern *voyager, t_list *vonc)
+{
+	char	*str;
+	int		len;
+
+	len = ft_strlen((char*)(vonc->content));
+	if (voyager->field_width > len)
+	{
+		if (!(str = ft_strnew(voyager->field_width - len)))
+			return (0);
+		ft_memset(str, ' ', voyager->field_width - len);
+		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+			return (0);
+	}
+	return (1);
 }

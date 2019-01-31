@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 13:45:02 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/31 11:50:25 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@
 **	-> e/E 	: the param is an int value in scientific notation.
 **				(e = 10^ is capitalized if e is)
 **	-> f/F	: the param is a float.
-**	-> g/G	: the param is an int value that is the shortest between e and f.
-**				(or E and F if g is capitalized)
+**	(-> g/G	: the param is an int value that is the shortest between e and f.
+**				(or E and F if g is capitalized))
 **	-> p	: the param is the address of a pointer (void* type).
 **	-> %	: allows to output the  '%'  char.
 **	-> C	: the param is a unicode char.
@@ -143,7 +143,7 @@
 **	Currently the l_int is mapped thusly (care not to separate 'l's and 'h's,
 **	the second one stands for double the letter) :
 **
-**	[$#0+-' ...**hhllL.....bcdefgikopsuxCEGOSUX%.....................]
+**	[$#0+-' ...**hhllL.....bcdefikopsuxCEOSUX%.......................]
 **   ^      ^       ^       ^       ^       ^       ^       ^       ^
 ** 	 0		7		15		23		31		39		47		55		63	: bit_nb
 */
@@ -187,15 +187,13 @@
 **	for as speedy and accurate arbitrary precision arithmetic.
 ** 3 format : %a (hexadecimal floating point),
 ** %e (exponential/scientific notation) and %f (decimal point notation).
-** %g is a weird mix of %e and %f.
-** For %a, itoa, uitoa_base and an understanding of floats suffices.
 */
 
 /*
 ** care not to separate 'l's and 'h's in KNOWN_LMOD
 ** as hh and ll are modifiers
 */
-# define KNOWN_CONV	"bcdefgikopsuxCDEGOSUX%"
+# define KNOWN_CONV	"bcdefikopsuxCDEOSUX%"
 # define TYPE_START	22
 # define KNOWN_FLAG	"#0+- '"
 # define KNOWN_LMOD "hhllLjz"
@@ -251,7 +249,6 @@ char				*ft_conv_res(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv);
 void				ft_conv_scient2(char *pow_10, int i);
 char				*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv);
-char				*ft_conv_opti_ef(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_addr(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_char(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_str(va_list *ap, t_ul type, t_pattern *conv);
@@ -291,30 +288,35 @@ int					ft_stock_string(t_list **buff, char *str, size_t len);
 t_list				**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff);
 int					ft_ezequiel(t_pattern *ezequiel, t_list **tmp, va_list *ap);
 
-void				ft_padding_str(t_pattern *voyager, t_list *vonc);
-void				ft_padding_spaces(t_pattern *pattern, t_list *conv);
-void				ft_padding_flag_prefix(t_pattern *pattern, t_list *conv);
-void				ft_padding_integers(t_pattern *pattern, t_list *conv);
-void				ft_padding_zero(t_pattern *pattern, t_list *conv);
-void				ft_padding_negativ(t_pattern *pattern, t_list *conv);
-void				ft_padding_positiv(t_pattern *pattern, t_list *conv);
-void				ft_padding_prec_neg(t_pattern *pattern, t_list *conv);
-void				ft_padding_flag_space(t_pattern *pattern, t_list *conv);
-void				ft_padding_0_pos(t_pattern *voyager, t_list *vonc);
-void				ft_padding_0_neg(t_pattern *voyager, t_list *vonc);
-void				ft_padding_prec(t_pattern *pattern, t_list *conv);
-void				ft_prefix(t_pattern *voyager, char **bus, char *str);
-void				ft_padding_positiv5(t_pattern *voyager, char **bus);
-void				ft_padding_positiv4(t_pattern *voyager, char **bus,
-																char *str);
-void				ft_padding_positiv3(t_pattern *voyager, char **bus,
-																char *str);
-void				ft_padding_positiv2(t_pattern *voyager, char **bus,
-																char *str);
-void				ft_padding_negativ2(t_pattern *voyager, t_list *vonc,
-													char **bus, char *str);
+int					ft_padding_str(t_pattern *voyager, t_list *vonc);
+int					ft_padding_spaces(t_pattern *pattern, t_list *conv);
+int					ft_base_prefix(t_pattern *pattern, t_list *conv);
+int					ft_padding_flags(t_pattern *pattern, t_list *conv);
+int					ft_padding_flags2(t_pattern *pattern, t_list *conv);
+int					ft_padding_flags3(t_pattern *pattern, t_list *conv);
+int					ft_padding_flags4(t_pattern *pattern, t_list *conv);
+int					ft_padding_integers(t_pattern *pattern, t_list *conv);
+int					ft_padding_zero(t_pattern *pattern, t_list *conv);
+int					ft_padding_zero2(t_pattern *pattern, t_list *conv);
+int					ft_padding_negativ(t_pattern *pattern, t_list *conv);
+int					ft_padding_prec_neg(t_pattern *pattern, t_list *conv);
+int					ft_padding_flag_space(t_pattern *pattern, t_list *conv);
+int					ft_padding_flag_space2(t_pattern *pattern, t_list *conv);
+int					ft_padding_0_pos(t_pattern *voyager, t_list *vonc);
+int					ft_padding_0_neg(t_pattern *voyager, t_list *vonc);
+int					ft_padding_prec(t_pattern *pattern, t_list *conv);
+int					ft_padding_prec2(t_pattern *pattern, t_list *conv);
+int					ft_prefix(t_pattern *voyager, t_list *conv);
+int					ft_prefix2(t_pattern *voyager, t_list *conv);
+int					ft_padding_positiv(t_pattern *pattern, t_list *conv);
+int					ft_padding_positiv7(t_pattern *voyager, t_list *conv);
+int					ft_padding_positiv6(t_pattern *voyager, t_list *conv);
+int					ft_padding_positiv5(t_pattern *voyager, t_list *conv);
+int					ft_padding_positiv4(t_pattern *voyager, t_list *conv);
+int					ft_padding_positiv3(t_pattern *voyager, t_list *conv);
+int					ft_padding_positiv2(t_pattern *voyager, t_list *conv);
+int					ft_padding_negativ2(t_pattern *voyager, t_list *conv);
 int					ft_central_padding(t_pattern **pattern, t_list **conv);
-void				ft_central_padding2(t_pattern *voyager, t_list *vonc);
 
 void				ft_prec_scient(char *str, int prec);
 void				ft_prec_float(char *str, int prec);
@@ -326,7 +328,7 @@ t_ul				ft_type_flag_pos(t_pattern *pattern);
 t_ul				ft_t_ul_flag(t_ul conv);
 
 t_pattern			*ft_new_pattern(t_pattern **pattern_list);
-void				ft_free_pattern(t_pattern **pattern);
+int					ft_free_pattern(t_pattern **pattern);
 
 int					ft_concat_buffer(t_list **buff, t_list **conv);
 int					ft_printf(const char *restrict format, ...);

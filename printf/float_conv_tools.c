@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 18:23:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 13:35:18 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/30 18:52:27 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*ft_create_float(t_ull mant, int mant_length)
 			ft_strsum_dec(str, pow_2);
 		ft_strdiv_2(pow_2);
 	}
+	free(pow_2);
 	return (str);
 }
 

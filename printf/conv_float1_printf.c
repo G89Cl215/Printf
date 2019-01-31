@@ -6,7 +6,7 @@
 /*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:36:05 by baavril           #+#    #+#             */
-/*   Updated: 2019/01/30 14:50:59 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/31 12:16:38 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,8 @@ char			*ft_conv_double2(long exp, t_ull mant, t_ul s)
 
 	if ((exp - 1023) ^ 2047)
 	{
-		if (exp)
-		{
-			exp -= 1023;
-			mant |= ((t_ul)1 << 52);
-		}
-		else
-			exp -= 1022;
+		mant |= (exp) ? ((t_ul)1 << 52) : 0;
+		exp -= (exp) ? 1023 : 1022;
 		if (!(str = ft_create_float(mant, 53)))
 			return (NULL);
 		while (exp)
@@ -46,7 +41,7 @@ char			*ft_conv_double(va_list *ap)
 	union u_float		u;
 	t_ul				s;
 	long				exp;
-	t_ull				mant;
+	t_ul				mant;
 
 	u.d = va_arg(*ap, double);
 	s = (((t_ul)1 << 63) & u.l) ? 1 : 0;

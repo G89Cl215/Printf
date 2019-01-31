@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 18:05:02 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 13:27:10 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/31 12:03:01 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ char			*ft_conv_ulint(va_list *ap, t_ul type, t_pattern *conv)
 	return (ft_unsigned_itoa_base(i, "0123456789"));
 }
 
-char			*ft_conv_percent(va_list *ap, t_ul type, t_pattern *conv)
+char		*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv)
 {
+	t_ull	i;
+
 	if (conv)
 	{
 		if (type & ((t_ul)1 << STAR_FW))
@@ -78,7 +80,7 @@ char			*ft_conv_percent(va_list *ap, t_ul type, t_pattern *conv)
 		if (type & ((t_ul)1 << STAR_PR))
 			conv->precision = va_arg(*ap, int);
 	}
-	(void)type;
-	(void)conv;
-	return (ft_strdup("%"));
+	i = ft_unsigned_num_conv(ap, ft_lmod_flag(conv));
+	return (ft_unsigned_itoa_base(i, "0123456789"));
 }
+

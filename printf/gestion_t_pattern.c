@@ -6,18 +6,18 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 15:25:27 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 10:39:40 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/30 16:37:49 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void		ft_free_pattern(t_pattern **pattern)
+int			ft_free_pattern(t_pattern **pattern)
 {
 	t_pattern	*voyager;
 
 	if (!(pattern))
-		return ;
+		return (0);
 	voyager = *pattern;
 	while (voyager)
 	{
@@ -26,6 +26,7 @@ void		ft_free_pattern(t_pattern **pattern)
 		*pattern = voyager;
 	}
 	free(pattern);
+	return (1);
 }
 
 t_pattern	*ft_new_pattern(t_pattern **pattern_list)
