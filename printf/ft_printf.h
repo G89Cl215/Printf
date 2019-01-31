@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 14:13:56 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/31 14:34:29 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ typedef struct		s_conversion
 }					t_conv;
 
 long long			ft_num_conv(va_list *ap, int flag);
-t_ull				ft_unsigned_num_conv(va_list *ap, int flag)
+t_ull				ft_unsigned_num_conv(va_list *ap, int flag);
 char				*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
