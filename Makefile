@@ -6,7 +6,7 @@
 #    By: baavril <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/16 10:37:50 by baavril           #+#    #+#              #
-#    Updated: 2019/01/27 11:11:41 by baavril          ###   ########.fr        #
+#    Updated: 2019/01/31 13:47:37 by tgouedar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,12 @@ DIR_O   =   temporary
 SOURCES =   ft_printf.c \
 			extract_from_pattern.c \
 			float_conv_tools.c \
-			conv1_printf.c \
-			conv2_printf.c \
-			conv3_printf.c \
-			conv4_printf.c \
+			conv_char_printf.c \
+			conv_float1_printf.c \
+			conv_float2_printf.c \
+			conv_int_printf.c \
+			conv_ubase_printf.c \
+			conv_unicode_printf.c \
 			gestion_de_crise_printf.c \
 			gestion_padding1.c \
 			gestion_padding2_prec.c \
@@ -39,10 +41,11 @@ SOURCES =   ft_printf.c \
 			gestion_padding5_flags.c \
 			gestion_padding6_flags.c \
 			gestion_t_pattern.c \
-			parsing1.c \
-			parsing2.c \
-			parsing3_pos.c \
-			parsing4_conv.c \
+			parsing_pattern_detect.c \
+			parsing_extract_pattern.c \
+			parsing_pos1.c \
+			parsing_pos2.c \
+			pattern_to_conv.c \
 
 SRCS    =   $(addprefix $(PTF_PATH)/,$(SOURCES))
 

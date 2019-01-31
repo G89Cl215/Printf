@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   conv2_printf.c                                     :+:      :+:    :+:   */
+/*   conv_int_printf.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/24 18:05:02 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 12:03:01 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/01/31 14:08:27 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_ull			ft_num_conv(va_list *ap, int flag)
+long long		ft_num_conv(va_list *ap, int flag)
 {
-	t_ull	i;
+	long long	i;
 
 	i = 0;
 	if (!flag)
@@ -30,13 +30,13 @@ t_ull			ft_num_conv(va_list *ap, int flag)
 	else if (flag == 64)
 		i = (ssize_t)va_arg(*ap, ssize_t);
 	else if (flag == 8)
-		i = (uintmax_t)va_arg(*ap, unsigned long long);
+		i = (uintmax_t)va_arg(*ap, long long);
 	return (i);
 }
 
 char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 {
-	t_ull	i;
+	long long	i;
 
 	if (conv)
 	{
