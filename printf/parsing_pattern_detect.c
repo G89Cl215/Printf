@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing1.c                                         :+:      :+:    :+:   */
+/*   parsing_pattern_detect.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/26 13:57:36 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 12:40:04 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 16:13:38 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/02 18:42:31 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 			return (0);
 		ft_memmove(str, str + i + j + 1, ft_strlen(str + i + j));
 		if (!(i = ft_pattern_translate(&str, pattern)) || !(flag &= i))
-		{
-			free(str);
-			return (ft_parse_error(flag, buff, NULL, pattern_list));
-		}
+			return (ft_parse_error(flag, NULL, NULL, NULL));
 		i = 0;
 	}
 	return (ft_stock_string(buff, str, i + j));

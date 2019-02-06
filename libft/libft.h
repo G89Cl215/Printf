@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:40:46 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/27 04:52:14 by baavril          ###   ########.fr       */
+/*   Updated: 2019/01/31 15:23:32 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t				ft_strlen(const char *str);
 char				*ft_strdup(const char *str);
-char				*ft_strdupneg(const char *str);
 char				*ft_strndup(const char *str, size_t n);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
@@ -69,7 +68,6 @@ int					ft_tolower(int c);
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);
 char				*ft_strnew(size_t size);
-char				*ft_strpbrk(const char *s1, const char *s2);
 void				ft_strdel(char **as);
 void				ft_strclr(char *s);
 void				ft_striter(char *s, void (*f)(char *));
@@ -80,8 +78,8 @@ int					ft_strequ(char const *s1, char const *s2);
 int					ft_strnequ(char const *s1, char const *s2, size_t n);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
-void				ft_strappend(char **dest, char **src);
-void				ft_strappend_back(char **dest, char **src);
+int					ft_strappend(char **dest, char **src);
+int					ft_strappend_back(char **dest, char **src);
 char				*ft_strtrim(char const *s);
 char				*ft_strrev(char *str);
 void				ft_strupper(char *str);

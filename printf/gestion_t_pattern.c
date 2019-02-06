@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 15:25:27 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 13:57:20 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/02 22:13:41 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int			ft_free_pattern(t_pattern **pattern)
 		free(*pattern);
 		*pattern = voyager;
 	}
-	free(pattern);
 	return (1);
 }
 

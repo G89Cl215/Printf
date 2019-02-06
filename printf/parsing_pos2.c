@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing3_bis_pos.c                                 :+:      :+:    :+:   */
+/*   parsing_pos2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/30 13:09:54 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 13:39:04 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 19:45:23 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/02 23:40:36 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,9 @@ int		ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 {
 	t_pattern	*voyager;
 	char		*str;
-	int			flag;
 	int			j;
 
 	j = va_arg(*ap, int);
-	flag = 0;
 	voyager = *pattern;
 	if (!(str = ft_itoa(j)))
 		return (0);

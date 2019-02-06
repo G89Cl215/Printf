@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gestion_central_padding.c                          :+:      :+:    :+:   */
+/*   padding_types.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/30 14:25:35 by baavril           #+#    #+#             */
-/*   Updated: 2019/01/31 11:50:31 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 19:43:26 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/03 17:27:33 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ int			ft_type_redirect(t_pattern *voyager, t_list *vonc)
 
 	i = 1;
 	type = ft_type_flag(voyager);
+	if ((type & (i << (ft_indice('s', KNOWN_CONV)))
+	|| (type & (i << (ft_indice('c', KNOWN_CONV)))))
+	&& (voyager->conv & (i << (ft_indice('l', KNOWN_LMOD) + LMOD_START))))
+		return (1);
 	if (type & (i << (ft_indice('p', KNOWN_CONV)))
 			&& !(ft_base_prefix(voyager, vonc)))
 		return (0);
@@ -44,7 +48,8 @@ int			ft_type_redirect(t_pattern *voyager, t_list *vonc)
 	if (type & (i << (ft_indice('e', KNOWN_CONV))
 				| i << (ft_indice('E', KNOWN_CONV))))
 		ft_prec_scient(vonc->content, voyager->precision);
-	if (type & (i << (ft_indice('f', KNOWN_CONV))))
+	if (type & (i << (ft_indice('f', KNOWN_CONV))
+				| i << (ft_indice('F', KNOWN_CONV))))
 		ft_prec_float(vonc->content, voyager->precision);
 	if ((type & ft_need_flag_pad()) && !(ft_padding_flags(voyager, vonc)))
 		return (0);

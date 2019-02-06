@@ -1,16 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gestion_padding2.c                                 :+:      :+:    :+:   */
+/*   padding_prec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/24 02:56:58 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 11:40:10 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 19:42:51 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/03 18:18:22 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int		ft_padding_prec3(t_pattern *voyager, t_list *vonc)
+{
+	int len;
+	char *str;
+
+	str = NULL;
+	len = ft_strlen((char*)(vonc->content));
+	if (voyager->precision - len > 0)
+	{
+		if (!(str = ft_strnew(voyager->precision - len)))
+			return (0);
+		ft_memset(str, '0', voyager->precision - len);
+		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+			return (0);
+	}
+	return (1);
+}
 
 int		ft_padding_prec2(t_pattern *voyager, t_list *vonc)
 {
@@ -18,12 +36,22 @@ int		ft_padding_prec2(t_pattern *voyager, t_list *vonc)
 	int		len;
 
 	len = ft_strlen((char*)(vonc->content));
-	if (voyager->precision > len && len > 0)
+	if ((voyager->precision > len && len > 0)
+	&& !(voyager->conv & (1 << (TYPE_START + ft_indice('p', KNOWN_CONV)))))
 	{
 		if (!(str = ft_strnew(voyager->precision - len)))
 			return (0);
 		ft_memset(str, '0', voyager->precision - len);
 		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+			return (0);
+	}
+	if (voyager->conv & (1 << (TYPE_START + ft_indice('p', KNOWN_CONV)))
+	&& (voyager->precision - len + 2 > 0) && voyager->field_width == -1)
+	{
+		if (!(str = ft_strnew(voyager->precision - len + 2)))
+			return (0);
+		ft_memset(str, '0', len + 1);
+		if (!(ft_strappend((char**)(&(vonc->content)), &str)))
 			return (0);
 	}
 	return (1);
@@ -58,32 +86,20 @@ int		ft_padding_prec_neg(t_pattern *voyager, t_list *vonc)
 	len = ft_strlen((char*)(vonc->content));
 	if (voyager->precision > -1)
 	{
-		ft_memmove(vonc->content, vonc->content + 1, len);
-		if (voyager->precision > len)
+		ft_memmove((char*)(vonc->content), (char*)(vonc->content) + 1, len);
+		if (voyager->precision - len >= 0)
 		{
-			if (!(str = ft_strnew(voyager->precision - len + 1)))
+			if (!(str = ft_strnew(voyager->precision - len + 2)))
 				return (0);
-			ft_memset(str, '0', voyager->precision - len + 1);
-			str[0] = '-';
-			if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+			ft_memset(str, '0', voyager->precision - len + 2);
+		}
+		else if (voyager->precision < len)
+		{
+			if (!(str = ft_strnew(len + 1)))
 				return (0);
 		}
-	}
-	return (1);
-}
-
-int		ft_padding_spaces(t_pattern *voyager, t_list *vonc)
-{
-	char	*str;
-	int		len;
-
-	len = ft_strlen((char*)(vonc->content));
-	if (voyager->field_width > len)
-	{
-		if (!(str = ft_strnew(voyager->field_width - len)))
-			return (0);
-		ft_memset(str, ' ', voyager->field_width - len);
-		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+		str[0] = '-';
+		if (!(ft_strappend_back(&str, (char**)&(vonc->content))))
 			return (0);
 	}
 	return (1);

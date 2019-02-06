@@ -6,7 +6,7 @@
 #    By: baavril <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/16 10:37:50 by baavril           #+#    #+#              #
-#    Updated: 2019/01/31 13:47:37 by tgouedar         ###   ########.fr        #
+#    Updated: 2019/02/02 19:59:35 by tgouedar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ LIB     =   $(LIB_PATH)/libft.a
 DIR_O   =   temporary
 
 SOURCES =   ft_printf.c \
+			display_result.c \
 			extract_from_pattern.c \
 			float_conv_tools.c \
 			conv_char_printf.c \
@@ -33,19 +34,24 @@ SOURCES =   ft_printf.c \
 			conv_int_printf.c \
 			conv_ubase_printf.c \
 			conv_unicode_printf.c \
-			gestion_de_crise_printf.c \
-			gestion_padding1.c \
-			gestion_padding2_prec.c \
-			gestion_padding3_flags.c \
-			gestion_padding4_float.c \
-			gestion_padding5_flags.c \
-			gestion_padding6_flags.c \
+			float_conv_tools.c \
+			crisis_room.c \
+			padding_types.c \
+			padding_flags.c \
+			padding_prec.c \
+			padding_negativ.c \
+			padding_positiv.c \
+			padding_positiv2.c \
+			padding_floats.c \
+			padding_prefix.c \
+			padding_spaces.c \
+			padding_zero.c \
 			gestion_t_pattern.c \
-			parsing_pattern_detect.c \
-			parsing_extract_pattern.c \
 			parsing_pos1.c \
 			parsing_pos2.c \
-			pattern_to_conv.c \
+			parsing_extract_pattern.c \
+			parsing_pattern_detect.c \
+			parsing_conv.c \
 
 SRCS    =   $(addprefix $(PTF_PATH)/,$(SOURCES))
 
@@ -64,7 +70,7 @@ all     :   $(NAME)
 $(LIB)  :
 	@make -C $(LIB_PATH)
 
-$(NAME) :   $(OBJS) $(LIB) $(HDR) Makefile
+$(NAME) : $(LIB) $(OBJS) $(HDR) Makefile
 	@cp $(LIB) ./$(NAME)
 	@ar rc $(NAME) $(OBJS)
 	@ranlib $(NAME)

@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/24 18:04:44 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 13:53:29 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 19:39:40 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/03 07:27:34 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_ull		ft_unsigned_num_conv(va_list *ap, int flag)
+t_ull	ft_unsigned_num_conv(va_list *ap, int flag)
 {
 	t_ull	i;
 
@@ -34,7 +34,7 @@ t_ull		ft_unsigned_num_conv(va_list *ap, int flag)
 	return (i);
 }
 
-char		*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 
@@ -67,7 +67,7 @@ char	*ft_conv_addr(va_list *ap, t_ul type, t_pattern *conv)
 	return (ptr_val);
 }
 
-char		*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 	char	*res;
@@ -87,7 +87,7 @@ char		*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv)
 	return (res);
 }
 
-char		*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_conv_octal(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 

@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 14:34:29 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/06 15:56:48 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@
 ** care not to separate 'l's and 'h's in KNOWN_LMOD
 ** as hh and ll are modifiers
 */
-# define KNOWN_CONV	"bcdefikopsuxCDEOSUX%"
+# define KNOWN_CONV	"bcdefikopsuxCDEOSUXF%"
 # define TYPE_START	22
 # define KNOWN_FLAG	"#0+- '"
 # define KNOWN_LMOD "hhllLjz"
@@ -237,8 +237,9 @@ typedef struct		s_conversion
 	char			*(*ft_conv)(va_list *ap, t_ul type, t_pattern *conv);
 }					t_conv;
 
-long long			ft_num_conv(va_list *ap, int flag);
+t_ull				ft_num_conv(va_list *ap, int flag);
 t_ull				ft_unsigned_num_conv(va_list *ap, int flag);
+long long			ft_signed_conv(va_list *ap, t_ul type, int flag);
 char				*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_hex(va_list *ap, t_ul type, t_pattern *conv);
@@ -255,7 +256,8 @@ char				*ft_conv_unichar(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_unistring(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_ulint(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_percent(va_list *ap, t_ul type, t_pattern *conv);
-char				*ft_conv_double2(long exp, t_ull mant, t_ul s);
+char				*ft_conv_double(va_list *ap);
+char				*ft_conv_long_double(va_list *ap);
 
 int					ft_pattern_translate(char **str, t_pattern *pattern);
 int					ft_pattern_detect(char *str, t_list **buff,
@@ -271,7 +273,7 @@ int					ft_translate_type(char **str, t_pattern *pattern);
 int					ft_parse_error(int flag, t_list **buff, t_list **conv,
 														t_pattern **pattern);
 int					ft_free_mem(t_list **buff, t_list **conv,
-												t_pattern **pattern, char *str);
+											t_pattern **pattern, char **str);
 
 int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
 int					ft_verif_type(int i, t_pattern **pattern, t_list **tmp,
@@ -283,8 +285,10 @@ int					ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp,
 
 int					ft_stock_string(t_list **buff, char *str, size_t len);
 t_list				**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff);
-int					ft_ezequiel(t_pattern *ezequiel, t_list **tmp, va_list *ap);
+int					ft_ezequiel(t_pattern *ezequiel, t_list **tmp, va_list *ap,
+																int flag_pos);
 
+int					ft_type_redirect(t_pattern *voyager, t_list *vonc);
 int					ft_padding_str(t_pattern *voyager, t_list *vonc);
 int					ft_padding_spaces(t_pattern *pattern, t_list *conv);
 int					ft_base_prefix(t_pattern *pattern, t_list *conv);
@@ -303,8 +307,7 @@ int					ft_padding_0_pos(t_pattern *voyager, t_list *vonc);
 int					ft_padding_0_neg(t_pattern *voyager, t_list *vonc);
 int					ft_padding_prec(t_pattern *pattern, t_list *conv);
 int					ft_padding_prec2(t_pattern *pattern, t_list *conv);
-int					ft_prefix(t_pattern *voyager, t_list *conv);
-int					ft_prefix2(t_pattern *voyager, t_list *conv);
+int					ft_padding_prec3(t_pattern *pattern, t_list *conv);
 int					ft_padding_positiv(t_pattern *pattern, t_list *conv);
 int					ft_padding_positiv7(t_pattern *voyager, t_list *conv);
 int					ft_padding_positiv6(t_pattern *voyager, t_list *conv);
@@ -314,6 +317,7 @@ int					ft_padding_positiv3(t_pattern *voyager, t_list *conv);
 int					ft_padding_positiv2(t_pattern *voyager, t_list *conv);
 int					ft_padding_negativ2(t_pattern *voyager, t_list *conv);
 int					ft_central_padding(t_pattern **pattern, t_list **conv);
+int					ft_padding_negative_fw(t_pattern *voyager, t_list *vonc);
 
 void				ft_prec_scient(char *str, int prec);
 void				ft_prec_float(char *str, int prec);

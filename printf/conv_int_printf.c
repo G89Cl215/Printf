@@ -5,16 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/24 18:05:02 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 14:08:27 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 19:39:24 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/03 07:24:24 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-long long		ft_num_conv(va_list *ap, int flag)
+t_ull	ft_num_conv(va_list *ap, int flag)
 {
-	long long	i;
+	t_ull	i;
 
 	i = 0;
 	if (!flag)
@@ -30,13 +30,13 @@ long long		ft_num_conv(va_list *ap, int flag)
 	else if (flag == 64)
 		i = (ssize_t)va_arg(*ap, ssize_t);
 	else if (flag == 8)
-		i = (uintmax_t)va_arg(*ap, long long);
+		i = (uintmax_t)va_arg(*ap, unsigned long long);
 	return (i);
 }
 
-char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 {
-	long long	i;
+	t_ull	i;
 
 	if (conv)
 	{
@@ -54,7 +54,7 @@ char			*ft_conv_int(va_list *ap, t_ul type, t_pattern *conv)
 	return (ft_unsigned_itoa_base(i, "0123456789"));
 }
 
-char			*ft_conv_ulint(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_conv_ulint(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 
@@ -69,7 +69,7 @@ char			*ft_conv_ulint(va_list *ap, t_ul type, t_pattern *conv)
 	return (ft_unsigned_itoa_base(i, "0123456789"));
 }
 
-char		*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv)
 {
 	t_ull	i;
 
@@ -83,4 +83,3 @@ char		*ft_conv_uint(va_list *ap, t_ul type, t_pattern *conv)
 	i = ft_unsigned_num_conv(ap, ft_lmod_flag(conv));
 	return (ft_unsigned_itoa_base(i, "0123456789"));
 }
-

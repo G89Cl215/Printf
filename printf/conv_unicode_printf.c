@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/28 17:27:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 12:57:17 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 15:05:28 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/02 19:39:49 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,13 @@ char	*ft_conv_unichar(va_list *ap, t_ul type, t_pattern *conv)
 	return (str);
 }
 
-char	*ft_conv_unistring(va_list *ap, t_ul type, t_pattern *conv)
+char	*ft_translate_unistring(wchar_t *uni)
 {
 	union u_unicode	un;
-	wchar_t			*uni;
 	char			*str;
 	int				i;
 
-	(void)conv;
-	(void)type;
 	i = 1;
-	uni = va_arg(*ap, wchar_t*);
 	while (uni[i])
 		i++;
 	if (!i)
@@ -77,4 +73,23 @@ char	*ft_conv_unistring(va_list *ap, t_ul type, t_pattern *conv)
 	}
 	ft_memcpy(str + 4 * i++, "\0\0\0\0", 4);
 	return (str);
+}
+
+char	*ft_conv_unistring(va_list *ap, t_ul type, t_pattern *conv)
+{
+	wchar_t			*uni;
+	char			*str;
+
+	(void)conv;
+	(void)type;
+	uni = va_arg(*ap, wchar_t*);
+	if (!uni)
+	{
+		if (!(str = (char*)malloc(28 * sizeof(char))))
+			return (NULL);
+		ft_memcpy(str,
+					"(\0\0\0n\0\0\0u\0\0\0l\0\0\0l\0\0\0)\0\0\0\0\0\0\0", 28);
+		return (str);
+	}
+	return (ft_translate_unistring(uni));
 }

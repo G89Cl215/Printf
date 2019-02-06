@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing3_pos.c                                     :+:      :+:    :+:   */
+/*   parsing_pos1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 15:51:47 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 12:41:55 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 16:46:18 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/02 23:52:24 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
 		voyager = voyager->next;
 	}
 	ft_lstfree(tmp);
+	free(tmp);
 	return (conv);
 }
 
@@ -118,14 +119,18 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 	while (voyager)
 	{
 		if (!(ft_check_conv_in_pattern(i, &type, voyager)))
-			return (ft_parse_error(2, tmp, 0, pattern));
+		{
+			return (ft_parse_error(2, tmp, NULL, NULL));
+		}
 		voyager = voyager->next;
 	}
 	if ((ft_int_flag() & type)
-	&& !(type & ((j << ft_strlen(KNOWN_LMOD)) - 1))
-	&& !(ft_pos_pr_fw(i, pattern, tmp, ap)))
-		return (0);
-	else if (!(ft_ezequiel(*pattern, tmp, ap)))
+	&& !(type & ((j << ft_strlen(KNOWN_LMOD)) - 1)))
+	{
+		if (!(ft_pos_pr_fw(i, pattern, tmp, ap)))
+			return (0);
+	}
+	else if (!(ft_ezequiel(*pattern, tmp, ap, 1)))
 		return (0);
 	return (1);
 }
@@ -157,6 +162,6 @@ t_list	**ft_positional_mod(t_pattern **pattern, va_list *ap)
 		return (ft_positional_conv(pattern, tmp));
 	}
 	else
-		ft_parse_error(1, tmp, 0, pattern);
+		ft_parse_error(1, tmp, NULL, NULL);
 	return (NULL);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing2.c                                         :+:      :+:    :+:   */
+/*   parsing_extract_pattern.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/21 18:40:57 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 12:40:52 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 16:13:16 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/03 17:23:03 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			ft_translate_type(char **str, t_pattern *pattern)
 	size_t	j;
 
 	j = 1;
-	if (ft_isin(**str, KNOWN_CONV))
+	if (**str != 'k' && ft_isin(**str, KNOWN_CONV))
 	{
 		pattern->conv |= j << (TYPE_START + ft_indice(**str, KNOWN_CONV));
 		(*str)++;

@@ -5,27 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/24 18:05:25 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 12:56:52 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/02/02 19:38:06 by tgouedar          #+#    #+#             */
+/*   Updated: 2019/02/03 02:27:37 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "float_conv_tools.h"
 
-void			ft_conv_scient2(char *pow_10, int i)
+int				ft_conv_scient2(char **pow_10, int i)
 {
+	char	*str;
+
 	if (i >= 0 && i < 10)
-		pow_10 = ft_strcat(pow_10, "+0\0");
+		*pow_10 = ft_strcat(*pow_10, "+0\0");
 	if (i >= 10)
-		pow_10 = ft_strcat(pow_10, "+\0");
+		*pow_10 = ft_strcat(*pow_10, "+\0");
 	if (i < 0 && i > -10)
 	{
-		pow_10 = ft_strcat(pow_10, "-0\0");
-		pow_10 = ft_strcat(pow_10, ft_itoa(-i));
+		*pow_10 = ft_strcat(*pow_10, "-0\0");
+		if (!(str = ft_itoa(-i)))
+			return (0);
 	}
-	else
-		pow_10 = ft_strcat(pow_10, ft_itoa(i));
+	else if (!(str = ft_itoa(i)))
+		return (0);
+	if (!(ft_strappend(pow_10, &str)))
+		return (0);
+	return (1);
 }
 
 char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
@@ -40,7 +46,8 @@ char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
 	pow_10[1] = '\0';
 	str = ft_conv_float(ap, type, conv);
 	i = ft_reajust_zero(str);
-	ft_conv_scient2(pow_10, i);
+	if (!(ft_conv_scient2(&pow_10, i)))
+		return (NULL);
 	str = ft_strcat(str, pow_10);
 	free(pow_10);
 	if (type & ((t_ul)1 << (TYPE_START + ft_indice('E', KNOWN_CONV))))

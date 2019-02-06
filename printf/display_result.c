@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_display.c                                       :+:      :+:    :+:   */
+/*   display_result.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/28 17:00:33 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 13:34:00 by tgouedar         ###   ########.fr       */
+/*   Created: 2019/01/31 18:17:47 by baavril           #+#    #+#             */
+/*   Updated: 2019/02/02 19:37:11 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,33 @@
 int			ft_print_unichar(char *str)
 {
 	int		i;
+	int		j;
 
 	i = 4;
+	j = 1;
 	while (--i)
 	{
 		if (str[i])
+		{
 			write(1, &((str[i])), 1);
+			j++;
+		}
 	}
 	write(1, &((str[0])), 1);
-	return (1);
+	return (j);
+}
+
+int			ft_print_unistring(char *str)
+{
+	int		res;
+
+	res = 0;
+	while ((str[0]) || (str[1]) || (str[2]) || (str[3]))
+	{
+		res += ft_print_unichar(str);
+		str += 4;
+	}
+	return (res);
 }
 
 int			ft_altprint(t_list *conv_cur)
@@ -44,12 +62,12 @@ int			ft_altprint(t_list *conv_cur)
 	if ((int)conv_cur->content_size == -2)
 		return (ft_print_unichar(str));
 	if ((int)conv_cur->content_size == -3)
+		return (ft_print_unistring(str));
+	if ((int)conv_cur->content_size == -4)
 	{
-		while ((str[0]) || (str[1]) || (str[2]) || (str[3]))
-		{
-			res += ft_print_unichar(str);
-			str += 4;
-		}
+		ft_putchar(0);
+		(ft_strlen(str)) ? write(1, str, (ft_strlen(str) - 1)) : res++;
+		return (res + ft_strlen(str));
 	}
 	return (res);
 }

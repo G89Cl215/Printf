@@ -6,13 +6,14 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 15:22:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/30 13:48:10 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/03 07:30:50 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "ft_printf.h"
 #include <stdarg.h>
+#include <stdio.h>
 
 int		ft_printf(const char *restrict format, ...)
 {
@@ -26,7 +27,7 @@ int		ft_printf(const char *restrict format, ...)
 		return (-1);
 	if (!(pattern = (t_pattern**)malloc(sizeof(t_pattern*)))
 	|| !(buff = (t_list**)malloc(sizeof(t_list*))))
-		return (ft_free_mem(NULL, NULL, pattern, str));
+		return (ft_free_mem(NULL, NULL, pattern, &str));
 	*pattern = NULL;
 	*buff = NULL;
 	if ((ft_pattern_detect(str, buff, pattern)))
@@ -35,10 +36,10 @@ int		ft_printf(const char *restrict format, ...)
 		if (!(conv = ft_conv(pattern, &ap, buff)) && (*pattern))
 		{
 			va_end(ap);
-			return (-1);
+			return (ft_free_mem(conv, buff, pattern, NULL));
 		}
-		ft_free_mem(NULL, NULL, pattern, str);
+		ft_free_mem(NULL, NULL, pattern, &str);
 		return (ft_concat_buffer(buff, conv));
 	}
-	return (ft_free_mem(buff, 0, pattern, str));
+	return (ft_free_mem(buff, NULL, pattern, &str));
 }
