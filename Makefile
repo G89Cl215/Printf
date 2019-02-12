@@ -6,7 +6,7 @@
 #    By: baavril <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/16 10:37:50 by baavril           #+#    #+#              #
-#    Updated: 2019/02/02 19:59:35 by tgouedar         ###   ########.fr        #
+#    Updated: 2019/02/10 18:32:04 by tgouedar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,10 @@ SOURCES =   ft_printf.c \
 			padding_positiv2.c \
 			padding_floats.c \
 			padding_prefix.c \
+			padding_prefix2.c \
 			padding_spaces.c \
 			padding_zero.c \
+			padding_zero2.c \
 			gestion_t_pattern.c \
 			parsing_pos1.c \
 			parsing_pos2.c \
@@ -59,7 +61,7 @@ OBJS    =   $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 CC      =   gcc
 
-CFLAGS  =   -Wall -Werror -Wextra
+CFLAGS  =  -Wall -Werror -Wextra
 
 RM      =   rm -f
 
@@ -78,7 +80,7 @@ $(NAME) : $(LIB) $(OBJS) $(HDR) Makefile
 
 $(DIR_O)/%.o: $(PTF_PATH)/%.c
 	@mkdir -p temporary
-	@$(CC) -I $(PTF_PATH) -o $@ -c $<
+	@$(CC) $(CFLAGS) -I $(PTF_PATH) -o $@ -c $<
 
 clean   :
 	@$(RM) $(OBJS)

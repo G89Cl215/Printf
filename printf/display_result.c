@@ -6,7 +6,7 @@
 /*   By: baavril <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 18:17:47 by baavril           #+#    #+#             */
-/*   Updated: 2019/02/02 19:37:11 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/10 18:30:23 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_printf.h"
 #include <unistd.h>
 
-int			ft_print_unichar(char *str)
+inline static int		ft_print_unichar(char *str)
 {
 	int		i;
 	int		j;
@@ -29,11 +29,11 @@ int			ft_print_unichar(char *str)
 			j++;
 		}
 	}
-	write(1, &((str[0])), 1);
+	write(1, str, 1);
 	return (j);
 }
 
-int			ft_print_unistring(char *str)
+inline static int		ft_print_unistring(char *str)
 {
 	int		res;
 
@@ -46,13 +46,13 @@ int			ft_print_unistring(char *str)
 	return (res);
 }
 
-int			ft_altprint(t_list *conv_cur)
+inline static int		ft_altprint(t_list *conv_cur)
 {
 	int		res;
 	char	*str;
 
 	res = 0;
-	str = conv_cur->content;
+	str = (char*)(conv_cur->content);
 	if ((int)conv_cur->content_size == -1)
 	{
 		(ft_strlen(str)) ? write(1, str, (ft_strlen(str) - 1)) : res++;
@@ -82,7 +82,7 @@ int			ft_altprint(t_list *conv_cur)
 **	chaine de caractere.
 */
 
-int			ft_concat_buffer(t_list **buff, t_list **conv)
+int						ft_concat_buffer(t_list **buff, t_list **conv)
 {
 	int			res;
 	t_list		*conv_cur;

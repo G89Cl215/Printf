@@ -6,13 +6,13 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:43:12 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/06 13:49:48 by baavril          ###   ########.fr       */
+/*   Updated: 2019/02/09 14:46:24 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_padding_flag_space2(t_pattern *voyager, t_list *vonc)
+inline static int		ft_padding_flag_space2(t_pattern *voyager, t_list *vonc)
 {
 	char		*str;
 
@@ -30,10 +30,12 @@ int		ft_padding_flag_space2(t_pattern *voyager, t_list *vonc)
 		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
 			return (0);
 	}
+	else
+		ft_strdel(&str);
 	return (1);
 }
 
-int		ft_padding_flag_space(t_pattern *voyager, t_list *vonc)
+int						ft_padding_flag_space(t_pattern *voyager, t_list *vonc)
 {
 	t_ul		type;
 
@@ -58,7 +60,7 @@ int		ft_padding_flag_space(t_pattern *voyager, t_list *vonc)
 	return (1);
 }
 
-int		ft_padding_spaces(t_pattern *voyager, t_list *vonc)
+int						ft_padding_spaces(t_pattern *voyager, t_list *vonc)
 {
 	char	*str;
 	int		len;
@@ -75,7 +77,7 @@ int		ft_padding_spaces(t_pattern *voyager, t_list *vonc)
 	return (1);
 }
 
-int		ft_padding_str(t_pattern *voyager, t_list *vonc)
+int						ft_padding_str(t_pattern *voyager, t_list *vonc)
 {
 	int		len;
 

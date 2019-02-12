@@ -6,18 +6,18 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:37:51 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/02 19:37:57 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/12 07:44:54 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "float_conv_tools.h"
 
-char			*ft_conv_double2(long exp, t_ull mant, t_ul s)
+inline static char			*ft_conv_double2(long exp, t_ull mant, t_ul s)
 {
 	char				*str;
 
-	if ((exp - 1023) ^ 2047)
+	if (exp ^ 2047)
 	{
 		mant |= (exp) ? ((t_ul)1 << 52) : 0;
 		exp -= (exp) ? 1023 : 1022;
@@ -31,12 +31,12 @@ char			*ft_conv_double2(long exp, t_ull mant, t_ul s)
 		ft_trim_0(str, s);
 		return (str);
 	}
-	else if (mant)
-		return (ft_strdup("NaN"));
-	return (s ? ft_strdup("-INF") : ft_strdup("INF"));
+	else if (mant && mant != 4503599627370496)
+		return (ft_strdup("nan"));
+	return (s ? ft_strdup("-inf") : ft_strdup("inf"));
 }
 
-char			*ft_conv_double(va_list *ap)
+char						*ft_conv_double(va_list *ap)
 {
 	union u_float		u;
 	t_ul				s;
@@ -50,7 +50,7 @@ char			*ft_conv_double(va_list *ap)
 	return (ft_conv_double2(exp, mant, s));
 }
 
-char			*ft_conv_long_double(va_list *ap)
+char						*ft_conv_long_double(va_list *ap)
 {
 	union u_l_float		u;
 	int					s;
@@ -61,7 +61,7 @@ char			*ft_conv_long_double(va_list *ap)
 	u.d = va_arg(*ap, long double);
 	s = (((t_ul)1 << 15) & u.l[1]) ? 1 : 0;
 	exp = u.l[1] & ((1 << 15) - 1);
-	if (((mant = u.l[0]) || 1) && (exp - 16383) ^ ((1 << 15) - 1))
+	if (((mant = u.l[0]) || 1) && (exp ^ ((1 << 15) - 1)))
 	{
 		exp -= (exp) ? 16383 : 16382;
 		if (!(str = ft_create_float(mant, 64)))
@@ -75,6 +75,6 @@ char			*ft_conv_long_double(va_list *ap)
 		return (str);
 	}
 	else if (mant & (((t_ul)1 << 63) - 1))
-		return (ft_strdup("NaN"));
-	return (s ? ft_strdup("-INF") : ft_strdup("INF"));
+		return (ft_strdup("nan"));
+	return (s ? ft_strdup("-inf") : ft_strdup("inf"));
 }

@@ -6,14 +6,15 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:45:23 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/02 23:40:36 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:33:41 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdarg.h>
 
-void	ft_fill_fw_pr(t_pattern *voyager, int i, int j)
+inline static void
+	ft_fill_fw_pr(t_pattern *voyager, int i, int j)
 {
 	if (voyager->precision == i && (voyager->conv & (1 << STAR_PR)))
 	{
@@ -27,7 +28,8 @@ void	ft_fill_fw_pr(t_pattern *voyager, int i, int j)
 	}
 }
 
-int		ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
+int
+	ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 {
 	t_pattern	*voyager;
 	char		*str;

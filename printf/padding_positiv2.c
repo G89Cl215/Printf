@@ -6,39 +6,14 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:42:40 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/05 14:31:34 by baavril          ###   ########.fr       */
+/*   Updated: 2019/02/08 20:22:44 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_padding_positiv7(t_pattern *voyager, t_list *vonc)
-{
-	char	*str;
-	int		len;
-
-	len = ft_strlen(((char*)vonc->content));
-	if (voyager->precision == -1 && voyager->field_width <= -1 && len > 0)
-	{
-		if (!(str = ft_strnew(1)))
-			return (0);
-		str[0] = '+';
-		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
-			return (0);
-	}
-	if (voyager->field_width > -1
-	&& ((voyager->conv & (2 << (ft_indice('-', KNOWN_FLAG)))
-	|| ((voyager->conv & (2 << (ft_indice('+', KNOWN_FLAG))))
-	&& voyager->field_width < ft_strlen((char*)(vonc->content)))))
-	&& *((char*)(vonc->content)) != '-' && *((char*)(vonc->content)) != '+')
-	{
-		if (!(ft_padding_positiv3(voyager, vonc)))
-			return (0);
-	}
-	return (1);
-}
-
-int		ft_padding_positiv6(t_pattern *voyager, t_list *vonc)
+inline static int
+	ft_padding_positiv6(t_list *vonc)
 {
 	char	*str;
 	int		len;
@@ -56,7 +31,61 @@ int		ft_padding_positiv6(t_pattern *voyager, t_list *vonc)
 	return (1);
 }
 
-int		ft_padding_positiv5(t_pattern *voyager, t_list *vonc)
+inline static int
+	ft_padding_positiv3(t_pattern *voyager, t_list *vonc)
+{
+	char	*str;
+	int		len;
+
+	len = ft_strlen((char*)(vonc->content));
+	if (voyager->field_width > -1 && voyager->precision == -1
+	&& *((char*)vonc->content) != '+')
+	{
+		if (!(str = ft_strnew(1)))
+			return (0);
+		if (voyager->precision == -1)
+			str[0] = '+';
+		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+			return (0);
+		if (!(voyager->conv & (2 << (ft_indice('0', KNOWN_FLAG))))
+		&& voyager->field_width - len > 0)
+			((char*)(vonc->content))[len - 1] = '\0';
+	}
+	else if (*((char*)(vonc->content)) != '+'
+		&& !(ft_padding_positiv6(vonc)))
+		return (0);
+	return (1);
+}
+
+int
+	ft_padding_positiv7(t_pattern *voyager, t_list *vonc)
+{
+	char	*str;
+	int		len;
+
+	len = ft_strlen(((char*)vonc->content));
+	if (voyager->precision == -1 && voyager->field_width <= -1 && len > 0)
+	{
+		if (!(str = ft_strnew(1)))
+			return (0);
+		str[0] = '+';
+		if (!(ft_strappend_back(&str, (char**)(&(vonc->content)))))
+			return (0);
+	}
+	if (voyager->field_width > -1
+	&& ((voyager->conv & (2 << (ft_indice('-', KNOWN_FLAG)))
+	|| ((voyager->conv & (2 << (ft_indice('+', KNOWN_FLAG))))
+	&& voyager->field_width < (int)ft_strlen((char*)(vonc->content)))))
+	&& *((char*)(vonc->content)) != '-' && *((char*)(vonc->content)) != '+')
+	{
+		if (!(ft_padding_positiv3(voyager, vonc)))
+			return (0);
+	}
+	return (1);
+}
+
+int
+	ft_padding_positiv5(t_pattern *voyager, t_list *vonc)
 {
 	int			len;
 	char		*str;

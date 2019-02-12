@@ -6,14 +6,13 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:40:46 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/01/31 15:23:32 by baavril          ###   ########.fr       */
+/*   Updated: 2019/02/10 18:53:56 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
-# include <stdio.h>
 # include <inttypes.h>
 
 typedef struct		s_list
@@ -103,7 +102,6 @@ t_list				*ft_lstnew(void const *content, size_t content_size);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 void				ft_lstadd_back(t_list **alst, t_list *new_back);
-int					get_next_line(const int fd, char **line);
 int					option(int ac, char **av, long *options);
 
 #endif

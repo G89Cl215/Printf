@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 16:46:18 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/02 23:52:24 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/08 17:05:29 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 ** Fonction qui permet d'organiser les va_args en fonction des ints adequats
 */
 
-t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
+inline static t_list
+	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
 {
 	t_pattern	*voyager;
 	t_list		**conv;
@@ -49,7 +50,8 @@ t_list	**ft_positional_conv(t_pattern **pattern, t_list **tmp)
 **	dans notre va_list
 */
 
-int		ft_verif_nbr_arg(t_pattern **pattern, int min, int max)
+inline static int
+	ft_verif_nbr_arg(t_pattern **pattern, int min, int max)
 {
 	t_pattern	*voyager;
 	size_t		type;
@@ -73,7 +75,8 @@ int		ft_verif_nbr_arg(t_pattern **pattern, int min, int max)
 	return ((min == max) ? max : 0);
 }
 
-int		ft_check_conv_in_pattern(int nbr, size_t *type, t_pattern *voyager)
+inline static int
+	ft_check_conv_in_pattern(int nbr, size_t *type, t_pattern *voyager)
 {
 	size_t	i;
 
@@ -107,7 +110,8 @@ int		ft_check_conv_in_pattern(int nbr, size_t *type, t_pattern *voyager)
 ** le type adequat et on remplace les precisions/field_width par leurs valeurs
 */
 
-int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
+inline static int
+	ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 {
 	t_pattern	*voyager;
 	size_t		type;
@@ -119,9 +123,7 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 	while (voyager)
 	{
 		if (!(ft_check_conv_in_pattern(i, &type, voyager)))
-		{
 			return (ft_parse_error(2, tmp, NULL, NULL));
-		}
 		voyager = voyager->next;
 	}
 	if ((ft_int_flag() & type)
@@ -140,7 +142,8 @@ int		ft_verif_type(int i, t_pattern **pattern, t_list **tmp, va_list *ap)
 **	si non go liste de conversion
 */
 
-t_list	**ft_positional_mod(t_pattern **pattern, va_list *ap)
+t_list
+	**ft_positional_mod(t_pattern **pattern, va_list *ap)
 {
 	t_pattern	*voyager;
 	t_list		**tmp;

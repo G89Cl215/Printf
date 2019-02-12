@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 11:41:14 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/06 15:56:48 by baavril          ###   ########.fr       */
+/*   Updated: 2019/02/08 20:19:40 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,10 @@
 **	-> u	: the param is an unsigned int in decimal base.
 **	-> x/X	: the param is an unsigned int converted to hexadecimal base.
 **				(the abcdef chars of the base are capitalized or not if x is)
-**	-> n 	: the param is curent value of printf fonction.
-**				(One less param is needed)
 **	-> b 	: the param is an unsigned int converted in binary base.
 **	-> e/E 	: the param is an int value in scientific notation.
 **				(e = 10^ is capitalized if e is)
 **	-> f/F	: the param is a float.
-**	(-> g/G	: the param is an int value that is the shortest between e and f.
-**				(or E and F if g is capitalized))
 **	-> p	: the param is the address of a pointer (void* type).
 **	-> %	: allows to output the  '%'  char.
 **	-> C	: the param is a unicode char.
@@ -93,16 +89,12 @@
 **				(ignored for none value type)
 **	-> +	:	outputs a positive sign to positive values.
 **	-> -	:	the param is aligned with the left of the padding.
-**	-> '	:	the decimal values are separated by blocs of 3
-**				(thousand, million >>>)
 **	-> ' '	:	the 'space' flag allows to output a space before positive
 **				and empty values in signed values.
 **				NB : is ignored when + flag is active
 **
 **
 ** V_ Length Modifier list
-**
-** 		Changes the length of memory read to fill in the param ?
 **
 **	Type			d, i			b, B, o, u, x, X	n
 **
@@ -115,7 +107,6 @@
 **	t               ptrdiff_t		(see note)			ptrdiff_t**
 **	z               (see note)		size_t				(see note)
 **	q (deprecated)  quad_t			u_quad_t			quad_t**]
-**	L
 **
 ** VI_ The $ Flag
 **
@@ -143,7 +134,7 @@
 **	Currently the l_int is mapped thusly (care not to separate 'l's and 'h's,
 **	the second one stands for double the letter) :
 **
-**	[$#0+-' ...**hhllL.....bcdefikopsuxCEOSUX%.......................]
+**	[$#0+- ....**hhllLjz...bcdefikopsuxCDEOSUXF%.....................]
 **   ^      ^       ^       ^       ^       ^       ^       ^       ^
 ** 	 0		7		15		23		31		39		47		55		63	: bit_nb
 */
@@ -158,44 +149,13 @@
 # include "../libft/libft.h"
 
 /*
-** done : bcdiefiousxEX
-** p : prefixe
-** to do : gG
-** idees supplementaires du sujet : r pour les caracteres non imprimables,
-** 									k pour les dates
-** 									fd ?!?
-** doc on floats :
-** input given by va_arg
-** floating point type represented as 3 sections
-** of unsigned word (size 1, 2, 4, 8 bytes) :
-** float = 4 bytes
-** double = 8 bytes
-** first section single bit for sign.
-**  second is exponent of base 2
-** third = mantissa : significatn digits, in binary.
-** main problem in printing float = base conversion.
-** to solve : optimization division and modulo in 64 bits.
-** trick to convert base properly : where the unit
-** (where the radix to the power 0, where the floating point is positioned) =
-**			point in a floating point number is the fundamental limit.
-** left side of the point handed by itoa_base protocol.
-** right side, fractional part, weirder :
-** example ->
-**	powers = 5 in base 10 for negative powers of 2 (1/2 = 0.5, 1/4 = 0.25).
-** float strings : implement your own "bigint" type and all basic
-** operations using both uint arrays and/or strings of digits in a given base
-**	for as speedy and accurate arbitrary precision arithmetic.
-** 3 format : %a (hexadecimal floating point),
-** %e (exponential/scientific notation) and %f (decimal point notation).
-*/
-
-/*
 ** care not to separate 'l's and 'h's in KNOWN_LMOD
 ** as hh and ll are modifiers
 */
+
 # define KNOWN_CONV	"bcdefikopsuxCDEOSUXF%"
 # define TYPE_START	22
-# define KNOWN_FLAG	"#0+- '"
+# define KNOWN_FLAG	"#0+- "
 # define KNOWN_LMOD "hhllLjz"
 # define LMOD_START	12
 # define STAR_FW 10
@@ -237,7 +197,6 @@ typedef struct		s_conversion
 	char			*(*ft_conv)(va_list *ap, t_ul type, t_pattern *conv);
 }					t_conv;
 
-t_ull				ft_num_conv(va_list *ap, int flag);
 t_ull				ft_unsigned_num_conv(va_list *ap, int flag);
 long long			ft_signed_conv(va_list *ap, t_ul type, int flag);
 char				*ft_conv_binary(va_list *ap, t_ul type, t_pattern *conv);
@@ -259,7 +218,6 @@ char				*ft_conv_percent(va_list *ap, t_ul type, t_pattern *conv);
 char				*ft_conv_double(va_list *ap);
 char				*ft_conv_long_double(va_list *ap);
 
-int					ft_pattern_translate(char **str, t_pattern *pattern);
 int					ft_pattern_detect(char *str, t_list **buff,
 										t_pattern **pattern_list);
 
@@ -275,10 +233,6 @@ int					ft_parse_error(int flag, t_list **buff, t_list **conv,
 int					ft_free_mem(t_list **buff, t_list **conv,
 											t_pattern **pattern, char **str);
 
-int					ft_verif_nbr_arg(t_pattern **pattern, int min, int max);
-int					ft_verif_type(int i, t_pattern **pattern, t_list **tmp,
-														va_list *ap);
-t_list				**ft_positional_conv(t_pattern **pattern, t_list **tmp);
 t_list				**ft_positional_mod(t_pattern **pattern, va_list *ap);
 int					ft_pos_pr_fw(int i, t_pattern **pattern, t_list **tmp,
 														va_list *ap);
@@ -288,34 +242,27 @@ t_list				**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff);
 int					ft_ezequiel(t_pattern *ezequiel, t_list **tmp, va_list *ap,
 																int flag_pos);
 
-int					ft_type_redirect(t_pattern *voyager, t_list *vonc);
 int					ft_padding_str(t_pattern *voyager, t_list *vonc);
 int					ft_padding_spaces(t_pattern *pattern, t_list *conv);
 int					ft_base_prefix(t_pattern *pattern, t_list *conv);
+int					ft_prefix(t_pattern *voyager, t_list *vonc, char *str,
+																	int len);
+int					ft_prefix4(t_pattern *voyager, t_list *vonc, t_ul type,
+																	int len);
 int					ft_padding_flags(t_pattern *pattern, t_list *conv);
-int					ft_padding_flags2(t_pattern *pattern, t_list *conv);
-int					ft_padding_flags3(t_pattern *pattern, t_list *conv);
-int					ft_padding_flags4(t_pattern *pattern, t_list *conv);
 int					ft_padding_integers(t_pattern *pattern, t_list *conv);
 int					ft_padding_zero(t_pattern *pattern, t_list *conv);
-int					ft_padding_zero2(t_pattern *pattern, t_list *conv);
 int					ft_padding_negativ(t_pattern *pattern, t_list *conv);
 int					ft_padding_prec_neg(t_pattern *pattern, t_list *conv);
 int					ft_padding_flag_space(t_pattern *pattern, t_list *conv);
-int					ft_padding_flag_space2(t_pattern *pattern, t_list *conv);
-int					ft_padding_0_pos(t_pattern *voyager, t_list *vonc);
+int					ft_padding_0_pos(t_pattern *voyager, t_list *vonc, int len);
 int					ft_padding_0_neg(t_pattern *voyager, t_list *vonc);
 int					ft_padding_prec(t_pattern *pattern, t_list *conv);
-int					ft_padding_prec2(t_pattern *pattern, t_list *conv);
 int					ft_padding_prec3(t_pattern *pattern, t_list *conv);
 int					ft_padding_positiv(t_pattern *pattern, t_list *conv);
 int					ft_padding_positiv7(t_pattern *voyager, t_list *conv);
-int					ft_padding_positiv6(t_pattern *voyager, t_list *conv);
 int					ft_padding_positiv5(t_pattern *voyager, t_list *conv);
 int					ft_padding_positiv4(t_pattern *voyager, t_list *conv);
-int					ft_padding_positiv3(t_pattern *voyager, t_list *conv);
-int					ft_padding_positiv2(t_pattern *voyager, t_list *conv);
-int					ft_padding_negativ2(t_pattern *voyager, t_list *conv);
 int					ft_central_padding(t_pattern **pattern, t_list **conv);
 int					ft_padding_negative_fw(t_pattern *voyager, t_list *vonc);
 

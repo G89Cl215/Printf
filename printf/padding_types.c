@@ -6,13 +6,14 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:43:26 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/03 17:27:33 by baavril          ###   ########.fr       */
+/*   Updated: 2019/02/08 16:25:11 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t		ft_need_flag_pad(void)
+inline static size_t
+	ft_need_flag_pad(void)
 {
 	size_t	j;
 
@@ -24,11 +25,13 @@ size_t		ft_need_flag_pad(void)
 		| j << ft_indice('O', KNOWN_CONV) | j << ft_indice('x', KNOWN_CONV)
 		| j << ft_indice('X', KNOWN_CONV) | j << ft_indice('u', KNOWN_CONV)
 		| j << ft_indice('U', KNOWN_CONV) | j << ft_indice('f', KNOWN_CONV)
+		| j << ft_indice('F', KNOWN_CONV)
 		| j << ft_indice('e', KNOWN_CONV) | j << ft_indice('E', KNOWN_CONV)
 		| j << ft_indice('k', KNOWN_CONV) | j << ft_indice('p', KNOWN_CONV));
 }
 
-int			ft_type_redirect(t_pattern *voyager, t_list *vonc)
+inline static int
+	ft_type_redirect(t_pattern *voyager, t_list *vonc)
 {
 	size_t	type;
 	size_t	i;
@@ -56,7 +59,8 @@ int			ft_type_redirect(t_pattern *voyager, t_list *vonc)
 	return (1);
 }
 
-int			ft_central_padding(t_pattern **pattern, t_list **conv)
+int
+	ft_central_padding(t_pattern **pattern, t_list **conv)
 {
 	t_pattern	*voyager;
 	t_list		*vonc;

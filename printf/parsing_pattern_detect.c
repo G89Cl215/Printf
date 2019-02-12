@@ -6,13 +6,14 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 16:13:38 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/02 18:42:31 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/09 15:54:25 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_translate_int(char **str)
+int
+	ft_translate_int(char **str)
 {
 	int		i;
 
@@ -29,7 +30,8 @@ int		ft_translate_int(char **str)
 **	est valide et non positionnel et 2 s'il est positionnel.
 */
 
-int		ft_pattern_pos(char **str, t_pattern *pattern, int i)
+inline static int
+	ft_pattern_pos(char **str, t_pattern *pattern, int i)
 {
 	size_t	j;
 
@@ -46,7 +48,8 @@ int		ft_pattern_pos(char **str, t_pattern *pattern, int i)
 	return (1);
 }
 
-int		ft_pattern_translate(char **str, t_pattern *pattern)
+inline static int
+	ft_pattern_translate(char **str, t_pattern *pattern)
 {
 	int		i;
 
@@ -69,7 +72,8 @@ int		ft_pattern_translate(char **str, t_pattern *pattern)
 	return ((ft_translate_type(str, pattern)) ? (1 + (pattern->conv % 2)) : 0);
 }
 
-int		ft_stock_string(t_list **buff, char *str, size_t len)
+int
+	ft_stock_string(t_list **buff, char *str, size_t len)
 {
 	t_list	*new_back;
 
@@ -94,7 +98,8 @@ int		ft_stock_string(t_list **buff, char *str, size_t len)
 **	ou de pattern directement en debut ou fin de chaine.
 */
 
-int		ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
+int
+	ft_pattern_detect(char *str, t_list **buff, t_pattern **pattern_list)
 {
 	size_t		i;
 	size_t		j;

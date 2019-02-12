@@ -6,7 +6,7 @@
 #    By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/05 22:11:12 by tgouedar          #+#    #+#              #
-#    Updated: 2019/01/31 15:26:19 by baavril          ###   ########.fr        #
+#    Updated: 2019/02/10 18:54:03 by baavril          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,6 @@ SRCFILE	= ft_swap.c\
 		  ft_lstmap.c\
 		  ft_lstiter.c\
 		  ft_lstadd_back.c\
-		  get_next_line.c\
 		  option.c\
 
 SRCDIR	= ./

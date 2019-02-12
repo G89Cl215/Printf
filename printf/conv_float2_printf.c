@@ -6,14 +6,15 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 19:38:06 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/03 02:27:37 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/08 18:43:44 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "float_conv_tools.h"
 
-int				ft_conv_scient2(char **pow_10, int i)
+inline static int
+	ft_conv_scient2(char **pow_10, int i)
 {
 	char	*str;
 
@@ -34,7 +35,8 @@ int				ft_conv_scient2(char **pow_10, int i)
 	return (1);
 }
 
-char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
+char
+	*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
 {
 	char	*str;
 	int		i;
@@ -45,6 +47,8 @@ char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
 	pow_10[0] = 'e';
 	pow_10[1] = '\0';
 	str = ft_conv_float(ap, type, conv);
+	if (ft_indice('.', str) == ft_strlen(str))
+		return (str);
 	i = ft_reajust_zero(str);
 	if (!(ft_conv_scient2(&pow_10, i)))
 		return (NULL);
@@ -55,7 +59,8 @@ char			*ft_conv_scient(va_list *ap, t_ul type, t_pattern *conv)
 	return (str);
 }
 
-char			*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv)
+char
+	*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv)
 {
 	if (conv)
 	{
@@ -66,16 +71,4 @@ char			*ft_conv_float(va_list *ap, t_ul type, t_pattern *conv)
 	}
 	return ((ft_t_ul_flag(type) & (1 << ft_indice('L', KNOWN_LMOD)))
 			? ft_conv_long_double(ap) : ft_conv_double(ap));
-}
-
-char			*ft_conv_opti_ef(va_list *ap, t_ul type, t_pattern *conv)
-{
-	if (conv)
-	{
-		if (type & ((t_ul)1 << STAR_FW))
-			conv->field_width = va_arg(*ap, int);
-		if (type & ((t_ul)1 << STAR_PR))
-			conv->precision = va_arg(*ap, int);
-	}
-	return (0);
 }

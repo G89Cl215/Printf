@@ -6,13 +6,14 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 15:05:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/02 19:39:49 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/10 18:30:22 by tgouedar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_translate_unichar(union u_unicode *un)
+inline static void
+	ft_translate_unichar(union u_unicode *un)
 {
 	if (un->i >= 128)
 	{
@@ -35,7 +36,8 @@ void	ft_translate_unichar(union u_unicode *un)
 	}
 }
 
-char	*ft_conv_unichar(va_list *ap, t_ul type, t_pattern *conv)
+char
+	*ft_conv_unichar(va_list *ap, t_ul type, t_pattern *conv)
 {
 	union u_unicode	un;
 	char			*str;
@@ -44,24 +46,25 @@ char	*ft_conv_unichar(va_list *ap, t_ul type, t_pattern *conv)
 	(void)type;
 	un.i = va_arg(*ap, wchar_t);
 	ft_translate_unichar(&un);
-	if (!(str = (char*)ft_memalloc(4)))
+	if (!(str = ft_strnew(4)))
 		return (NULL);
 	ft_memmove(str, un.str, 4);
 	return (str);
 }
 
-char	*ft_translate_unistring(wchar_t *uni)
+inline static char
+	*ft_translate_unistring(wchar_t *uni)
 {
 	union u_unicode	un;
 	char			*str;
 	int				i;
 
-	i = 1;
+	i = 0;
 	while (uni[i])
 		i++;
 	if (!i)
-		return ("\0\0\0\0");
-	if (!(str = ft_strnew(i * 4)))
+		return (ft_strdup("\0\0\0\0"));
+	if (!(str = ft_strnew((i + 1) * 4)))
 		return (NULL);
 	i = 0;
 	while (*uni)
@@ -75,7 +78,8 @@ char	*ft_translate_unistring(wchar_t *uni)
 	return (str);
 }
 
-char	*ft_conv_unistring(va_list *ap, t_ul type, t_pattern *conv)
+char
+	*ft_conv_unistring(va_list *ap, t_ul type, t_pattern *conv)
 {
 	wchar_t			*uni;
 	char			*str;

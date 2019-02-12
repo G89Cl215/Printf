@@ -6,7 +6,7 @@
 /*   By: tgouedar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/20 14:00:28 by tgouedar          #+#    #+#             */
-/*   Updated: 2019/02/03 07:30:46 by tgouedar         ###   ########.fr       */
+/*   Updated: 2019/02/09 15:52:11 by baavril          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 ** 						continuite de la zone memoire a convertir
 */
 
-t_list		**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff)
+t_list
+	**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff)
 {
 	t_pattern	*voyager;
 	t_list		**conv;
@@ -48,7 +49,8 @@ t_list		**ft_conv(t_pattern **pattern, va_list *ap, t_list **buff)
 	return (conv);
 }
 
-void		ft_set_spevalue(t_list **conv, int i)
+inline static void
+	ft_set_spevalue(t_list **conv, int i)
 {
 	t_list *vonc;
 
@@ -58,7 +60,8 @@ void		ft_set_spevalue(t_list **conv, int i)
 	vonc->content_size = i;
 }
 
-int			ft_unilen(char *str)
+inline static int
+	ft_unilen(char *str)
 {
 	int		len;
 
@@ -71,7 +74,8 @@ int			ft_unilen(char *str)
 	return (len);
 }
 
-int			ft_stock_conv(t_list **conv, size_t ez_type, char *str)
+inline static int
+	ft_stock_conv(t_list **conv, size_t ez_type, char *str)
 {
 	if ((ez_type & ((size_t)1 << (TYPE_START + ft_indice('S', KNOWN_CONV))))
 	|| (ez_type & ((size_t)1 << (TYPE_START + ft_indice('s', KNOWN_CONV)))
@@ -86,7 +90,9 @@ int			ft_stock_conv(t_list **conv, size_t ez_type, char *str)
 	if (!(*str)
 	&& ez_type & ((size_t)1 << (TYPE_START + ft_indice('c', KNOWN_CONV))))
 	{
-		(ez_type & ((size_t)1 << (STAR_FW))) ? ft_set_spevalue(conv, -4)
+		(ez_type & ((size_t)1 << (STAR_FW))
+		|| ez_type & (2 << (ft_indice('-', KNOWN_FLAG))))
+		? ft_set_spevalue(conv, -4)
 		: ft_set_spevalue(conv, -1);
 	}
 	if ((ez_type & ((size_t)1 << (TYPE_START + ft_indice('C', KNOWN_CONV)))
@@ -101,7 +107,8 @@ int			ft_stock_conv(t_list **conv, size_t ez_type, char *str)
 **	dans la liste des conv en string
 */
 
-int			ft_ezequiel(t_pattern *ezequiel, t_list **conv, va_list *ap, int p)
+int
+	ft_ezequiel(t_pattern *ezequiel, t_list **conv, va_list *ap, int p)
 {
 	char		*str;
 	int			j;
