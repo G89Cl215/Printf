@@ -16,10 +16,8 @@ inline static int
 	ft_padding_positiv6(t_list *vonc)
 {
 	char	*str;
-	int		len;
 
-	len = ft_strlen((char*)(vonc->content));
-	if (*((char*)(vonc->content)) != '+')
+    if (*((char*)(vonc->content)) != '+')
 	{
 		if (!(str = ft_strnew(1)))
 			return (0);

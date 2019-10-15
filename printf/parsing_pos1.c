@@ -145,12 +145,10 @@ inline static int
 t_list
 	**ft_positional_mod(t_pattern **pattern, va_list *ap)
 {
-	t_pattern	*voyager;
 	t_list		**tmp;
 	int			i;
 	int			max;
 
-	voyager = *pattern;
 	if (!(tmp = (t_list**)malloc(sizeof(t_list*))))
 		return (NULL);
 	*tmp = NULL;

@@ -16,10 +16,8 @@ inline static int
 	ft_padding_positiv8(t_pattern *voyager, t_list *vonc)
 {
 	char	*str;
-	int		len;
-
-	len = ft_strlen((char*)(vonc->content));
-	if (voyager->field_width != -1 && *((char*)(vonc->content)) != '+')
+	
+    if (voyager->field_width != -1 && *((char*)(vonc->content)) != '+')
 	{
 		if (!(str = ft_strnew(1)))
 			return (0);
@@ -35,10 +33,8 @@ int
 	ft_padding_positiv4(t_pattern *voyager, t_list *vonc)
 {
 	char	*str;
-	int		len;
-
-	len = ft_strlen((char*)(vonc->content));
-	if (voyager->precision != -1 && *((char*)(vonc->content)) != '-'
+	
+    if (voyager->precision != -1 && *((char*)(vonc->content)) != '-'
 	&& *((char*)(vonc->content)) != '+')
 	{
 		if (!(str = ft_strnew(1)))
